@@ -117,7 +117,8 @@
     selene
     eslint_d
     nodePackages.jsonlint
-    nodePackages."@prisma/language-server"
+    # nodePackages."@prisma/language-server"
+    nodePackages.graphql-language-service-cli
     emmet-language-server
     checkstyle
     markdownlint-cli2
