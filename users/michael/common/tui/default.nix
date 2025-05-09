@@ -7,7 +7,7 @@
   imports =
     specialArgs.myLibs.scanPaths ./.
     ++ [
-      inputs.catppuccin.homeManagerModules.catppuccin
+      inputs.catppuccin.homeModules.catppuccin
       inputs._1password-shell-plugins.hmModules.default
     ];
 
@@ -106,7 +106,7 @@
     neofetch
     devenv
     watchman
-    nodejs_23
+    nodejs_24
 
     # Neovim LSP and other pkgs
     prettierd

@@ -59,20 +59,17 @@
       }
     ];
 
-    initExtraFirst = ''
-      # macos upgrades might nix install: https://github.com/NixOS/nix/issues/3616
-      if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
-        . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
-      fi
-    '';
-
-    # completionInit = ''
+    # completiojnInit = ''
     #   autoload -U compinit; compinit
     #   # fzf, enables it for ^r, ^s and tab completion
     #   # source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh
     # '';
 
-    initExtra = ''
+    initContent = pkgs.lib.mkOrder 0 ''
+      # macos upgrades might nix install: https://github.com/NixOS/nix/issues/3616
+      if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
+        . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+      fi
       ### our zshrc
       ${builtins.readFile ./zshrc}
     '';
