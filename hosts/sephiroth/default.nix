@@ -25,9 +25,9 @@ in {
       "modules/darwin"
 
       # Deskotop Brew Apps
-      "modules/darwin/apps/desktop.nix"
-      "modules/darwin/apps/creative.nix"
       "modules/darwin/apps/development.nix"
+
+      "modules/darwin/apps/creative-light.nix"
 
       #User configs for Michael
       "users/michael"
