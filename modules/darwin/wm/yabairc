@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+# Introduced in v6 and then updated in v7 - I want all apps (managed or not) to be on the same level unless specified
+yabai -m rule --add app=".*" sub-layer=normal
 sudo yabai --load-sa
 # Per app configs
 yabai -m rule --add app="^iTerm2$" space=1
