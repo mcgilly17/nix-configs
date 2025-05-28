@@ -3,7 +3,6 @@
   homebrew = {
     brews = [
       "python@3.10"
-      "tailwindcss-language-server"
     ];
     casks = [
       "godot"

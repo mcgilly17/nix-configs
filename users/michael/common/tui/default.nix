@@ -119,6 +119,7 @@
     nodePackages.jsonlint
     # nodePackages."@prisma/language-server"
     nodePackages.graphql-language-service-cli
+    tailwindcss-language-server
     emmet-language-server
     checkstyle
     markdownlint-cli2
