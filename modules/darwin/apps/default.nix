@@ -69,7 +69,6 @@
       # Utilities
       "raycast" # Better Spotlight
       "mullvadvpn" # VPN software
-      "cleanmymac" # The ultimate cleaner for your Mac https://macpaw.com"
       "karabiner-elements"
       ## Internet Apps
       "discord" # Internet Chat"
