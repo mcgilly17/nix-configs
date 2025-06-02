@@ -4,6 +4,7 @@
     casks = [
       "adobe-creative-cloud" # For installing Lightroom
       "affinity-photo"
+      "figma"
     ];
   };
 }
