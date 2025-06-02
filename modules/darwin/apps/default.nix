@@ -68,7 +68,7 @@
     casks = [
       # Utilities
       "raycast" # Better Spotlight
-      "mullvadvpn" # VPN software
+      "mullvad-vpn" # VPN software
       "karabiner-elements"
       ## Internet Apps
       "discord" # Internet Chat"
