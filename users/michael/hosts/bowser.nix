@@ -15,5 +15,6 @@
     ../common/desktop
     ../common/desktop/terminals
     # ../common/desktop/creative
+    ../common/desktop/development
   ];
 }
