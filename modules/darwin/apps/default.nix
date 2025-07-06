@@ -69,7 +69,8 @@
       # Utilities
       "raycast" # Better Spotlight
       "mullvad-vpn" # VPN software
-      "karabiner-elements"
+      "karabiner-elements" #keyboard management
+      "superhuman" #email client
       ## Internet Apps
       "discord" # Internet Chat"
       "google-chrome"
