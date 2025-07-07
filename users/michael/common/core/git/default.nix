@@ -80,4 +80,14 @@ in {
       };
     };
   };
+  programs.gh = {
+    enable = true;
+    settings = {
+      # Configure gh to use SSH for git operations
+      git_protocol = "ssh";
+
+      # Set default editor
+      editor = "vim";
+    };
+  };
 }
