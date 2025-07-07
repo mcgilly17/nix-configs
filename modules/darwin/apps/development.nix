@@ -7,6 +7,7 @@
     casks = [
       "godot"
       ## Development
+      "linear-linear"
 
       # "google-cloud-sdk" #The Cloud SDK is a set of tools for Cloud Platform. It contains gcloud, gsutil, and bq, which you can use to access Google Compute Engine https://cloud.google.com/sdk/"
       # "iterm2" #iTerm2 is a replacement for Terminal and the successor to iTerm https://www.iterm2.com/"
