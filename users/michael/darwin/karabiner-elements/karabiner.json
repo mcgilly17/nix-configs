@@ -23,14 +23,14 @@
                     ]
                   }
                 },
-                "to_if_alone": [
-                  {
-                    "key_code": "escape"
-                  }
-                ],
                 "to": [
                   {
                     "key_code": "left_control"
+                  }
+                ],
+                "to_if_alone": [
+                  {
+                    "key_code": "escape"
                   }
                 ],
                 "type": "basic"
@@ -39,6 +39,48 @@
           }
         ]
       },
+      "devices": [
+        {
+          "identifiers": {
+            "is_keyboard": true,
+            "product_id": 33,
+            "vendor_id": 1278
+          },
+          "simple_modifications": [
+            {
+              "from": {
+                "key_code": "left_control"
+              },
+              "to": [
+                {
+                  "key_code": "caps_lock"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "identifiers": {
+            "is_keyboard": true,
+            "is_pointing_device": true,
+            "product_id": 4116,
+            "vendor_id": 17498
+          },
+          "ignore": false,
+          "manipulate_caps_lock_led": false,
+          "treat_as_built_in_keyboard": true
+        },
+        {
+          "identifiers": {
+            "is_keyboard": true,
+            "product_id": 4116,
+            "vendor_id": 17498
+          },
+          "ignore": true,
+          "ignore_vendor_events": true,
+          "treat_as_built_in_keyboard": true
+        }
+      ],
       "name": "Michaels profile",
       "selected": true,
       "simple_modifications": [
