@@ -26,9 +26,19 @@ layout {
       pane cwd="/Users/michael/Projects/"
     }
     tab name="Dots" hide_floating_panes=true {
-        pane cwd="Projects/dots"
+      pane cwd="Projects/dots"
     }
     tab name="Mosaic" hide_floating_panes=true {
-        pane cwd="Projects/Mosaic"
+      pane cwd="Projects/Mosaic"
     }
+    tab name="Bloc" hide_floating_panes=true {
+      pane cwd="/Users/michael/Projects/bloc"
+    }
+    tab name="Myxr" hide_floating_panes=true {
+      pane cwd="Projects/mikey-max-corp"
+    }
+    tab name="Ullr" hide_floating_panes=true {
+      pane cwd="Projects/ullr"
+    }
+
 }
