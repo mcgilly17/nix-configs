@@ -84,8 +84,6 @@ fi
 # # my ll is aliased to eza ..., and without this, zsh gives me weird completions
 # setopt complete_aliases
 
-# Setup 1password to auth for gh
-source /Users/michael/.config/op/plugins.sh
 
 # zstyle ':autocomplete:*complete*:*' insert-unambiguous no
 # zstyle ':autocomplete:*history*:*' insert-unambiguous no
