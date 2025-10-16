@@ -6,6 +6,8 @@
       "crystalfetch" # ISO fetch for windows and UTM
       "steam"
       "focusrite-control" # controller for scarlett 18i8
+      "logitech-options"
+      "garmin-express"
     ];
   };
 }

@@ -72,6 +72,7 @@
       "karabiner-elements" #keyboard management
       "superhuman" #email client
       "appcleaner" #app remover
+      "yubico-authenticator"
       ## Internet Apps
       "discord" # Internet Chat"
       "google-chrome"

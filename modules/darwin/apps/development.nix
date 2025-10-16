@@ -8,7 +8,6 @@
       "godot"
       ## Development
       "linear-linear"
-      "claude"
       "granola"
       "nfov"
       "android-studio"
