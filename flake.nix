@@ -42,6 +42,18 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Declarative partitioning and formatting
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # Remote NixOS installation
+    nixos-anywhere = {
+      url = "github:nix-community/nixos-anywhere";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     #################### Non Flakes ####################
     homebrew-bundle = {
       url = "github:homebrew/homebrew-bundle";
@@ -59,9 +71,9 @@
     #################### Personal Repositories ####################
 
     # Private secrets repo.
-    # Authenticate via ssh and use shallow clone
+    # Authenticate via https and use shallow clone
     nix-secrets = {
-      url = "git+ssh://git@github.com/mcgilly17/nix-secrets.git?ref=main&shallow=1";
+      url = "git+https://github.com/mcgilly17/nix-secrets.git?ref=main&shallow=1";
       inputs = {};
     };
     mosaic = {
@@ -82,9 +94,9 @@
 
     forAllSystems = lib.genAttrs [
       "aarch64-darwin"
-      #"aarch64-linux"
+      "aarch64-linux"
       "x86_64-darwin"
-      #"x86_64-linux"
+      "x86_64-linux"
     ];
 
     myVars = import ./resources/vars.nix {inherit inputs lib;};
@@ -96,7 +108,7 @@
   in {
     overlays = import ./overlays {inherit inputs outputs;};
 
-    formatter = forAllSystems (pkgs: pkgs.alejandra);
+    formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
 
     # MacBook Air M1 20202
     darwinConfigurations = {
@@ -113,6 +125,49 @@
         inherit specialArgs;
         modules = [
           ./hosts/bowser
+        ];
+      };
+    };
+
+    # NixOS system configurations
+    nixosConfigurations = {
+      ganon = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        inherit specialArgs;
+        modules = [
+          ./hosts/nixos/ganon
+        ];
+      };
+
+      rk1-node1 = nixpkgs.lib.nixosSystem {
+        system = "aarch64-linux";
+        inherit specialArgs;
+        modules = [
+          ./hosts/nixos/rk1/node1
+        ];
+      };
+
+      rk1-node2 = nixpkgs.lib.nixosSystem {
+        system = "aarch64-linux";
+        inherit specialArgs;
+        modules = [
+          ./hosts/nixos/rk1/node2
+        ];
+      };
+
+      rk1-node3 = nixpkgs.lib.nixosSystem {
+        system = "aarch64-linux";
+        inherit specialArgs;
+        modules = [
+          ./hosts/nixos/rk1/node3
+        ];
+      };
+
+      rk1-node4 = nixpkgs.lib.nixosSystem {
+        system = "aarch64-linux";
+        inherit specialArgs;
+        modules = [
+          ./hosts/nixos/rk1/node4
         ];
       };
     };
