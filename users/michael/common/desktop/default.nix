@@ -9,7 +9,6 @@
 
   home.packages = with pkgs; [
     # Just install these with no config
-
     ## Entertainment
     # spotify #Spotify is a digital music service that gives you access to millions of songs https://www.spotify.com/
     # deluge
