@@ -40,5 +40,11 @@ layout {
     tab name="Ullr" hide_floating_panes=true {
       pane cwd="Projects/ullr"
     }
+    tab name="Neurovirse" hide_floating_panes=true {
+      pane cwd="Projects/neurovirse"
+    } 
+    tab name="Asterisk" hide_floating_panes=true {
+      pane cwd="Projects/asterisk"
+     }
 
 }
