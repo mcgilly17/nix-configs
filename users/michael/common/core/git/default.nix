@@ -25,13 +25,10 @@ in {
   programs.git = {
     enable = true;
 
-    inherit (aliases) aliases;
     inherit (ignores) ignores;
 
     lfs.enable = true;
     package = pkgs.gitAndTools.gitFull;
-    userName = michael.handle;
-    userEmail = michael.gitEmail;
 
     # Enable different config for work when
     # includes = [
@@ -42,7 +39,14 @@ in {
     #   }
     # ];
 
-    extraConfig = {
+    settings = {
+      user = {
+        name = michael.handle;
+        email = michael.gitEmail;
+      };
+
+      alias = aliases.aliases;
+
       init.defaultBranch = "main";
       push.autoSetupRemote = true;
       pull.rebase = true;
@@ -66,18 +70,19 @@ in {
         };
       };
     };
+  };
 
-    # Better git diff!
-    delta = {
-      enable = true;
-      options = {
-        diff-so-fancy = true;
-        line-numbers = true;
-        true-color = "always";
-        side-by-side = true;
-        # features => named groups of settings, used to keep related settings organized
-        # features = "";
-      };
+  # Better git diff!
+  programs.delta = {
+    enable = true;
+    enableGitIntegration = true;
+    options = {
+      diff-so-fancy = true;
+      line-numbers = true;
+      true-color = "always";
+      side-by-side = true;
+      # features => named groups of settings, used to keep related settings organized
+      # features = "";
     };
   };
   programs.gh = {
