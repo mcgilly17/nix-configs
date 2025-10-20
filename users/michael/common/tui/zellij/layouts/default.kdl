@@ -26,25 +26,116 @@ layout {
       pane cwd="/Users/michael/Projects/"
     }
     tab name="Dots" hide_floating_panes=true {
-      pane cwd="Projects/dots"
+      pane split_direction="vertical" {
+        pane size="50%" cwd="Projects/dots" {
+          command "claude"
+        }
+        pane size="50%" split_direction="horizontal" {
+          pane size="50%" cwd="Projects/dots" {
+            command "vim"
+          }
+          pane size="50%" cwd="Projects/dots" {
+            command "eza"
+            args "--tree"
+          }
+        }
+      }
     }
     tab name="Mosaic" hide_floating_panes=true {
-      pane cwd="Projects/Mosaic"
+      pane split_direction="vertical" {
+        pane size="50%" cwd="Projects/Mosaic" {
+          command "claude"
+        }
+        pane size="50%" split_direction="horizontal" {
+          pane size="50%" cwd="Projects/Mosaic" {
+            command "vim"
+          }
+          pane size="50%" cwd="Projects/Mosaic" {
+            command "eza"
+            args "--tree"
+          }
+        }
+      }
     }
     tab name="Bloc" hide_floating_panes=true {
-      pane cwd="/Users/michael/Projects/bloc"
+      pane split_direction="vertical" {
+        pane size="50%" cwd="/Users/michael/Projects/bloc" {
+          command "claude"
+        }
+        pane size="50%" split_direction="horizontal" {
+          pane size="50%" cwd="/Users/michael/Projects/bloc" {
+            command "vim"
+          }
+          pane size="50%" cwd="/Users/michael/Projects/bloc" {
+            command "eza"
+            args "--tree"
+          }
+        }
+      }
     }
     tab name="Myxr" hide_floating_panes=true {
-      pane cwd="Projects/mikey-max-corp"
+      pane split_direction="vertical" {
+        pane size="50%" cwd="Projects/mikey-max-corp" {
+          command "claude"
+        }
+        pane size="50%" split_direction="horizontal" {
+          pane size="50%" cwd="Projects/mikey-max-corp" {
+            command "vim"
+          }
+          pane size="50%" cwd="Projects/mikey-max-corp" {
+            command "eza"
+            args "--tree"
+          }
+        }
+      }
     }
     tab name="Ullr" hide_floating_panes=true {
-      pane cwd="Projects/ullr"
+      pane split_direction="vertical" {
+        pane size="50%" cwd="Projects/ullr" {
+          command "claude"
+        }
+        pane size="50%" split_direction="horizontal" {
+          pane size="50%" cwd="Projects/ullr" {
+            command "vim"
+          }
+          pane size="50%" cwd="Projects/ullr" {
+            command "eza"
+            args "--tree"
+          }
+        }
+      }
     }
     tab name="Neurovirse" hide_floating_panes=true {
-      pane cwd="Projects/neurovirse"
+      pane split_direction="vertical" {
+        pane size="50%" cwd="Projects/neurovirse" {
+          command "claude"
+        }
+        pane size="50%" split_direction="horizontal" {
+          pane size="50%" cwd="Projects/neurovirse" {
+            command "vim"
+          }
+          pane size="50%" cwd="Projects/neurovirse" {
+            command "eza"
+            args "--tree"
+          }
+        }
+      }
     } 
     tab name="Asterisk" hide_floating_panes=true {
-      pane cwd="Projects/asterisk"
-     }
+      pane split_direction="vertical" {
+        pane size="50%" cwd="Projects/asterisk" {
+          command "claude"
+        }
+        pane size="50%" split_direction="horizontal" {
+          pane size="50%" cwd="Projects/asterisk" {
+            command "vim"
+          }
+          pane size="50%" cwd="Projects/asterisk" {
+            command "eza"
+            args "--tree"
+          }
+        }
+      }
+    }
 
 }
