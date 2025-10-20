@@ -47,6 +47,14 @@
     syntaxHighlighting.enable = true;
   };
 
+  # Better Nix tooling with nh (NixOS system-level)
+  programs.nh = {
+    enable = true;
+    clean.enable = true;
+    clean.extraArgs = "--keep-since 20d --keep 20";
+    flake = "/home/michael/Projects/dots";
+  };
+
   # Your timezone/locale
   time.timeZone = "America/Los_Angeles";
   i18n.defaultLocale = "en_US.UTF-8";

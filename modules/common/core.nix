@@ -26,15 +26,10 @@
       sops
       ssh-to-age
       age
-    ];
-  };
 
-  # Better Nix tooling with nh (cross-platform)
-  programs.nh = {
-    enable = true;
-    clean.enable = true;
-    clean.extraArgs = "--keep-since 20d --keep 20";
-    flake = builtins.getEnv "HOME" + "/Projects/dots";  # Path to your flake
+      # Better Nix tooling (configured via programs.nh in system/home-manager)
+      nh
+    ];
   };
 
   # Enhanced sudo configuration (cross-platform)
