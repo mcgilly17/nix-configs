@@ -1,6 +1,8 @@
 {
+  # FIXME: gitui 0.27.0 fails to build on ARM64 macOS due to assembly compilation errors
+  # Re-enable when fixed in nixpkgs
   programs.gitui = {
-    enable = true;
+    enable = false;
     # https://github.com/extrawurst/gitui/blob/3f69f5fe62118952cba82a9eff84845d0051723e/vim_style_key_config.ron
     keyConfig = ''
       (
