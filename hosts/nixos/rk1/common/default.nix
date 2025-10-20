@@ -1,0 +1,182 @@
+# RK1 Base Configuration - Shared across all RK1 nodes
+# ARM64 Rockchip RK3588 compute modules for Turing Pi 2 cluster
+# Based on research from gnull/nixos-rk3588 and community best practices
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+
+{
+  imports = [
+    # Base NixOS configuration
+    ../../../../modules/nixos/common.nix
+
+    # SOPS for secrets management
+    ../../../../modules/nixos/sops.nix
+  ];
+
+  # Host specification for all RK1 nodes
+  hostSpec = {
+    isMinimal = true;
+    isServer = true;
+    isClusterNode = true;
+  };
+
+  # UEFI boot configuration (preferred for RK3588 in 2025)
+  boot.loader = {
+    systemd-boot.enable = true;
+    efi.canTouchEfiVariables = true;
+    grub.enable = false;
+  };
+
+  # RK3588-specific kernel and hardware configuration
+  boot = {
+    # Use latest kernel for best RK3588 support
+    kernelPackages = pkgs.linuxPackages_latest;
+
+    # RK3588 optimization parameters
+    kernelParams = [
+      "cma=128M"                    # Contiguous memory allocation for ARM64
+      "coherent_pool=1M"            # DMA coherent pool
+      "systemd.unified_cgroup_hierarchy=0"  # cgroup v1 for compatibility
+    ];
+
+    # Essential kernel modules for RK3588
+    initrd.availableKernelModules = [
+      "nvme"                        # NVMe support (requires UEFI firmware)
+      "pcie_rockchip_host"          # PCIe support
+      "rockchip_pcie3"              # RK3588 PCIe 3.0
+      "dw_mmc_rockchip"             # eMMC support
+      "sdhci_dwcmshc"               # SD/eMMC controller
+    ];
+
+    # ARM64 redistributable firmware
+    enableRedistributableFirmware = true;
+  };
+
+  # Hardware configuration for RK3588
+  hardware = {
+    # Enable device tree support
+    deviceTree.enable = true;
+  };
+
+  # Stable networking configuration for cluster deployment
+  networking = {
+    # Disable legacy DHCP to use systemd-networkd
+    useDHCP = false;
+
+    # Enable systemd-networkd for predictable interface naming
+    useNetworkd = true;
+
+    # Basic firewall (cluster-specific ports can be added per-node)
+    firewall.enable = true;
+
+    # Use systemd-networkd instead of NetworkManager
+    networkmanager.enable = false;
+  };
+
+  # systemd-networkd configuration for DHCP
+  systemd.network = {
+    enable = true;
+    networks."10-ethernet" = {
+      matchConfig.Name = "en*";
+      networkConfig = {
+        DHCP = "ipv4";
+        IPForward = true;  # Enable for cluster networking
+      };
+      dhcpV4Config = {
+        UseDNS = true;
+        UseRoutes = true;
+      };
+    };
+  };
+
+  # Services configuration
+  services = {
+    # Enable resolved for DNS
+    resolved = {
+      enable = true;
+      dnssec = "true";
+      domains = [ "~." ];
+      fallbackDns = [ "1.1.1.1" "8.8.8.8" ];
+    };
+
+    # Essential for remote management
+    openssh = {
+      enable = true;
+      settings = {
+        PermitRootLogin = "yes"; # For nixos-anywhere deployment
+        PasswordAuthentication = false;
+      };
+    };
+
+    # File system trim for eMMC longevity
+    fstrim.enable = true;
+  };
+
+  # Performance optimizations for ARM64 cluster nodes
+  boot.kernel.sysctl = {
+    # Memory management tuning
+    "vm.swappiness" = 10;
+    "vm.vfs_cache_pressure" = 50;
+
+    # Network performance tuning
+    "net.core.rmem_max" = 134217728;
+    "net.core.wmem_max" = 134217728;
+    "net.core.netdev_max_backlog" = 5000;
+
+    # File system performance
+    "fs.file-max" = 65536;
+  };
+
+  # Power management for cluster stability
+  services.tlp = {
+    enable = true;
+    settings = {
+      CPU_SCALING_GOVERNOR_ON_AC = "performance";
+      CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+
+      # Disable USB autosuspend for cluster stability
+      USB_AUTOSUSPEND = 0;
+
+      # PCIe power management
+      RUNTIME_PM_ON_AC = "auto";
+      RUNTIME_PM_ON_BAT = "auto";
+    };
+  };
+
+  # Disable conflicting power management services
+  services.power-profiles-daemon.enable = false;
+
+  # Essential system packages (minimal cluster tools)
+  environment.systemPackages = with pkgs; [
+    # System monitoring
+    htop
+    iotop
+
+    # Network debugging
+    ethtool
+    tcpdump
+
+    # Hardware information
+    pciutils
+    usbutils
+
+    # File system tools
+    e2fsprogs
+    btrfs-progs
+  ];
+
+  # File system support
+  boot.supportedFilesystems = [ "ext4" "btrfs" "vfat" ];
+
+  # Enable zram for memory efficiency in cluster nodes
+  zramSwap = {
+    enable = true;
+    memoryPercent = 25; # Use 25% of RAM for compressed swap
+  };
+
+  system.stateVersion = "24.05";
+}
