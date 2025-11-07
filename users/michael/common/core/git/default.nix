@@ -28,7 +28,7 @@ in {
     inherit (ignores) ignores;
 
     lfs.enable = true;
-    package = pkgs.gitAndTools.gitFull;
+    package = pkgs.gitFull;
 
     # Enable different config for work when
     # includes = [
