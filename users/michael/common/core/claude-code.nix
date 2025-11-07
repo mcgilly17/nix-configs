@@ -110,6 +110,19 @@
         command = "input=$(cat); echo \"[$(echo \"$input\" | jq -r '.model.display_name')] 📁 $(basename \"$(echo \"$input\" | jq -r '.workspace.current_dir')\")\"";
         padding = 0;
       };
+
+      extraKnownMarketplaces = {
+        "superpowers-marketplace" = {
+          source = {
+            source = "github";
+            repo = "obra/superpowers-marketplace";
+          };
+        };
+      };
+
+      enabledPlugins = {
+        "superpowers@superpowers-marketplace" = true;
+      };
     };
   };
 }
