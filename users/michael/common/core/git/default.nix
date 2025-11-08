@@ -87,6 +87,10 @@ in {
   };
   programs.gh = {
     enable = true;
+
+    # Disable built-in git credential helper since we're using 1Password shell plugin
+    gitCredentialHelper.enable = false;
+
     settings = {
       # Configure gh to use SSH for git operations
       git_protocol = "ssh";

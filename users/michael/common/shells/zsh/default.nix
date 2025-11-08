@@ -70,6 +70,10 @@
       if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
         . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
       fi
+      # 1Password shell plugins
+      if [ -e "${config.home.homeDirectory}/.config/op/plugins.sh" ]; then
+        source "${config.home.homeDirectory}/.config/op/plugins.sh"
+      fi
       ### our zshrc
       ${builtins.readFile ./zshrc}
     '';
