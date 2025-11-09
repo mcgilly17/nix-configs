@@ -1,7 +1,8 @@
 #
 # This file defines overlays/custom modifications to upstream packages
 #
-{inputs, ...}: {
+{ inputs, ... }:
+{
   # This one brings our custom packages from the 'pkgs' directory
   additions = final: _prev: {
     # Can't get the below to work...will just go with the package route

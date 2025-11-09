@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   home.packages = [
     (pkgs.mosaic.extend {
       config = {
@@ -10,7 +11,7 @@
         keymaps = [
           # Addinf Fugit keymaps
           {
-            mode = ["n"];
+            mode = [ "n" ];
             key = "<leader>gf";
             action = "<cmd>Fugit2<cr>";
             options = {
@@ -20,7 +21,7 @@
             };
           }
           {
-            mode = ["n"];
+            mode = [ "n" ];
             key = "<leader>gb";
             action = "<cmd>Fugit2Blame<cr>";
             options = {
@@ -30,7 +31,7 @@
             };
           }
           {
-            mode = ["n"];
+            mode = [ "n" ];
             key = "<leader>gd";
             action = "<cmd>Fugit2Diff<cr>";
             options = {

@@ -3,13 +3,12 @@
   pkgs,
   specialArgs,
   ...
-}: {
-  imports =
-    specialArgs.myLibs.scanPaths ./.
-    ++ [
-      inputs.catppuccin.homeModules.catppuccin
-      inputs._1password-shell-plugins.hmModules.default
-    ];
+}:
+{
+  imports = specialArgs.myLibs.scanPaths ./. ++ [
+    inputs.catppuccin.homeModules.catppuccin
+    inputs._1password-shell-plugins.hmModules.default
+  ];
 
   # Using catppuccin nix - global application of the catppuccin theme is enabled
   # For every supported application:
@@ -32,7 +31,7 @@
     # Search here for config options for each. https://mynixos.com/home-manager/options/programs
 
     # Core Modules
-    autoconf #Automatic configure script builder
+    autoconf # Automatic configure script builder
     ack # Search tool like grep, but optimized for programmers https://beyondgrep.com/
     gawk # GNU awk utility
     openssl # Cryptography and SSL/TLS Toolkit
@@ -51,15 +50,15 @@
     hex # Futuristic take on hexdump, made in Rust
     gnused # GNU sed, a batch stream editor
     tealdeer # Simplified and community-driven man pages written in rust
-    tmux #Terminal multiplexer https://tmux.github.io/
+    tmux # Terminal multiplexer https://tmux.github.io/
     moreutils # Collection of tools that nobody wrote when UNIX was young https://joeyh.name/code/moreutils/
     grc # Colorize logfiles and command output https://github.com/garabik/grc
-    pay-respects #replacement for the fuck
+    pay-respects # replacement for the fuck
     # thefuck # Magnificent app which corrects your previous console command https://github.com/nvbn/thefuck
     tmate # Instant terminal sharing https://tmate.io/
     tree # Display directories as trees with optional color/HTML output http://mama.indstate.edu/users/ice/tree/
     tmux-xpanes # Awesome tmux-based terminal divider https://github.com/greymd/tmux-xpanes
-    calc #Launch calc and you can start typing equations https://github.com/lcn2/calc
+    calc # Launch calc and you can start typing equations https://github.com/lcn2/calc
     # parallel # Shell tool for executing jobs in parallel
     sad # CLI search and replace, just like sed, but with diff preview.
     just # a command runner like make, but simpler
@@ -96,7 +95,7 @@
     alejandra # Nix formatter
 
     # Development Specific
-    jq #json in the terminal
+    jq # json in the terminal
     cachix # adding/managing alternative binary caches hosted by Cachix
     yq-go # yaml processor https://github.com/mikefarah/yq
     prettierd # Prettier, as a daemon, for improved formatting speed
