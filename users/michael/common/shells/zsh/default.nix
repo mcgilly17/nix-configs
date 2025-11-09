@@ -3,7 +3,8 @@
   config,
   myVars,
   ...
-}: {
+}:
+{
   programs.zsh = {
     enable = true;
     autocd = true;
@@ -19,7 +20,7 @@
       extended = true;
       save = 5000;
       size = 5000;
-      ignorePatterns = ["rm *"];
+      ignorePatterns = [ "rm *" ];
       ignoreDups = true; # makes searching history faster
       ignoreAllDups = true;
       ignoreSpace = true;
@@ -70,17 +71,12 @@
       if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
         . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
       fi
-      # 1Password shell plugins
-      if [ -e "${config.home.homeDirectory}/.config/op/plugins.sh" ]; then
-        source "${config.home.homeDirectory}/.config/op/plugins.sh"
-      fi
       ### our zshrc
       ${builtins.readFile ./zshrc}
     '';
 
     envExtra = ''
       ${builtins.readFile ./zshenv}
-      export OPENAI_API_KEY=$(cat ${config.sops.secrets."openAIKey".path})
     '';
 
     #
