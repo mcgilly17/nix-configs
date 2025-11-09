@@ -1,0 +1,76 @@
+{
+  "skills": [
+    {
+      "name": "nextjs-15",
+      "triggers": {
+        "keywords": ["next.js", "nextjs", "app router", "server component", "server action"],
+        "filePaths": ["**/app/**/*.tsx", "**/app/**/*.ts", "**/next.config.*"],
+        "contentPatterns": ["'use client'", "'use server'", "from 'next/"]
+      }
+    },
+    {
+      "name": "react-patterns",
+      "triggers": {
+        "keywords": ["react", "hooks", "suspense", "use client", "use server"],
+        "filePaths": ["**/*.tsx", "**/*.jsx"],
+        "contentPatterns": ["from 'react'", "useState", "useEffect", "Suspense"]
+      }
+    },
+    {
+      "name": "prisma",
+      "triggers": {
+        "keywords": ["prisma", "schema", "migration", "database"],
+        "filePaths": ["**/prisma/**/*.prisma", "**/prisma/migrations/**/*"],
+        "contentPatterns": ["model ", "@prisma/client", "prisma."]
+      }
+    },
+    {
+      "name": "typescript",
+      "triggers": {
+        "keywords": ["typescript", "type", "interface", "generic"],
+        "filePaths": ["**/*.ts", "**/*.tsx", "**/tsconfig.json"],
+        "contentPatterns": ["interface ", "type ", ": Promise<"]
+      }
+    },
+    {
+      "name": "storybook",
+      "triggers": {
+        "keywords": ["storybook", "stories", "component story"],
+        "filePaths": ["**/*.stories.tsx", "**/*.stories.ts", "**/.storybook/**/*"],
+        "contentPatterns": ["from '@storybook", "Meta<", "StoryObj<"]
+      }
+    },
+    {
+      "name": "docker",
+      "triggers": {
+        "keywords": ["docker", "dockerfile", "container", "image"],
+        "filePaths": ["**/Dockerfile", "**/.dockerignore", "**/docker-compose.yml"],
+        "contentPatterns": ["FROM ", "RUN ", "COPY ", "ENTRYPOINT"]
+      }
+    },
+    {
+      "name": "kubernetes",
+      "triggers": {
+        "keywords": ["kubernetes", "k8s", "deployment", "service", "pod"],
+        "filePaths": ["**/k8s/**/*.yaml", "**/k8s/**/*.yml", "**/*-deployment.yaml"],
+        "contentPatterns": ["apiVersion:", "kind: Deployment", "kind: Service"]
+      }
+    },
+    {
+      "name": "api-design",
+      "triggers": {
+        "keywords": ["rest api", "graphql", "trpc", "api endpoint"],
+        "filePaths": ["**/api/**/*.ts", "**/pages/api/**/*.ts", "**/app/api/**/*.ts"],
+        "contentPatterns": ["export async function GET", "export async function POST", "createTRPCRouter"]
+      }
+    },
+    {
+      "name": "git-workflow",
+      "triggers": {
+        "keywords": ["commit", "pull request", "conventional commits"],
+        "filePaths": [".gitignore", ".github/**/*"],
+        "contentPatterns": ["feat:", "fix:", "chore:"]
+      }
+    }
+  ]
+}
