@@ -166,15 +166,26 @@ Installs AI development workflow frameworks into your project with intelligent s
 - Verification and testing protocols
 
 **Installation method:**
-1. Clone repository: `git clone https://github.com/obra/superpowers.git /tmp/superpowers`
-2. Copy to project: `cp -r /tmp/superpowers/.claude/* .claude/`
-3. Clean up: `rm -rf /tmp/superpowers`
-
-**Location:** `.claude/skills/superpowers/` and `.claude/commands/superpowers/`
+Add to `.claude/settings.local.json`:
+```json
+{
+  "enabledPlugins": {
+    "superpowers@superpowers-marketplace": true
+  },
+  "extraKnownMarketplaces": {
+    "superpowers-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "obra/superpowers-marketplace"
+      }
+    }
+  }
+}
+```
 
 **Usage:** `/superpowers:brainstorm`, `/superpowers:write-plan`, skills auto-activate
 
-**Repository:** https://github.com/obra/superpowers
+**Repository:** https://github.com/obra/superpowers-marketplace
 
 ---
 
@@ -228,23 +239,32 @@ fi
 
 ### Step 3: Framework Installation
 
-#### For Superpowers (Always file-based):
+#### For Superpowers (Marketplace installation):
 
 ```bash
-# Clone superpowers repo to temp location
-git clone https://github.com/obra/superpowers.git /tmp/superpowers-install
+# Find or create .claude/settings.local.json
+SETTINGS_FILE=".claude/settings.local.json"
 
-# Copy contents to project .claude folder
-cp -r /tmp/superpowers-install/.claude/* .claude/
+if [ ! -f "$SETTINGS_FILE" ]; then
+  mkdir -p .claude
+  echo '{}' > "$SETTINGS_FILE"
+fi
 
-# Clean up
-rm -rf /tmp/superpowers-install
+# Add superpowers marketplace and enable plugin
+# This uses jq to merge the configuration properly
+jq '. + {
+  "enabledPlugins": (.enabledPlugins // {} | . + {"superpowers@superpowers-marketplace": true}),
+  "extraKnownMarketplaces": (.extraKnownMarketplaces // {} | . + {
+    "superpowers-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "obra/superpowers-marketplace"
+      }
+    }
+  })
+}' "$SETTINGS_FILE" > "$SETTINGS_FILE.tmp" && mv "$SETTINGS_FILE.tmp" "$SETTINGS_FILE"
 
-# Verify installation
-ls -la .claude/skills/superpowers/
-ls -la .claude/commands/superpowers/
-
-echo "✓ Superpowers installed to .claude/"
+echo "✓ Superpowers marketplace added to .claude/settings.local.json"
 echo "Skills will auto-activate based on context"
 echo "Commands available: /superpowers:brainstorm, /superpowers:write-plan, etc."
 ```
