@@ -1,12 +1,16 @@
 ---
 allowed-tools: Bash, AskUserQuestion, Read, Write, Edit
-argument-hint: "[framework-name]"
+argument-hint: "[framework-name] [folder]"
 description: Install AI development workflow framework (BMAD, Spec Kit, OpenSpec, or Superpowers)
 ---
 
 # Install Workflow Command
 
 Installs AI development workflow frameworks into your project with intelligent setup.
+
+**Syntax:** `/install-workflow [framework-name] [folder]`
+- `framework-name`: Optional - bmad, spec-kit, openspec, superpowers (prompts if omitted)
+- `folder`: Optional - target installation directory (defaults to current directory)
 
 ## Installation Strategy
 
@@ -74,19 +78,28 @@ Installs AI development workflow frameworks into your project with intelligent s
   packages = [ pkgs.python3 pkgs.uv ];
 
   scripts.speckit-setup.exec = ''
-    PROJECT_NAME=$(basename $(pwd))
-    uvx --from git+https://github.com/github/spec-kit.git specify init $PROJECT_NAME
+    TARGET_DIR="''${1:-.}"
+    uvx --from git+https://github.com/github/spec-kit.git specify init "$TARGET_DIR"
   '';
 
   enterShell = ''
     if [ ! -d .speckit ]; then
-      echo "Run: speckit-setup"
+      echo "📋 Spec Kit available but not initialized"
+      echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+      echo "Run: speckit-setup [folder]"
+      echo ""
+      echo "Examples:"
+      echo "  speckit-setup          # Install in current directory"
+      echo "  speckit-setup .        # Install in current directory"
+      echo "  speckit-setup my-app   # Install in ./my-app subdirectory"
     fi
   '';
 }
 ```
 
-**Direct installation:** `uvx --from git+https://github.com/github/spec-kit.git specify init <PROJECT_NAME>`
+**Direct installation:**
+- Current directory: `uvx --from git+https://github.com/github/spec-kit.git specify init .`
+- Specific folder: `uvx --from git+https://github.com/github/spec-kit.git specify init <folder>`
 
 **Location:** `.speckit/` directory
 
@@ -195,18 +208,30 @@ Add to `.claude/settings.local.json`:
 # Interactive installation (asks which framework)
 /install-workflow
 
-# Direct installation
+# Direct installation in current directory
 /install-workflow bmad
 /install-workflow spec-kit
 /install-workflow openspec
 /install-workflow superpowers
+
+# Install in specific folder
+/install-workflow spec-kit my-project
+/install-workflow openspec ./subfolder
 ```
 
 ## Installation Process
 
-### Step 1: Framework Selection
+### Step 1: Parse Arguments
 
-If no argument provided, use AskUserQuestion to present options:
+**Parse command line arguments:**
+```bash
+FRAMEWORK="${1:-}"  # First argument: framework name (optional)
+FOLDER="${2:-.}"    # Second argument: target folder (defaults to current directory)
+```
+
+### Step 2: Framework Selection
+
+If no framework argument provided, use AskUserQuestion to present options:
 
 **Question:** "Which workflow framework would you like to install?"
 
@@ -217,7 +242,7 @@ If no argument provided, use AskUserQuestion to present options:
 4. **Spec-Workflow-MCP** - OpenSpec + real-time dashboard (solo developers, visual tracking)
 5. **Superpowers** - Core skills library, auto-activating (minimal overhead, any team size)
 
-### Step 2: Environment Detection
+### Step 3: Environment Detection
 
 **Check for devenv.nix:**
 ```bash
@@ -237,7 +262,7 @@ if [ ! -d .claude ]; then
 fi
 ```
 
-### Step 3: Framework Installation
+### Step 4: Framework Installation
 
 #### For Superpowers (Marketplace installation):
 
@@ -315,9 +340,9 @@ echo "Run 'devenv shell' then 'speckit-setup' to complete installation"
 # Ensure uv is available
 which uvx || pip install uv
 
-# Initialize with project name
-PROJECT_NAME=$(basename $(pwd))
-uvx --from git+https://github.com/github/spec-kit.git specify init $PROJECT_NAME
+# Initialize in current directory or specified folder
+FOLDER="${1:-.}"
+uvx --from git+https://github.com/github/spec-kit.git specify init "$FOLDER"
 
 echo "✓ Spec Kit initialized in .speckit/"
 echo "Start with: /speckit.constitution"
@@ -369,7 +394,7 @@ echo "Start dashboard: npx -y @pimzino/spec-workflow-mcp@latest --dashboard"
 echo "Dashboard URL: http://localhost:5000"
 ```
 
-### Step 4: Verification & Next Steps
+### Step 5: Verification & Next Steps
 
 **Report installation results:**
 - Show what was installed
@@ -435,6 +460,9 @@ echo "Dashboard URL: http://localhost:5000"
 
 # Install lightweight spec workflow for solo project
 /install-workflow openspec
+
+# Install Spec Kit in a specific subfolder
+/install-workflow spec-kit my-new-project
 
 # Interactive installation with framework selection
 /install-workflow
