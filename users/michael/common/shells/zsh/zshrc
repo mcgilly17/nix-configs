@@ -69,18 +69,6 @@ zle -N my-backward-delete-word
 
 bindkey '\e^?' my-backward-delete-word
 
-if [[ -z "$ZELLIJ" ]]; then
-    if [[ "$ZELLIJ_AUTO_ATTACH" == "true" ]]; then
-        zellij attach -c
-    else
-        zellij
-    fi
-
-    if [[ "$ZELLIJ_AUTO_EXIT" == "true" ]]; then
-        exit
-    fi
-fi
-
 # # my ll is aliased to eza ..., and without this, zsh gives me weird completions
 # setopt complete_aliases
 
