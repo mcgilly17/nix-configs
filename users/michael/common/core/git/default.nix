@@ -24,81 +24,84 @@ in
     inherit (aliases) shellAliases;
   };
 
-  programs.git = {
-    enable = true;
+  programs = {
+    git = {
+      enable = true;
 
-    inherit (ignores) ignores;
+      inherit (ignores) ignores;
 
-    lfs.enable = true;
-    package = pkgs.gitFull;
+      lfs.enable = true;
+      package = pkgs.gitFull;
 
-    # Enable different config for work when
-    # includes = [
-    #   {
-    #     # use different email & name for work
-    #     path = "~/work/.gitconfig";
-    #     condition = "gitdir:~/work/";
-    #   }
-    # ];
+      # Enable different config for work when
+      # includes = [
+      #   {
+      #     # use different email & name for work
+      #     path = "~/work/.gitconfig";
+      #     condition = "gitdir:~/work/";
+      #   }
+      # ];
 
-    settings = {
-      user = {
-        name = michael.handle;
-        email = michael.gitEmail;
-      };
-
-      alias = aliases.aliases;
-
-      init.defaultBranch = "main";
-      push.autoSetupRemote = true;
-      pull.rebase = true;
-      fetch.prune = true;
-      merge.conflictStyle = "zdiff3";
-      commit.verbose = true;
-      diff.algorithm = "histogram";
-      log.date = "iso";
-      column.ui = "auto";
-      branch.sort = "committerdate";
-
-      url = {
-        "ssh://git@github.com" = {
-          insteadOf = "https://github.com";
+      settings = {
+        user = {
+          name = michael.handle;
+          email = michael.gitEmail;
         };
-        "ssh://git@gitlab.com" = {
-          insteadOf = "https://gitlab.com";
-        };
-        "ssh://git@bitbucket.com/" = {
-          insteadOf = "https://bitbucket.com/";
+
+        alias = aliases.aliases;
+
+        init.defaultBranch = "main";
+        push.autoSetupRemote = true;
+        pull.rebase = true;
+        fetch.prune = true;
+        merge.conflictStyle = "zdiff3";
+        commit.verbose = true;
+        diff.algorithm = "histogram";
+        log.date = "iso";
+        column.ui = "auto";
+        branch.sort = "committerdate";
+
+        url = {
+          "ssh://git@github.com" = {
+            insteadOf = "https://github.com";
+          };
+          "ssh://git@gitlab.com" = {
+            insteadOf = "https://gitlab.com";
+          };
+          "ssh://git@bitbucket.com/" = {
+            insteadOf = "https://bitbucket.com/";
+          };
         };
       };
     };
-  };
 
-  # Better git diff!
-  programs.delta = {
-    enable = true;
-    enableGitIntegration = true;
-    options = {
-      diff-so-fancy = true;
-      line-numbers = true;
-      true-color = "always";
-      side-by-side = true;
-      # features => named groups of settings, used to keep related settings organized
-      # features = "";
+    # Better git diff!
+    delta = {
+      enable = true;
+      enableGitIntegration = true;
+      options = {
+        diff-so-fancy = true;
+        line-numbers = true;
+        true-color = "always";
+        side-by-side = true;
+        # features => named groups of settings, used to keep related settings organized
+        # features = "";
+      };
     };
-  };
-  programs.gh = {
-    enable = true;
 
-    # Disable built-in git credential helper since we're using 1Password shell plugin
-    gitCredentialHelper.enable = false;
+    gh = {
+      enable = true;
 
-    settings = {
-      # Configure gh to use SSH for git operations
-      git_protocol = "ssh";
+      # Disable built-in git credential helper since we're using 1Password shell plugin
+      gitCredentialHelper.enable = false;
 
-      # Set default editor
-      editor = "vim";
+      settings = {
+        # Configure gh to use SSH for git operations
+        git_protocol = "ssh";
+
+        # Set default editor
+        editor = "vim";
+      };
     };
   };
 }

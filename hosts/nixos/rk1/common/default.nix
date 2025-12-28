@@ -2,7 +2,6 @@
 # ARM64 Rockchip RK3588 compute modules for Turing Pi 2 cluster
 # Based on research from gnull/nixos-rk3588 and community best practices
 {
-  config,
   lib,
   pkgs,
   inputs,
@@ -28,34 +27,55 @@
     isClusterNode = true;
   };
 
-  # UEFI boot configuration (preferred for RK3588 in 2025)
-  boot.loader = {
-    systemd-boot.enable = true;
-    efi.canTouchEfiVariables = true;
-    grub.enable = false;
-  };
-
   # RK3588-specific kernel and hardware configuration
   boot = {
+    # UEFI boot configuration (preferred for RK3588 in 2025)
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+      grub.enable = false;
+    };
+
     # Use latest kernel for best RK3588 support
     kernelPackages = pkgs.linuxPackages_latest;
 
     # RK3588 optimization parameters
     kernelParams = [
-      "cma=128M"                    # Contiguous memory allocation for ARM64
-      "coherent_pool=1M"            # DMA coherent pool
-      "systemd.unified_cgroup_hierarchy=0"  # cgroup v1 for compatibility
+      "cma=128M" # Contiguous memory allocation for ARM64
+      "coherent_pool=1M" # DMA coherent pool
+      "systemd.unified_cgroup_hierarchy=0" # cgroup v1 for compatibility
     ];
 
     # Essential kernel modules for RK3588
     initrd.availableKernelModules = [
-      "nvme"                        # NVMe support (requires UEFI firmware)
-      "pcie_rockchip_host"          # PCIe support
-      "rockchip_pcie3"              # RK3588 PCIe 3.0
-      "dw_mmc_rockchip"             # eMMC support
-      "sdhci_dwcmshc"               # SD/eMMC controller
+      "nvme" # NVMe support (requires UEFI firmware)
+      "pcie_rockchip_host" # PCIe support
+      "rockchip_pcie3" # RK3588 PCIe 3.0
+      "dw_mmc_rockchip" # eMMC support
+      "sdhci_dwcmshc" # SD/eMMC controller
     ];
 
+    # File system support
+    supportedFilesystems = [
+      "ext4"
+      "btrfs"
+      "vfat"
+    ];
+
+    # Performance optimizations for ARM64 cluster nodes
+    kernel.sysctl = {
+      # Memory management tuning
+      "vm.swappiness" = 10;
+      "vm.vfs_cache_pressure" = 50;
+
+      # Network performance tuning
+      "net.core.rmem_max" = 134217728;
+      "net.core.wmem_max" = 134217728;
+      "net.core.netdev_max_backlog" = 5000;
+
+      # File system performance
+      "fs.file-max" = 65536;
+    };
   };
 
   # Hardware configuration for RK3588
@@ -88,7 +108,7 @@
       matchConfig.Name = "en*";
       networkConfig = {
         DHCP = "ipv4";
-        IPForward = true;  # Enable for cluster networking
+        IPForward = true; # Enable for cluster networking
       };
       dhcpV4Config = {
         UseDNS = true;
@@ -104,7 +124,10 @@
       enable = true;
       dnssec = "true";
       domains = [ "~." ];
-      fallbackDns = [ "1.1.1.1" "8.8.8.8" ];
+      fallbackDns = [
+        "1.1.1.1"
+        "8.8.8.8"
+      ];
     };
 
     # Essential for remote management
@@ -118,21 +141,6 @@
 
     # File system trim for eMMC longevity
     fstrim.enable = true;
-  };
-
-  # Performance optimizations for ARM64 cluster nodes
-  boot.kernel.sysctl = {
-    # Memory management tuning
-    "vm.swappiness" = 10;
-    "vm.vfs_cache_pressure" = 50;
-
-    # Network performance tuning
-    "net.core.rmem_max" = 134217728;
-    "net.core.wmem_max" = 134217728;
-    "net.core.netdev_max_backlog" = 5000;
-
-    # File system performance
-    "fs.file-max" = 65536;
   };
 
   # Power management for cluster stability
@@ -172,9 +180,6 @@
     e2fsprogs
     btrfs-progs
   ];
-
-  # File system support
-  boot.supportedFilesystems = [ "ext4" "btrfs" "vfat" ];
 
   # Enable zram for memory efficiency in cluster nodes
   zramSwap = {
