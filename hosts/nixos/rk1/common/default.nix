@@ -5,11 +5,15 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }:
 
 {
   imports = [
+    # Disko for disk management
+    inputs.disko.nixosModules.disko
+
     # Base NixOS configuration
     ../../../../modules/nixos/common.nix
 
@@ -52,12 +56,12 @@
       "sdhci_dwcmshc"               # SD/eMMC controller
     ];
 
-    # ARM64 redistributable firmware
-    enableRedistributableFirmware = true;
   };
 
   # Hardware configuration for RK3588
   hardware = {
+    # ARM64 redistributable firmware
+    enableRedistributableFirmware = true;
     # Enable device tree support
     deviceTree.enable = true;
   };
@@ -73,8 +77,8 @@
     # Basic firewall (cluster-specific ports can be added per-node)
     firewall.enable = true;
 
-    # Use systemd-networkd instead of NetworkManager
-    networkmanager.enable = false;
+    # Use systemd-networkd instead of NetworkManager (lighter for headless cluster)
+    networkmanager.enable = lib.mkForce false;
   };
 
   # systemd-networkd configuration for DHCP
