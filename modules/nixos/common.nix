@@ -1,5 +1,11 @@
 # Common NixOS configuration for all hosts
-{ inputs, myLibs, specialArgs, ... }:
+{
+  inputs,
+  outputs,
+  myLibs,
+  specialArgs,
+  ...
+}:
 
 {
   imports = [
@@ -9,8 +15,9 @@
     # Your existing cross-platform core
     (myLibs.relativeToRoot "modules/common/core.nix")
 
-  ] ++ (map myLibs.relativeToRoot [
-    "users/michael"  # Your existing user setup
+  ]
+  ++ (map myLibs.relativeToRoot [
+    "users/michael" # Your existing user setup
   ]);
 
   # Home Manager configuration (matching your Darwin pattern)
@@ -60,8 +67,9 @@
   i18n.defaultLocale = "en_US.UTF-8";
   console.keyMap = "us";
 
-  # Allow unfree packages
+  # Allow unfree packages and apply overlays
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.overlays = builtins.attrValues outputs.overlays;
 
   system.stateVersion = "24.05";
 }
