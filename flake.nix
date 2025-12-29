@@ -77,7 +77,7 @@
       inputs = { };
     };
     mosaic = {
-      url = "git+ssh://git@github.com/mcgilly17/Mosaic";
+      url = "github:mcgilly17/Mosaic";
     };
   };
 
