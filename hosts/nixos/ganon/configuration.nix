@@ -3,8 +3,6 @@
 {
   config,
   inputs,
-  myLibs,
-  pkgs,
   ...
 }:
 
@@ -34,6 +32,17 @@
 
   # Set hostname
   networking.hostName = "ganon";
+
+  # Bootloader - GRUB with EFI for dual-boot with Windows
+  boot.loader = {
+    grub = {
+      enable = true;
+      useOSProber = true;
+      efiSupport = true;
+      device = "nodev";
+    };
+    efi.canTouchEfiVariables = true;
+  };
 
   # NVIDIA drivers (hardware requirement)
   hardware.nvidia = {
