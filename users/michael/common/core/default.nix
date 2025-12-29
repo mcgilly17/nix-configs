@@ -1,4 +1,4 @@
 { specialArgs, ... }:
 {
-  imports = (specialArgs.myLibs.scanPaths ./.);
+  imports = specialArgs.myLibs.scanPaths ./.;
 }

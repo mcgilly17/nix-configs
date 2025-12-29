@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   # Install packages from nix's official package repository.
   #
   # The packages installed here are available to all users, and are reproducible across machines, and are rollbackable.
@@ -7,31 +8,35 @@
   # Related Discussion: https://discourse.nixos.org/t/darwin-again/29331
   #
   # UI apps on MacOS will get installed to /Applications/Nix Apps
-  environment.systemPackages = with pkgs; [
-    gnugrep # replacee macos's grep
-    gnutar # replacee macos's tar
+  environment = {
+    systemPackages = with pkgs; [
+      gnugrep # replacee macos's grep
+      gnutar # replacee macos's tar
 
-    # macOS only apps
-    # TODO: decide if these should be moved to /users/michael/darwin/default.nix
-    utm # virtual machines
-    vscode
-    dockutil
-  ];
+      # macOS only apps
+      # TODO: decide if these should be moved to /users/michael/darwin/default.nix
+      utm # virtual machines
+      vscode
+      dockutil
+    ];
 
-  environment.variables = {
-    # Fix https://github.com/LnL7/nix-darwin/wiki/Terminfo-issues
-    # TERMINFO_DIRS = map (path: path + "/share/terminfo") config.environment.profiles ++ [ "/usr/share/terminfo" ];
-    EDITOR = "nvim";
+    variables = {
+      # Fix https://github.com/LnL7/nix-darwin/wiki/Terminfo-issues
+      # TERMINFO_DIRS = map (path: path + "/share/terminfo") config.environment.profiles ++ [ "/usr/share/terminfo" ];
+      EDITOR = "nvim";
+    };
+
+    shells = [
+      pkgs.bash
+      pkgs.zsh
+    ];
+
+    pathsToLink = [ "/share/zsh" ];
   };
 
   # Create /etc/zshrc that loads the nix-darwin environment.
   # this is required if you want to use darwin's default shell - zsh
   programs.zsh.enable = true;
-  environment.shells = [
-    pkgs.bash
-    pkgs.zsh
-  ];
-  environment.pathsToLink = ["/share/zsh"];
 
   # https://github.com/LnL7/nix-darwin/blob/master/modules/homebrew.nix
   homebrew = {
@@ -69,9 +74,9 @@
       # Utilities
       "raycast" # Better Spotlight
       "mullvad-vpn" # VPN software
-      "karabiner-elements" #keyboard management
-      "superhuman" #email client
-      "appcleaner" #app remover
+      "karabiner-elements" # keyboard management
+      "superhuman" # email client
+      "appcleaner" # app remover
       "yubico-authenticator"
       ## Internet Apps
       "discord" # Internet Chat"
@@ -80,24 +85,24 @@
       "obsidian"
 
       # Entertainment
-      "vlc" #VLC is a free and open source cross-platform multimedia player and framework that plays most multimedia files as well as DVDs, Audio CDs, VCDs, etc. https://www.videolan.org/vlc/index.en-GB.html
-      "spotify" #Music player.
+      "vlc" # VLC is a free and open source cross-platform multimedia player and framework that plays most multimedia files as well as DVDs, Audio CDs, VCDs, etc. https://www.videolan.org/vlc/index.en-GB.html
+      "spotify" # Music player.
 
       ## Security
-      "1password" #Password manager "
+      "1password" # Password manager "
 
       ## Utilities
-      "betterzip" #BetterZip: the most advanced zip and rar archiver for file compression, encryption. BetterZip makes it easy to work with zip, rar, 7-zip, tar, and xz https://macitbetter.com/"
+      "betterzip" # BetterZip: the most advanced zip and rar archiver for file compression, encryption. BetterZip makes it easy to work with zip, rar, 7-zip, tar, and xz https://macitbetter.com/"
       # "brooklyn" #Lovelyscreensaver"
-      "notion" #Organise life"
-      "fantastical" #the worlds best calendar"
-      "transmit" #FTP Client transmit"
-      "calibre" #unclear"
+      "notion" # Organise life"
+      "fantastical" # the worlds best calendar"
+      "transmit" # FTP Client transmit"
+      "calibre" # unclear"
 
       ## Messaging and Communication
-      "whatsapp" #Desktop Whatsapp client"
+      "whatsapp" # Desktop Whatsapp client"
 
-      "qlcolorcode" #Preview source code files with syntax highlighting https://github.com/anthonygelibert/QLColorCode"
+      "qlcolorcode" # Preview source code files with syntax highlighting https://github.com/anthonygelibert/QLColorCode"
 
       # "launchrocket" #LaunchRocket. A Mac PreferencePane for managing services with launchd https://github.com/jimbojsb/launchrocket"
       # "suspicious-package" #An Application for Inspecting macOS Installer Packages https://www.mothersruin.com/software/SuspiciousPackage/"

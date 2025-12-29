@@ -1,3 +1,6 @@
+# Fallback TERM if terminal emulator doesn't set it (needed before zellij auto-start)
+export TERM="${TERM:-xterm-256color}"
+
 # https://github.com/jbranchaud/til/blob/master/vim/configure-fzf-to-use-fd-for-file-finding.md
 export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --hidden --follow --exclude .git'
 

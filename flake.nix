@@ -86,8 +86,6 @@
       self,
       nixpkgs,
       darwin,
-      home-manager,
-      mosaic,
       ...
     }@inputs:
     let
@@ -179,6 +177,14 @@
           inherit specialArgs;
           modules = [
             ./hosts/nixos/rk1/node4
+          ];
+        };
+
+        glados = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          inherit specialArgs;
+          modules = [
+            ./hosts/nixos/glados
           ];
         };
       };

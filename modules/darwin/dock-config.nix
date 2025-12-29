@@ -2,14 +2,16 @@
   config,
   myVars,
   ...
-}: let
+}:
+let
   user = myVars.users.michael.username;
-in {
+in
+{
   # Fully declarative dock using the latest from Nix Store
-  local = {
-    dock.enable = true;
-    dock.username = user;
-    dock.entries = [
+  local.dock = {
+    enable = true;
+    username = user;
+    entries = [
       {
         path = "${config.users.users.${user}.home}/Downloads";
         section = "others";

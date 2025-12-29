@@ -96,7 +96,6 @@
 
     # Development Specific
     jq # json in the terminal
-    cachix # adding/managing alternative binary caches hosted by Cachix
     yq-go # yaml processor https://github.com/mikefarah/yq
     prettierd # Prettier, as a daemon, for improved formatting speed
     kubetail
@@ -118,7 +117,7 @@
     rustfmt
     selene
     eslint_d
-    nodePackages.jsonlint
+    vscode-langservers-extracted # Provides JSON/HTML/CSS/ESLint language servers
     # nodePackages."@prisma/language-server"
     nodePackages.graphql-language-service-cli
     tailwindcss-language-server

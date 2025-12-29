@@ -35,6 +35,7 @@ Quick workflows via slash commands:
 - `/docs [type] [target]` - Generate documentation
 - `/security-audit [scope]` - Security analysis
 - `/refactor [target]` - Plan refactoring
+- `/install-workflow [framework]` - Install AI workflow framework (BMAD, Spec Kit, OpenSpec, Superpowers)
 
 ### Skills (Auto-Activate)
 
@@ -59,39 +60,11 @@ Context-aware knowledge that loads automatically based on file paths and keyword
 
 ### GitHub CLI (1Password Integration)
 
-**IMPORTANT:** GitHub CLI is integrated with 1Password shell plugin for secure authentication.
+**Always use:** `op plugin run -- gh <command>`
 
-**Always use:**
-```bash
-op plugin run -- gh <command>
-```
+**Examples:** `op plugin run -- gh pr create`, `op plugin run -- gh issue list`
 
-**Examples:**
-```bash
-# Create pull request
-op plugin run -- gh pr create --title "..." --body "..."
-
-# View PR
-op plugin run -- gh pr view 123
-
-# Create issue
-op plugin run -- gh issue create --title "..." --body "..."
-
-# View issues
-op plugin run -- gh issue list
-```
-
-**Never use:**
-```bash
-gh pr create   # ❌ Will fail - missing auth
-```
-
-This applies to ALL `gh` commands including:
-- `gh pr` (pull requests)
-- `gh issue` (issues)
-- `gh repo` (repository operations)
-- `gh workflow` (GitHub Actions)
-- `gh api` (GitHub API calls)
+Applies to all `gh` commands (pr, issue, repo, workflow, api).
 
 ## Code Organization
 
@@ -118,27 +91,6 @@ This applies to ALL `gh` commands including:
 **Parallel operations:** Run multiple searches, reads, and greps in single messages
 **Multiple agents:** Split complex tasks - one for tests, one for implementation
 **Batch similar work:** Group related file edits together
-
-## Web Development Standards
-
-### TypeScript
-- **Strict mode always** - Enable all strict type checking
-- **No any** - Use unknown and type guards instead
-- **Type imports** - Use `import type` for type-only imports
-- **Explicit return types** - Document function contracts
-
-### React/Next.js
-- **Server Components by default** - Only use 'use client' when necessary
-- **Server Actions** for mutations - Type-safe form handling
-- **Streaming with Suspense** - Progressive loading UX
-- **No useEffect for data fetching** - Use Server Components or SWR/TanStack Query
-
-### Security
-- **Validate all inputs** - Use Zod or similar for runtime validation
-- **Never trust client data** - Validate on server
-- **Environment variables** - Never commit .env files
-- **SQL injection** - Use Prisma or prepared statements
-- **XSS protection** - Sanitize user content
 
 ## Problem Solving
 
