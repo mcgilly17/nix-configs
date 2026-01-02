@@ -3,6 +3,7 @@
 {
   config,
   inputs,
+  pkgs,
   ...
 }:
 
@@ -40,6 +41,7 @@
       useOSProber = true;
       efiSupport = true;
       device = "nodev";
+      theme = "${pkgs.catppuccin-grub}/share/grub/themes/catppuccin-mocha-grub-theme";
     };
     efi.canTouchEfiVariables = true;
   };
@@ -75,6 +77,44 @@
   # Gaming-specific kernel settings
   boot.kernel.sysctl = {
     "vm.max_map_count" = 2147483642; # Helps with gaming performance
+  };
+
+  # Hyprland (Wayland compositor)
+  programs.hyprland = {
+    enable = true;
+    xwayland.enable = true; # For X11 apps (Steam, etc.)
+  };
+
+  # Login manager
+  services.greetd = {
+    enable = true;
+    settings = {
+      default_session = {
+        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --cmd Hyprland";
+        user = "greeter";
+      };
+    };
+  };
+
+  # Essential packages for Hyprland setup
+  environment.systemPackages = with pkgs; [
+    kitty # Terminal
+    waybar # Status bar
+    wofi # App launcher
+    mako # Notifications
+    grim # Screenshot
+    slurp # Screen region select
+    wl-clipboard # Clipboard
+    swww # Wallpaper
+  ];
+
+  # Enable sound (PipeWire)
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
   };
 
   system.stateVersion = "24.05";

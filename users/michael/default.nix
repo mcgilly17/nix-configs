@@ -22,6 +22,7 @@ in
       "wheel"
       "networkmanager"
     ];
+    initialPassword = "changeme"; # Change with: passwd
   };
 
   # Create the user's group on NixOS
