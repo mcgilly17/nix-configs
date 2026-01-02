@@ -115,9 +115,6 @@
       };
     };
 
-    # Aquacomputer water cooling (farbwerk 360, OCTO)
-    hardware.liquidctl.enable = true;
-
     # OpenRGB for motherboard RGB control
     hardware.openrgb.enable = true;
 
