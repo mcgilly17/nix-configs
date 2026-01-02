@@ -85,17 +85,6 @@
     xwayland.enable = true; # For X11 apps (Steam, etc.)
   };
 
-  # Login manager
-  services.greetd = {
-    enable = true;
-    settings = {
-      default_session = {
-        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --cmd Hyprland";
-        user = "greeter";
-      };
-    };
-  };
-
   # Essential packages for Hyprland setup
   environment.systemPackages = with pkgs; [
     kitty # Terminal
@@ -106,15 +95,39 @@
     slurp # Screen region select
     wl-clipboard # Clipboard
     swww # Wallpaper
+    liquidctl # Water cooling control (farbwerk 360, OCTO)
+    openrgb-with-all-plugins # RGB control (motherboard, etc.)
   ];
 
   # Enable sound (PipeWire)
   security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
+
+  # Services
+  services = {
+    # Login manager
+    greetd = {
+      enable = true;
+      settings = {
+        default_session = {
+          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --cmd Hyprland";
+          user = "greeter";
+        };
+      };
+    };
+
+    # Aquacomputer water cooling (farbwerk 360, OCTO)
+    hardware.liquidctl.enable = true;
+
+    # OpenRGB for motherboard RGB control
+    hardware.openrgb.enable = true;
+
+    # PipeWire audio
+    pipewire = {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
+    };
   };
 
   system.stateVersion = "24.05";
