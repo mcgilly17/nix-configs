@@ -34,17 +34,33 @@
   # Set hostname
   networking.hostName = "ganon";
 
-  # Bootloader - GRUB with EFI for dual-boot with Windows
-  # TODO: Re-enable catppuccin theme after first boot
-  boot.loader = {
-    grub = {
-      enable = true;
-      useOSProber = true;
-      efiSupport = true;
-      device = "nodev";
-      # theme = "${pkgs.catppuccin-grub}/share/grub/themes/catppuccin-mocha-grub-theme";
+  # Boot configuration
+  boot = {
+    # GRUB bootloader with EFI for dual-boot with Windows
+    # TODO: Re-enable catppuccin theme after first boot
+    loader = {
+      grub = {
+        enable = true;
+        useOSProber = true;
+        efiSupport = true;
+        device = "nodev";
+        # theme = "${pkgs.catppuccin-grub}/share/grub/themes/catppuccin-mocha-grub-theme";
+      };
+      efi.canTouchEfiVariables = true;
     };
-    efi.canTouchEfiVariables = true;
+
+    # Gaming-specific kernel settings
+    kernel.sysctl = {
+      "vm.max_map_count" = 2147483642; # Helps with gaming performance
+    };
+
+    # Load NVIDIA DRM kernel module early (required for Wayland)
+    initrd.kernelModules = [
+      "nvidia"
+      "nvidia_modeset"
+      "nvidia_uvm"
+      "nvidia_drm"
+    ];
   };
 
   # NVIDIA drivers (hardware requirement)
@@ -75,15 +91,24 @@
     };
   };
 
-  # Gaming-specific kernel settings
-  boot.kernel.sysctl = {
-    "vm.max_map_count" = 2147483642; # Helps with gaming performance
-  };
-
   # Hyprland (Wayland compositor)
   programs.hyprland = {
     enable = true;
     xwayland.enable = true; # For X11 apps (Steam, etc.)
+  };
+
+  # NVIDIA + Wayland environment variables (critical for Hyprland)
+  environment.sessionVariables = {
+    # Hardware cursors not yet working on NVIDIA
+    WLR_NO_HARDWARE_CURSORS = "1";
+    # Use NVIDIA GBM backend
+    GBM_BACKEND = "nvidia-drm";
+    # Use NVIDIA driver for Wayland
+    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+    # Enable Wayland for most toolkits
+    NIXOS_OZONE_WL = "1";
+    # Hyprland logging for debugging
+    HYPRLAND_LOG_WLR = "1";
   };
 
   # Essential packages for Hyprland setup
