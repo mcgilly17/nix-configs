@@ -141,6 +141,10 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
         # Fullscreen
         "$mod, F, fullscreen, 0"
 
+        # Window switching
+        "$mod, Tab, cyclenext"
+        "$mod SHIFT, Tab, cyclenext, prev"
+
         # Screenshots
         ", Print, exec, grim -g \"$(slurp)\" - | wl-copy"
         "$mod, Print, exec, grim - | wl-copy"
