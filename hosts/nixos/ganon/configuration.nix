@@ -43,7 +43,7 @@
         useOSProber = true;
         efiSupport = true;
         device = "nodev";
-        theme = "${pkgs.catppuccin-grub}/share/grub/themes/catppuccin-mocha-grub-theme";
+        theme = pkgs.catppuccin-grub;
       };
       efi.canTouchEfiVariables = true;
     };
