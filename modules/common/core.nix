@@ -1,4 +1,5 @@
-{pkgs, myLibs, ...}: {
+{ pkgs, myLibs, ... }:
+{
   imports = [
     (myLibs.relativeToRoot "modules/common/host-spec.nix")
   ];
@@ -43,9 +44,17 @@
   nix = {
     settings = {
       # enable flakes globally
-      experimental-features = ["nix-command" "flakes"];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
 
-      trusted-users = ["root" "@admin"];
+      # @admin for macOS, @wheel for NixOS
+      trusted-users = [
+        "root"
+        "@admin"
+        "@wheel"
+      ];
 
       # See https://jackson.dev/post/nix-reasonable-defaults/
       connect-timeout = 5;
