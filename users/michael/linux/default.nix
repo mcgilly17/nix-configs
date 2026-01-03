@@ -1,1 +1,6 @@
-{ pkgs }: { }
+{ ... }:
+{
+  imports = [
+    ./hyprland.nix
+  ];
+}
