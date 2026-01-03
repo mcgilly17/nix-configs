@@ -1,11 +1,12 @@
 # Ganon Disk Configuration
 # Gaming PC with LUKS encryption and Btrfs
+# IMPORTANT: Using /dev/disk/by-id/ to prevent drive order issues across boots
 {
   disko.devices = {
     disk = {
       main = {
         type = "disk";
-        device = "/dev/nvme0n1";
+        device = "/dev/disk/by-id/nvme-WDS500G3X0C-00SJG0_191185800478";
         content = {
           type = "gpt";
           partitions = {
@@ -31,7 +32,10 @@
                   subvolumes = {
                     "/root" = {
                       mountpoint = "/";
-                      mountOptions = [ "compress=zstd" "noatime" ];
+                      mountOptions = [
+                        "compress=zstd"
+                        "noatime"
+                      ];
                     };
                     "/home" = {
                       mountpoint = "/home";
@@ -39,7 +43,10 @@
                     };
                     "/nix" = {
                       mountpoint = "/nix";
-                      mountOptions = [ "compress=zstd" "noatime" ];
+                      mountOptions = [
+                        "compress=zstd"
+                        "noatime"
+                      ];
                     };
                     "/swap" = {
                       mountpoint = "/.swapvol";
