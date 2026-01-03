@@ -40,6 +40,17 @@
     sddm.enable = false;
   };
 
+  # Keyboard remapping (Caps Lock → Escape on tap, Ctrl on hold)
+  services.keyd = {
+    enable = true;
+    keyboards.default = {
+      ids = [ "*" ];
+      settings.main = {
+        capslock = "overload(control, esc)";
+      };
+    };
+  };
+
   # NixOS-specific settings
   services.openssh = {
     enable = true;
