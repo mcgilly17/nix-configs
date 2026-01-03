@@ -11,20 +11,19 @@
   ];
 
   # Using catppuccin nix - global application of the catppuccin theme is enabled
-  # TODO: Re-enable after first boot - disabled for nixos-anywhere (signature issues)
-  # catppuccin = {
-  #   enable = true;
-  #   flavor = "mocha";
-  #   accent = "sapphire";
-  #   k9s = {
-  #     enable = true;
-  #     flavor = "macchiato";
-  #   };
-  #   btop = {
-  #     enable = true;
-  #     flavor = "frappe";
-  #   };
-  # };
+  catppuccin = {
+    enable = true;
+    flavor = "mocha";
+    accent = "sapphire";
+    k9s = {
+      enable = true;
+      flavor = "macchiato";
+    };
+    btop = {
+      enable = true;
+      flavor = "frappe";
+    };
+  };
 
   home.packages = with pkgs; [
     # Just install these with no config

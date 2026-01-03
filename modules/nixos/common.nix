@@ -33,7 +33,7 @@
     enable = true;
     settings = {
       PermitRootLogin = "yes"; # For nixos-anywhere
-      PasswordAuthentication = true; # TODO: disable after setting up SSH keys
+      PasswordAuthentication = false;
     };
   };
 

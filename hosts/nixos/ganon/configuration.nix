@@ -37,14 +37,13 @@
   # Boot configuration
   boot = {
     # GRUB bootloader with EFI for dual-boot with Windows
-    # TODO: Re-enable catppuccin theme after first boot
     loader = {
       grub = {
         enable = true;
         useOSProber = true;
         efiSupport = true;
         device = "nodev";
-        # theme = "${pkgs.catppuccin-grub}/share/grub/themes/catppuccin-mocha-grub-theme";
+        theme = "${pkgs.catppuccin-grub}/share/grub/themes/catppuccin-mocha-grub-theme";
       };
       efi.canTouchEfiVariables = true;
     };

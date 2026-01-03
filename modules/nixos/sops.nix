@@ -58,6 +58,14 @@
         chmod 600 /home/michael/.ssh/id_ed25519
         echo "SSH key installed to ~/.ssh/id_ed25519"
 
+        # Generate public key and add to authorized_keys for SSH access
+        ${pkgs.openssh}/bin/ssh-keygen -y -f /home/michael/.ssh/id_ed25519 > /home/michael/.ssh/id_ed25519.pub
+        cp /home/michael/.ssh/id_ed25519.pub /home/michael/.ssh/authorized_keys
+        chown michael:michael /home/michael/.ssh/id_ed25519.pub /home/michael/.ssh/authorized_keys
+        chmod 644 /home/michael/.ssh/id_ed25519.pub
+        chmod 600 /home/michael/.ssh/authorized_keys
+        echo "Public key added to authorized_keys"
+
         # Derive age key from SSH key for Home Manager sops
         mkdir -p /home/michael/.config/sops/age
         chown michael:michael /home/michael/.config/sops
