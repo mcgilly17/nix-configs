@@ -44,6 +44,7 @@
         efiSupport = true;
         device = "nodev";
         theme = pkgs.catppuccin-grub;
+        gfxmodeEfi = "2560x1440";
       };
       efi.canTouchEfiVariables = true;
     };
