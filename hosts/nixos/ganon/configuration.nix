@@ -49,6 +49,23 @@
       efi.canTouchEfiVariables = true;
     };
 
+    # Plymouth boot splash (pretty LUKS password prompt)
+    plymouth = {
+      enable = true;
+      theme = "catppuccin-mocha";
+      themePackages = [ pkgs.catppuccin-plymouth ];
+    };
+
+    # Silent boot (hide text, show plymouth)
+    consoleLogLevel = 3;
+    initrd.verbose = false;
+    kernelParams = [
+      "quiet"
+      "splash"
+      "boot.shell_on_fail"
+      "udev.log_priority=3"
+    ];
+
     # Gaming-specific kernel settings
     kernel.sysctl = {
       "vm.max_map_count" = 2147483642; # Helps with gaming performance
