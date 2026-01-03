@@ -17,6 +17,7 @@ in
   }
   // lib.optionalAttrs (!isDarwin) {
     isNormalUser = true;
+    shell = pkgs.zsh;
     group = michael.username;
     extraGroups = [
       "wheel"
