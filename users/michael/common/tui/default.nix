@@ -11,21 +11,20 @@
   ];
 
   # Using catppuccin nix - global application of the catppuccin theme is enabled
-  # For every supported application:
-  catppuccin = {
-    enable = true;
-    flavor = "mocha";
-    accent = "sapphire";
-    starship.enable = false; # Disabled temporarily - signature issue with remote builds
-    k9s = {
-      enable = true;
-      flavor = "macchiato";
-    };
-    btop = {
-      enable = true;
-      flavor = "frappe";
-    };
-  };
+  # TODO: Re-enable after first boot - disabled for nixos-anywhere (signature issues)
+  # catppuccin = {
+  #   enable = true;
+  #   flavor = "mocha";
+  #   accent = "sapphire";
+  #   k9s = {
+  #     enable = true;
+  #     flavor = "macchiato";
+  #   };
+  #   btop = {
+  #     enable = true;
+  #     flavor = "frappe";
+  #   };
+  # };
 
   home.packages = with pkgs; [
     # Just install these with no config
