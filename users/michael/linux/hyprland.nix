@@ -12,7 +12,7 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
   wayland.windowManager.hyprland = {
     enable = true;
     settings = {
-      # Monitor configuration (auto-detect)
+      # Monitor configuration (scale 1 for gaming)
       monitor = [ ",preferred,auto,1" ];
 
       # Environment variables
@@ -38,7 +38,13 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
         border_size = 2;
         "col.active_border" = "rgba(89b4faee) rgba(cba6f7ee) 45deg"; # Catppuccin blue/mauve
         "col.inactive_border" = "rgba(313244aa)"; # Catppuccin surface0
-        layout = "dwindle";
+        layout = "master";
+      };
+
+      # Master layout settings
+      master = {
+        new_status = "slave";
+        mfact = 0.5;
       };
 
       # Decoration (rounded corners, blur, shadows)
@@ -71,22 +77,16 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
         ];
       };
 
-      # Layout settings
-      dwindle = {
-        pseudotile = true;
-        preserve_split = true;
-      };
-
       # Startup applications
       exec-once = [
         "waybar"
-        "mako"
-        "swww-daemon"
+        "swaync"
+        "hyprpaper"
       ];
 
       # Keybindings
       "$mod" = "SUPER";
-      "$terminal" = "kitty";
+      "$terminal" = "alacritty";
       "$menu" = "walker";
 
       bind = [
@@ -97,8 +97,6 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
         "$mod, E, exec, nautilus"
         "$mod, V, togglefloating,"
         "$mod, Space, exec, $menu"
-        "$mod, P, pseudo,"
-        "$mod, J, togglesplit,"
 
         # Focus movement
         "$mod, left, movefocus, l"
@@ -193,6 +191,19 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
     prefix = "="
   '';
 
+  # Hyprpaper wallpaper config
+  xdg.configFile."hypr/hyprpaper.conf".text = ''
+    # Preload wallpapers (add your wallpaper paths here)
+    # preload = ~/Pictures/wallpaper.jpg
+
+    # Set wallpaper for all monitors
+    # wallpaper = ,~/Pictures/wallpaper.jpg
+
+    # Disable splash
+    splash = false
+    ipc = on
+  '';
+
   # Waybar status bar
   programs.waybar = {
     enable = true;
@@ -200,62 +211,116 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
       mainBar = {
         layer = "top";
         position = "top";
-        height = 30;
+        height = 34;
+        spacing = 4;
+        margin-top = 6;
+        margin-left = 10;
+        margin-right = 10;
+
         modules-left = [
-          "hyprland/workspaces"
-          "hyprland/window"
+          "custom/notification"
+          "clock"
+          "tray"
         ];
-        modules-center = [ "clock" ];
+        modules-center = [ "hyprland/workspaces" ];
         modules-right = [
-          "pulseaudio"
-          "network"
           "cpu"
           "memory"
-          "tray"
+          "network"
+          "pulseaudio"
         ];
 
         "hyprland/workspaces" = {
           format = "{icon}";
+          format-icons = {
+            "1" = "一";
+            "2" = "二";
+            "3" = "三";
+            "4" = "四";
+            "5" = "五";
+            "6" = "六";
+            "7" = "七";
+            "8" = "八";
+            "9" = "九";
+            "10" = "十";
+          };
+          persistent-workspaces = {
+            "*" = 5;
+          };
           on-click = "activate";
         };
 
         "clock" = {
-          format = "{:%H:%M}";
-          format-alt = "{:%Y-%m-%d %H:%M}";
-          tooltip-format = "<tt>{calendar}</tt>";
+          format = " {:%H:%M}";
+          format-alt = " {:%a %d %b %H:%M}";
+          tooltip-format = "<tt><small>{calendar}</small></tt>";
+          calendar = {
+            mode = "month";
+            weeks-pos = "right";
+            format = {
+              months = "<span color='#cba6f7'><b>{}</b></span>";
+              days = "<span color='#cdd6f4'>{}</span>";
+              weeks = "<span color='#74c7ec'><b>W{}</b></span>";
+              weekdays = "<span color='#f9e2af'><b>{}</b></span>";
+              today = "<span color='#89b4fa'><b><u>{}</u></b></span>";
+            };
+          };
         };
 
         "cpu" = {
           format = " {usage}%";
           interval = 2;
+          tooltip = true;
         };
 
         "memory" = {
           format = " {}%";
           interval = 2;
+          tooltip = true;
+          tooltip-format = "{used:0.1f}GB / {total:0.1f}GB";
         };
 
         "network" = {
-          format-wifi = " {signalStrength}%";
+          format-wifi = "  {signalStrength}%";
           format-ethernet = " {ipaddr}";
-          format-disconnected = "⚠ Disconnected";
+          format-disconnected = "󰤭 ";
+          tooltip-format-wifi = "{essid} ({signalStrength}%)";
+          tooltip-format-ethernet = "{ifname}: {ipaddr}";
+          on-click = "nm-connection-editor";
         };
 
         "pulseaudio" = {
           format = "{icon} {volume}%";
-          format-muted = " Muted";
+          format-muted = "󰝟 ";
           format-icons = {
             default = [
-              ""
-              ""
-              ""
+              "󰕿"
+              "󰖀"
+              "󰕾"
             ];
           };
           on-click = "pavucontrol";
+          tooltip-format = "{desc}";
+        };
+
+        "custom/notification" = {
+          exec = "swaync-client -swb";
+          return-type = "json";
+          format = "{icon}";
+          format-icons = {
+            notification = "󱅫";
+            none = "󰂚";
+            dnd-notification = "󰂛";
+            dnd-none = "󰂛";
+          };
+          on-click = "swaync-client -t -sw";
+          on-click-right = "swaync-client -d -sw";
+          escape = true;
         };
 
         "tray" = {
-          spacing = 10;
+          icon-size = 16;
+          spacing = 8;
         };
       };
     };
@@ -263,55 +328,156 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
       * {
         font-family: "JetBrainsMono Nerd Font";
         font-size: 13px;
+        min-height: 0;
       }
 
       window#waybar {
-        background-color: rgba(30, 30, 46, 0.9);
+        background: transparent;
         color: #cdd6f4;
-        border-bottom: 2px solid rgba(137, 180, 250, 0.5);
+      }
+
+      .modules-left,
+      .modules-center,
+      .modules-right {
+        background-color: rgba(30, 30, 46, 0.85);
+        padding: 2px 10px;
+        border-radius: 12px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
       }
 
       #workspaces button {
         padding: 0 8px;
-        color: #cdd6f4;
+        color: #6c7086;
         background: transparent;
-        border-radius: 5px;
-        margin: 3px;
+        border-radius: 8px;
+        margin: 2px;
+        transition: all 0.3s ease;
       }
 
       #workspaces button.active {
-        background-color: #89b4fa;
-        color: #1e1e2e;
+        color: #89b4fa;
+        background-color: rgba(137, 180, 250, 0.15);
+      }
+
+      #workspaces button.empty {
+        color: #45475a;
       }
 
       #workspaces button:hover {
-        background-color: #45475a;
+        color: #cdd6f4;
+        background-color: rgba(108, 112, 134, 0.2);
       }
 
-      #clock, #cpu, #memory, #network, #pulseaudio, #tray {
+      #clock,
+      #cpu,
+      #memory,
+      #network,
+      #pulseaudio,
+      #custom-notification,
+      #tray {
         padding: 0 10px;
-        margin: 3px 2px;
-        background-color: #313244;
-        border-radius: 5px;
+        margin: 2px 2px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
       }
 
       #clock {
-        background-color: #89b4fa;
-        color: #1e1e2e;
+        color: #89b4fa;
+      }
+
+      #cpu {
+        color: #f38ba8;
+      }
+
+      #memory {
+        color: #fab387;
+      }
+
+      #network {
+        color: #94e2d5;
+      }
+
+      #pulseaudio {
+        color: #cba6f7;
+      }
+
+      #custom-notification {
+        color: #f9e2af;
+      }
+
+      #clock:hover,
+      #cpu:hover,
+      #memory:hover,
+      #network:hover,
+      #pulseaudio:hover,
+      #custom-notification:hover {
+        background-color: rgba(108, 112, 134, 0.2);
+      }
+
+      #tray {
+        color: #cdd6f4;
+      }
+
+      #tray > .passive {
+        -gtk-icon-effect: dim;
+      }
+
+      tooltip {
+        background-color: #1e1e2e;
+        border: 1px solid #89b4fa;
+        border-radius: 8px;
+      }
+
+      tooltip label {
+        color: #cdd6f4;
       }
     '';
   };
 
-  # Mako notification daemon
-  services.mako = {
+  # SwayNC notification center
+  services.swaync = {
     enable = true;
-    defaultTimeout = 5000;
-    backgroundColor = "#1e1e2edd";
-    textColor = "#cdd6f4";
-    borderColor = "#89b4fa";
-    borderRadius = 10;
-    borderSize = 2;
-    font = "JetBrainsMono Nerd Font 11";
+    settings = {
+      positionX = "right";
+      positionY = "top";
+      control-center-width = 380;
+      control-center-height = 600;
+      control-center-margin-top = 10;
+      control-center-margin-right = 10;
+      notification-window-width = 400;
+      notification-icon-size = 48;
+      notification-body-image-height = 160;
+      notification-body-image-width = 200;
+      timeout = 4;
+      timeout-low = 2;
+      timeout-critical = 6;
+      fit-to-screen = true;
+      keyboard-shortcuts = true;
+      image-visibility = "when-available";
+      transition-time = 200;
+      hide-on-clear = false;
+      hide-on-action = true;
+      widgets = [
+        "title"
+        "dnd"
+        "notifications"
+        "mpris"
+      ];
+      widget-config = {
+        title = {
+          text = "Notifications";
+          clear-all-button = true;
+        };
+        dnd = {
+          text = "Do Not Disturb";
+        };
+        mpris = {
+          image-size = 96;
+          image-radius = 8;
+        };
+      };
+    };
+    # Let catppuccin module handle styling
   };
 
   # Clipboard manager for Walker
@@ -326,13 +492,16 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
     wl-clipboard
     grim
     slurp
-    swww
+    hyprpaper
 
     # File manager
     nautilus
 
     # Audio control
     pavucontrol
+
+    # Network settings
+    networkmanagerapplet
 
     # Fonts
     jetbrains-mono
