@@ -68,7 +68,8 @@
       "boot.shell_on_fail"
       "udev.log_priority=3"
       "rd.systemd.show_status=auto"
-      "video=2560x1440" # Plymouth framebuffer resolution
+      # NVIDIA framebuffer for Plymouth at native resolution
+      "nvidia_drm.fbdev=1"
     ];
 
     # Gaming-specific kernel settings
