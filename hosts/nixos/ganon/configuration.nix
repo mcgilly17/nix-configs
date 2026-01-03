@@ -50,7 +50,14 @@
     };
 
     # Plymouth boot splash (pretty LUKS password prompt)
-    plymouth.enable = true;
+    plymouth = {
+      enable = true;
+      # Use a nice monospace font for password input
+      font = "${pkgs.jetbrains-mono}/share/fonts/truetype/JetBrainsMono-Regular.ttf";
+    };
+
+    # Enable systemd in initrd for graphical LUKS password prompt
+    initrd.systemd.enable = true;
 
     # Silent boot (hide text, show plymouth)
     consoleLogLevel = 3;
@@ -60,6 +67,8 @@
       "splash"
       "boot.shell_on_fail"
       "udev.log_priority=3"
+      "rd.systemd.show_status=auto"
+      "video=2560x1440" # Plymouth framebuffer resolution
     ];
 
     # Gaming-specific kernel settings
