@@ -54,13 +54,6 @@
       "vm.max_map_count" = 2147483642; # Helps with gaming performance
     };
 
-    # Load NVIDIA DRM kernel module early (required for Wayland)
-    initrd.kernelModules = [
-      "nvidia"
-      "nvidia_modeset"
-      "nvidia_uvm"
-      "nvidia_drm"
-    ];
   };
 
   # NVIDIA drivers (hardware requirement)
@@ -68,7 +61,7 @@
     modesetting.enable = true;
     powerManagement.enable = false;
     powerManagement.finegrained = false;
-    open = false; # Use proprietary driver
+    open = true; # Use open kernel modules (recommended for RTX 30 series+)
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
@@ -77,6 +70,7 @@
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
+    extraPackages = with pkgs; [ nvidia-vaapi-driver ];
   };
 
   # Gaming performance optimization (system-level)
@@ -97,6 +91,13 @@
     xwayland.enable = true; # For X11 apps (Steam, etc.)
   };
 
+  # XDG Portal (screen sharing, file pickers, etc.)
+  xdg.portal = {
+    enable = true;
+    wlr.enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  };
+
   # NVIDIA + Wayland environment variables (critical for Hyprland)
   environment.sessionVariables = {
     # Hardware cursors not yet working on NVIDIA
@@ -105,10 +106,12 @@
     GBM_BACKEND = "nvidia-drm";
     # Use NVIDIA driver for Wayland
     __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-    # Enable Wayland for most toolkits
+    # Enable Wayland for Electron apps
     NIXOS_OZONE_WL = "1";
-    # Hyprland logging for debugging
-    HYPRLAND_LOG_WLR = "1";
+    # Qt apps use Wayland
+    QT_QPA_PLATFORM = "wayland";
+    # Firefox uses Wayland
+    MOZ_ENABLE_WAYLAND = "1";
   };
 
   # Essential packages for Hyprland setup
@@ -130,6 +133,12 @@
 
   # Services
   services = {
+    # NVIDIA driver - xserver.enable required to load drivers even for Wayland
+    xserver = {
+      enable = true;
+      videoDrivers = [ "nvidia" ];
+    };
+
     # Login manager
     greetd = {
       enable = true;

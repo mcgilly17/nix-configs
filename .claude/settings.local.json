@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "WebSearch",
-      "WebFetch(domain:unmovedcentre.com)"
+      "WebFetch(domain:unmovedcentre.com)",
+      "WebFetch(domain:wiki.nixos.org)"
     ],
     "deny": [],
     "ask": []
