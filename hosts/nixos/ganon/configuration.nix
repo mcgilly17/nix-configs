@@ -43,18 +43,14 @@
         useOSProber = true;
         efiSupport = true;
         device = "nodev";
-        theme = pkgs.catppuccin-grub;
+        # Theme handled by catppuccin module
         gfxmodeEfi = "2560x1440";
       };
       efi.canTouchEfiVariables = true;
     };
 
     # Plymouth boot splash (pretty LUKS password prompt)
-    plymouth = {
-      enable = true;
-      theme = "catppuccin-mocha";
-      themePackages = [ pkgs.catppuccin-plymouth ];
-    };
+    plymouth.enable = true;
 
     # Silent boot (hide text, show plymouth)
     consoleLogLevel = 3;

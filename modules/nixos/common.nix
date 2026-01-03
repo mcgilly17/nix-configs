@@ -12,6 +12,9 @@
     # Home Manager for NixOS
     inputs.home-manager.nixosModules.home-manager
 
+    # Catppuccin theming (system-level for Plymouth, GRUB, console, etc.)
+    inputs.catppuccin.nixosModules.catppuccin
+
     # Your existing cross-platform core
     (myLibs.relativeToRoot "modules/common/core.nix")
 
@@ -26,6 +29,15 @@
     useGlobalPkgs = true;
     useUserPackages = true;
     extraSpecialArgs = specialArgs;
+  };
+
+  # Catppuccin system theming (applies only to enabled services)
+  catppuccin = {
+    enable = true;
+    flavor = "mocha";
+    accent = "sapphire";
+    # Disable SDDM theming (we use greetd on desktops)
+    sddm.enable = false;
   };
 
   # NixOS-specific settings
