@@ -3,7 +3,11 @@
     "allow": [
       "WebSearch",
       "WebFetch(domain:unmovedcentre.com)",
-      "WebFetch(domain:wiki.nixos.org)"
+      "WebFetch(domain:wiki.nixos.org)",
+      "WebFetch(domain:nixos.wiki)",
+      "WebFetch(domain:wiki.hypr.land)",
+      "WebFetch(domain:gist.github.com)",
+      "WebFetch(domain:discourse.nixos.org)"
     ],
     "deny": [],
     "ask": []
