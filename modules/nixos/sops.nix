@@ -43,27 +43,34 @@
     };
   };
 
-  # Derive user age key from SSH key after secrets are decrypted
+  # Set up user SSH key and derive age key after secrets are decrypted
   system.activationScripts.userAgeKey = {
     # Run after sops-nix has decrypted secrets
     deps = [ "setupSecrets" ];
     text = ''
-      # Create sops age directory for user
-      mkdir -p /home/michael/.config/sops/age
-      chown michael:users /home/michael/.config/sops
-      chown michael:users /home/michael/.config/sops/age
-
-      # Derive age key from SSH key using ssh-to-age
       if [ -f /run/secrets/private_keys/michael ]; then
+        # Copy SSH key to ~/.ssh/ (canonical location)
+        mkdir -p /home/michael/.ssh
+        cp /run/secrets/private_keys/michael /home/michael/.ssh/id_ed25519
+        chown michael:michael /home/michael/.ssh
+        chown michael:michael /home/michael/.ssh/id_ed25519
+        chmod 700 /home/michael/.ssh
+        chmod 600 /home/michael/.ssh/id_ed25519
+        echo "SSH key installed to ~/.ssh/id_ed25519"
+
+        # Derive age key from SSH key for Home Manager sops
+        mkdir -p /home/michael/.config/sops/age
+        chown michael:michael /home/michael/.config/sops
+        chown michael:michael /home/michael/.config/sops/age
         ${pkgs.ssh-to-age}/bin/ssh-to-age -private-key \
-          -i /run/secrets/private_keys/michael \
+          -i /home/michael/.ssh/id_ed25519 \
           -o /home/michael/.config/sops/age/keys.txt
-        chown michael:users /home/michael/.config/sops/age/keys.txt
+        chown michael:michael /home/michael/.config/sops/age/keys.txt
         chmod 600 /home/michael/.config/sops/age/keys.txt
         echo "User age key derived from SSH key"
       else
         echo "Warning: SSH key not found at /run/secrets/private_keys/michael"
-        echo "User age key not derived - Home Manager secrets may fail"
+        echo "SSH key and age key not set up - git and Home Manager secrets may fail"
       fi
     '';
   };
