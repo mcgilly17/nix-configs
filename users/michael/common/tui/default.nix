@@ -16,6 +16,7 @@
     enable = true;
     flavor = "mocha";
     accent = "sapphire";
+    starship.enable = false; # Disabled temporarily - signature issue with remote builds
     k9s = {
       enable = true;
       flavor = "macchiato";
