@@ -2,6 +2,19 @@ bindkey '^p' history-search-backward
 bindkey '^n' history-search-forward
 bindkey '^y' autosuggest-accept
 
+# Linux-specific keybindings (macOS handles these via terminal)
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+  # Alt+Left/Right = word navigation
+  bindkey '^[[1;3D' backward-word  # Alt+Left
+  bindkey '^[[1;3C' forward-word   # Alt+Right
+  # Ctrl+Left/Right = word navigation (fallback)
+  bindkey '^[[1;5D' backward-word  # Ctrl+Left
+  bindkey '^[[1;5C' forward-word   # Ctrl+Right
+  # Home/End
+  bindkey '^[[H' beginning-of-line
+  bindkey '^[[F' end-of-line
+fi
+
 # bindkey '^i' fzf-tab-complete # eh maybe the above it's not that great, ^e is plenty convenient
 # bindkey '\t' fzf-tab-complete # this one overrides zsh-autocomplete's tab
 
