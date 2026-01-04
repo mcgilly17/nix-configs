@@ -12,7 +12,11 @@
     # Linux-specific (Hyprland, Walker, Waybar, etc.)
     ../linux
 
-    # Gaming-specific development tools
+    # Linux desktop apps
+    ../linux/apps # Base desktop (browsers, 1password, etc.)
+    ../linux/apps/gaming # Gaming (Steam, Lutris, etc.)
+
+    # Development tools
     ../common/desktop/development
   ];
 }
