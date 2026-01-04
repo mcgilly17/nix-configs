@@ -33,8 +33,8 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
 
       # General appearance
       general = {
-        gaps_in = 5;
-        gaps_out = 10;
+        gaps_in = 3;
+        gaps_out = 6;
         border_size = 2;
         "col.active_border" = "rgba(89b4faee) rgba(cba6f7ee) 45deg"; # Catppuccin blue/mauve
         "col.inactive_border" = "rgba(313244aa)"; # Catppuccin surface0
@@ -52,12 +52,18 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
         rounding = 10;
         blur = {
           enabled = true;
-          size = 3;
-          passes = 1;
+          size = 8;
+          passes = 2;
+          new_optimizations = true;
+          xray = false;
+          noise = 0.01;
+          contrast = 1.0;
+          brightness = 1.0;
+          popups = true;
         };
         shadow = {
           enabled = true;
-          range = 4;
+          range = 8;
           render_power = 3;
           color = "rgba(1a1a1aee)";
         };
@@ -66,14 +72,22 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
       # Animations
       animations = {
         enabled = true;
-        bezier = "myBezier, 0.05, 0.9, 0.1, 1.05";
+        # Smooth bezier curves
+        bezier = [
+          "overshot, 0.05, 0.9, 0.1, 1.1"
+          "smoothOut, 0.36, 0, 0.66, -0.56"
+          "smoothIn, 0.25, 1, 0.5, 1"
+          "bounce, 1, 1.6, 0.1, 0.85"
+        ];
         animation = [
-          "windows, 1, 7, myBezier"
-          "windowsOut, 1, 7, default, popin 80%"
+          "windows, 1, 5, overshot, slide"
+          "windowsOut, 1, 4, smoothOut, slide"
+          "windowsMove, 1, 4, smoothIn, slide"
           "border, 1, 10, default"
           "borderangle, 1, 8, default"
-          "fade, 1, 7, default"
-          "workspaces, 1, 6, default"
+          "fade, 1, 5, smoothIn"
+          "fadeDim, 1, 5, smoothIn"
+          "workspaces, 1, 6, overshot, slidevert"
         ];
       };
 
@@ -82,6 +96,20 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
         "waybar"
         "swaync"
         "hyprpaper"
+        "hypridle"
+      ];
+
+      # Scratchpad window rules
+      windowrulev2 = [
+        "float, class:^(scratchpad)$"
+        "size 80% 70%, class:^(scratchpad)$"
+        "center, class:^(scratchpad)$"
+        "animation slide, class:^(scratchpad)$"
+      ];
+
+      # Special workspace for scratchpad
+      workspace = [
+        "special:scratchpad, on-created-empty:alacritty --class scratchpad"
       ];
 
       # Keybindings
@@ -146,6 +174,12 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
         # Screenshots
         ", Print, exec, grim -g \"$(slurp)\" - | wl-copy"
         "$mod, Print, exec, grim - | wl-copy"
+
+        # Scratchpad
+        "$mod, grave, togglespecialworkspace, scratchpad"
+
+        # Lock screen
+        "$mod, Escape, exec, hyprlock"
       ];
 
       # Mouse bindings
@@ -204,6 +238,159 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
     ipc = on
   '';
 
+  # Hyprlock lockscreen config
+  programs.hyprlock = {
+    enable = true;
+    settings = {
+      general = {
+        hide_cursor = true;
+        grace = 3;
+        no_fade_in = false;
+      };
+
+      background = [
+        {
+          path = "screenshot";
+          blur_passes = 3;
+          blur_size = 8;
+          noise = 0.01;
+          contrast = 0.9;
+          brightness = 0.6;
+        }
+      ];
+
+      input-field = [
+        {
+          size = "250, 50";
+          position = "0, -80";
+          halign = "center";
+          valign = "center";
+          monitor = "";
+          dots_center = true;
+          fade_on_empty = false;
+          font_color = "rgb(205, 214, 244)";
+          inner_color = "rgb(49, 50, 68)";
+          outer_color = "rgb(137, 180, 250)";
+          outline_thickness = 2;
+          placeholder_text = "<i>Password...</i>";
+          shadow_passes = 2;
+        }
+      ];
+
+      label = [
+        # Time
+        {
+          text = "cmd[update:1000] echo \"$(date +\"%H:%M\")\"";
+          color = "rgb(205, 214, 244)";
+          font_size = 90;
+          font_family = "JetBrainsMono Nerd Font";
+          position = "0, 100";
+          halign = "center";
+          valign = "center";
+        }
+        # Date
+        {
+          text = "cmd[update:1000] echo \"$(date +\"%A, %d %B\")\"";
+          color = "rgb(186, 194, 222)";
+          font_size = 20;
+          font_family = "JetBrainsMono Nerd Font";
+          position = "0, 20";
+          halign = "center";
+          valign = "center";
+        }
+      ];
+    };
+  };
+
+  # Services
+  services = {
+    # Hypridle auto-lock config
+    hypridle = {
+      enable = true;
+      settings = {
+        general = {
+          lock_cmd = "pidof hyprlock || hyprlock";
+          before_sleep_cmd = "loginctl lock-session";
+          after_sleep_cmd = "hyprctl dispatch dpms on";
+        };
+
+        listener = [
+          # Dim screen after 2.5 minutes
+          {
+            timeout = 150;
+            on-timeout = "brightnessctl -s set 10";
+            on-resume = "brightnessctl -r";
+          }
+          # Lock after 5 minutes
+          {
+            timeout = 300;
+            on-timeout = "loginctl lock-session";
+          }
+          # Turn off screen after 5.5 minutes
+          {
+            timeout = 330;
+            on-timeout = "hyprctl dispatch dpms off";
+            on-resume = "hyprctl dispatch dpms on";
+          }
+          # Suspend after 30 minutes
+          {
+            timeout = 1800;
+            on-timeout = "systemctl suspend";
+          }
+        ];
+      };
+    };
+
+    # Clipboard manager for Walker
+    cliphist.enable = true;
+
+    # SwayNC notification center
+    swaync = {
+      enable = true;
+      settings = {
+        positionX = "right";
+        positionY = "top";
+        control-center-width = 380;
+        control-center-height = 600;
+        control-center-margin-top = 10;
+        control-center-margin-right = 10;
+        notification-window-width = 400;
+        notification-icon-size = 48;
+        notification-body-image-height = 160;
+        notification-body-image-width = 200;
+        timeout = 4;
+        timeout-low = 2;
+        timeout-critical = 6;
+        fit-to-screen = true;
+        keyboard-shortcuts = true;
+        image-visibility = "when-available";
+        transition-time = 200;
+        hide-on-clear = false;
+        hide-on-action = true;
+        widgets = [
+          "title"
+          "dnd"
+          "notifications"
+          "mpris"
+        ];
+        widget-config = {
+          title = {
+            text = "Notifications";
+            clear-all-button = true;
+          };
+          dnd = {
+            text = "Do Not Disturb";
+          };
+          mpris = {
+            image-size = 96;
+            image-radius = 8;
+          };
+        };
+      };
+      # Let catppuccin module handle styling
+    };
+  };
+
   # Waybar status bar
   programs.waybar = {
     enable = true;
@@ -231,19 +418,7 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
         ];
 
         "hyprland/workspaces" = {
-          format = "{icon}";
-          format-icons = {
-            "1" = "一";
-            "2" = "二";
-            "3" = "三";
-            "4" = "四";
-            "5" = "五";
-            "6" = "六";
-            "7" = "七";
-            "8" = "八";
-            "9" = "九";
-            "10" = "十";
-          };
+          format = "{name}";
           persistent-workspaces = {
             "*" = 5;
           };
@@ -346,26 +521,34 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
       }
 
       #workspaces button {
-        padding: 0 8px;
-        color: #6c7086;
-        background: transparent;
-        border-radius: 8px;
-        margin: 2px;
+        padding: 0;
+        min-width: 24px;
+        min-height: 24px;
+        color: #1e1e2e;
+        font-weight: bold;
+        border-radius: 50%;
+        margin: 2px 4px;
         transition: all 0.3s ease;
       }
 
-      #workspaces button.active {
-        color: #89b4fa;
-        background-color: rgba(137, 180, 250, 0.15);
-      }
-
       #workspaces button.empty {
-        color: #45475a;
+        background-color: #45475a;
+        color: #313244;
       }
 
       #workspaces button:hover {
-        color: #cdd6f4;
-        background-color: rgba(108, 112, 134, 0.2);
+        opacity: 0.8;
+      }
+
+      /* Catppuccin colored workspace circles */
+      #workspaces button#hyprland-workspace-1 { background-color: #89b4fa; } /* blue */
+      #workspaces button#hyprland-workspace-2 { background-color: #a6e3a1; } /* green */
+      #workspaces button#hyprland-workspace-3 { background-color: #f9e2af; } /* yellow */
+      #workspaces button#hyprland-workspace-4 { background-color: #fab387; } /* peach */
+      #workspaces button#hyprland-workspace-5 { background-color: #f38ba8; } /* red */
+
+      #workspaces button.active {
+        box-shadow: 0 0 0 2px #cdd6f4;
       }
 
       #clock,
@@ -434,55 +617,6 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
     '';
   };
 
-  # SwayNC notification center
-  services.swaync = {
-    enable = true;
-    settings = {
-      positionX = "right";
-      positionY = "top";
-      control-center-width = 380;
-      control-center-height = 600;
-      control-center-margin-top = 10;
-      control-center-margin-right = 10;
-      notification-window-width = 400;
-      notification-icon-size = 48;
-      notification-body-image-height = 160;
-      notification-body-image-width = 200;
-      timeout = 4;
-      timeout-low = 2;
-      timeout-critical = 6;
-      fit-to-screen = true;
-      keyboard-shortcuts = true;
-      image-visibility = "when-available";
-      transition-time = 200;
-      hide-on-clear = false;
-      hide-on-action = true;
-      widgets = [
-        "title"
-        "dnd"
-        "notifications"
-        "mpris"
-      ];
-      widget-config = {
-        title = {
-          text = "Notifications";
-          clear-all-button = true;
-        };
-        dnd = {
-          text = "Do Not Disturb";
-        };
-        mpris = {
-          image-size = 96;
-          image-radius = 8;
-        };
-      };
-    };
-    # Let catppuccin module handle styling
-  };
-
-  # Clipboard manager for Walker
-  services.cliphist.enable = true;
-
   # Additional packages for Hyprland desktop
   home.packages = with pkgs; [
     # Launcher
@@ -493,6 +627,7 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
     grim
     slurp
     hyprpaper
+    brightnessctl
 
     # File manager
     nautilus
