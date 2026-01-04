@@ -30,6 +30,8 @@
     # Search here for config options for each. https://mynixos.com/home-manager/options/programs
 
     # Core Modules
+    unzip # Extraction utility for .zip archives
+    zip # Compression utility for .zip archives
     autoconf # Automatic configure script builder
     ack # Search tool like grep, but optimized for programmers https://beyondgrep.com/
     gawk # GNU awk utility
