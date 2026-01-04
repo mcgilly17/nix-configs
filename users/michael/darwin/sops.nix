@@ -1,24 +1,23 @@
 # User level sops configuration for Darwin
 #
-# Darwin Bootstrap Flow (Pattern B - derive age key from SSH key):
-# 1. Manually place SSH key at ~/.ssh/id_ed25519 (bootstrap secret)
-# 2. Home Manager activation derives age key via ssh-to-age
-# 3. Age key placed at ~/.config/sops/age/keys.txt
-# 4. sops-nix uses age key to decrypt secrets
+# Darwin Bootstrap Flow (Pattern A - age key is bootstrap):
+# 1. Manually place age key at ~/.config/sops/age/keys.txt (bootstrap secret)
+# 2. sops-nix uses age key to decrypt secrets (including SSH key)
+# 3. Activation script copies SSH key to ~/.ssh/id_ed25519
 #
-# This mirrors the NixOS pattern where you bootstrap with an SSH key.
-# On NixOS: host SSH key → host age key → decrypt user SSH key → user age key
-# On Darwin: user SSH key → user age key (simpler, no host-level)
+# This mirrors the NixOS pattern where the host key bootstraps user secrets.
+# On NixOS: host SSH key → host age key → decrypt user SSH key
+# On Darwin: age key (manual) → decrypt user SSH key
 #
 # To bootstrap a new Darwin machine:
-#   1. Copy ~/.ssh/id_ed25519 to the new machine
+#   1. Copy age key to ~/.config/sops/age/keys.txt
+#      (derive from SSH key: ssh-to-age -private-key -i ~/.ssh/id_ed25519)
 #   2. Run darwin-rebuild switch
-#   3. The activation script derives the age key automatically
+#   3. SSH key is automatically extracted from sops and placed at ~/.ssh/
 {
   inputs,
   config,
   lib,
-  pkgs,
   ...
 }:
 let
@@ -31,23 +30,9 @@ in
     inputs.sops-nix.homeManagerModules.sops
   ];
 
-  # Derive age key from SSH key during Home Manager activation
-  home.activation.deriveAgeKey = lib.hm.dag.entryBefore [ "setupSecrets" ] ''
-    if [ -f "${homeDirectory}/.ssh/id_ed25519" ]; then
-      $DRY_RUN_CMD mkdir -p "${homeDirectory}/.config/sops/age"
-      $DRY_RUN_CMD ${pkgs.ssh-to-age}/bin/ssh-to-age -private-key \
-        -i "${homeDirectory}/.ssh/id_ed25519" \
-        -o "${homeDirectory}/.config/sops/age/keys.txt"
-      $DRY_RUN_CMD chmod 600 "${homeDirectory}/.config/sops/age/keys.txt"
-    else
-      echo "Warning: SSH key not found at ${homeDirectory}/.ssh/id_ed25519"
-      echo "Age key cannot be derived. Place your SSH key first."
-    fi
-  '';
-
   sops = {
     age = {
-      # Age key derived from SSH key by activation script above
+      # Age key must be manually placed (bootstrap secret)
       keyFile = "${homeDirectory}/.config/sops/age/keys.txt";
     };
 
@@ -56,6 +41,23 @@ in
 
     secrets = {
       openAIKey = { };
+      # SSH private key - will be copied to ~/.ssh/ by activation script
+      "private_keys/michael" = { };
     };
   };
+
+  # Copy SSH key from sops secret to ~/.ssh/ after secrets are decrypted
+  home.activation.setupSshKey = lib.hm.dag.entryAfter [ "setupSecrets" ] ''
+    SECRET_PATH="${homeDirectory}/.config/sops-nix/secrets/private_keys/michael"
+    if [ -f "$SECRET_PATH" ]; then
+      $DRY_RUN_CMD mkdir -p "${homeDirectory}/.ssh"
+      $DRY_RUN_CMD chmod 700 "${homeDirectory}/.ssh"
+      $DRY_RUN_CMD cp "$SECRET_PATH" "${homeDirectory}/.ssh/id_ed25519"
+      $DRY_RUN_CMD chmod 600 "${homeDirectory}/.ssh/id_ed25519"
+      echo "SSH key installed to ~/.ssh/id_ed25519"
+    else
+      echo "Warning: SSH key secret not found at $SECRET_PATH"
+      echo "Ensure sops secrets are properly configured"
+    fi
+  '';
 }
