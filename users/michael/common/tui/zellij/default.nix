@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+_:
 let
   shellAliases = {
     "zj" = "zellij";
@@ -8,8 +8,9 @@ in
   programs.zellij = {
     enable = true;
     enableZshIntegration = true;
-    # Reuse existing sessions instead of creating new ones (prevents PTY exhaustion)
-    attachExistingSession = true;
+    # Each terminal gets its own session
+    attachExistingSession = false;
+    # Close shell when zellij exits
     exitShellOnExit = true;
   };
 
