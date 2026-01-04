@@ -70,6 +70,8 @@
       "rd.systemd.show_status=auto"
       # NVIDIA framebuffer for Plymouth at native resolution
       "nvidia_drm.fbdev=1"
+      # Preserve VRAM during suspend (required for sleep/wake)
+      "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
     ];
 
     # Gaming-specific kernel settings
@@ -82,7 +84,8 @@
   # NVIDIA drivers (hardware requirement)
   hardware.nvidia = {
     modesetting.enable = true;
-    powerManagement.enable = false;
+    # Enable power management for proper sleep/wake
+    powerManagement.enable = true;
     powerManagement.finegrained = false;
     open = true; # Use open kernel modules (recommended for RTX 30 series+)
     nvidiaSettings = true;
@@ -167,7 +170,7 @@
       enable = true;
       settings = {
         default_session = {
-          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --cmd Hyprland";
+          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --sessions ${config.services.displayManager.sessionData.desktops}/share/wayland-sessions";
           user = "greeter";
         };
       };
