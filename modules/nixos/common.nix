@@ -18,6 +18,8 @@
     # Your existing cross-platform core
     (myLibs.relativeToRoot "modules/common/core.nix")
 
+    # Tailscale VPN with Mullvad integration
+    ./tailscale.nix
   ]
   ++ (map myLibs.relativeToRoot [
     "users/michael" # Your existing user setup
