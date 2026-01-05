@@ -13,8 +13,8 @@
     ../linux
 
     # Linux desktop apps
-    ../linux/apps # Base desktop (browsers, 1password, etc.)
-    ../linux/apps/gaming # Gaming (Steam, Lutris, etc.)
+    ../linux/apps/default.nix # Base desktop (browsers, 1password, etc.)
+    ../linux/apps/gaming.nix # Gaming (Steam, Lutris, etc.)
 
     # Development tools
     ../common/desktop/development
