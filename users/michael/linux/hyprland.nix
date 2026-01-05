@@ -124,7 +124,7 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
       exec-once = [
         "waybar"
         "swaync"
-        "hyprpaper"
+        "swww-daemon"
         "~/.local/bin/wallpaper-rotate 1800" # Rotate every 30 minutes
         "hypridle"
       ];
@@ -260,13 +260,6 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
     [[modules]]
     name = "calc"
     prefix = "="
-  '';
-
-  # Hyprpaper wallpaper config
-  xdg.configFile."hypr/hyprpaper.conf".text = ''
-    # Wallpapers are managed dynamically via wallpaper-rotate script
-    splash = false
-    ipc = on
   '';
 
   # Hyprlock lockscreen config
@@ -657,27 +650,28 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
         WALLPAPER_DIR="$HOME/Pictures/Desktops"
         INTERVAL=''${1:-300}  # Default: 5 minutes
 
-        set_wallpaper() {
-          local img="$1"
-          # Unload previous wallpapers to free memory
-          hyprctl hyprpaper unload all
-          # Preload and set new wallpaper on all monitors
-          hyprctl hyprpaper preload "$img"
-          hyprctl hyprpaper wallpaper ",$img"
+        set_wallpapers() {
+          local img1="$1"
+          local img2="$2"
+          # Set different wallpaper per monitor with fade transition
+          swww img "$img1" -o DP-3 --transition-type fade --transition-duration 1
+          swww img "$img2" -o DP-2 --transition-type fade --transition-duration 1
         }
 
-        # Set initial wallpaper
+        # Set initial wallpapers
         if [[ -d "$WALLPAPER_DIR" ]]; then
           mapfile -t images < <(find "$WALLPAPER_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" \) | shuf)
-          if [[ ''${#images[@]} -gt 0 ]]; then
+          if [[ ''${#images[@]} -ge 2 ]]; then
             idx=0
-            set_wallpaper "''${images[$idx]}"
+            set_wallpapers "''${images[$idx]}" "''${images[$((idx + 1))]}"
 
             # Rotate through wallpapers
             while true; do
               sleep "$INTERVAL"
-              idx=$(( (idx + 1) % ''${#images[@]} ))
-              set_wallpaper "''${images[$idx]}"
+              idx=$(( (idx + 2) % ''${#images[@]} ))
+              # Handle odd number of images
+              next_idx=$(( (idx + 1) % ''${#images[@]} ))
+              set_wallpapers "''${images[$idx]}" "''${images[$next_idx]}"
             done
           fi
         fi
@@ -712,7 +706,7 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
       wl-clipboard
       grim
       slurp
-      hyprpaper
+      swww
       brightnessctl
 
       # File manager
