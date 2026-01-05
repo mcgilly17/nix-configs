@@ -181,7 +181,6 @@
     xserver = {
       enable = true;
       videoDrivers = [ "nvidia" ];
-      displayManager.gdm.nvidiaWayland = true;
     };
 
     # Sunshine for remote desktop (Moonlight client)
