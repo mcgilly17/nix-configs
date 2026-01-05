@@ -22,6 +22,7 @@ in
     extraGroups = [
       "wheel"
       "networkmanager"
+      "input" # For Sunshine virtual input devices
     ];
     initialPassword = "changeme"; # Change with: passwd
   };

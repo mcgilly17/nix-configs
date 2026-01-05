@@ -79,6 +79,8 @@
       "vm.max_map_count" = 2147483642; # Helps with gaming performance
     };
 
+    # Required for Sunshine virtual input devices
+    kernelModules = [ "uinput" ];
   };
 
   # NVIDIA drivers (hardware requirement)
@@ -174,6 +176,11 @@
 
   # Enable sound (PipeWire)
   security.rtkit.enable = true;
+
+  # udev rules for Sunshine virtual input (uinput)
+  services.udev.extraRules = ''
+    KERNEL=="uinput", SUBSYSTEM=="misc", OPTIONS+="static_node=uinput", TAG+="uaccess", GROUP="input", MODE="0660"
+  '';
 
   # Services
   services = {
