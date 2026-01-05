@@ -164,6 +164,18 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
         "$mod, mouse_down, workspace, e+1"
         "$mod, mouse_up, workspace, e-1"
 
+        # Move windows
+        "$mod SHIFT, H, movewindow, l"
+        "$mod SHIFT, L, movewindow, r"
+        "$mod SHIFT, K, movewindow, u"
+        "$mod SHIFT, J, movewindow, d"
+
+        # Resize windows
+        "$mod CTRL, H, resizeactive, -50 0"
+        "$mod CTRL, L, resizeactive, 50 0"
+        "$mod CTRL, K, resizeactive, 0 -50"
+        "$mod CTRL, J, resizeactive, 0 50"
+
         # Fullscreen
         "$mod, F, fullscreen, 0"
 
