@@ -73,7 +73,6 @@
     casks = [
       # Utilities
       "raycast" # Better Spotlight
-      "mullvad-vpn" # VPN software
       "karabiner-elements" # keyboard management
       "superhuman" # email client
       "appcleaner" # app remover
