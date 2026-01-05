@@ -177,10 +177,15 @@
   # Enable sound (PipeWire)
   security.rtkit.enable = true;
 
-  # udev rules for Sunshine virtual input (uinput)
-  services.udev.extraRules = ''
-    KERNEL=="uinput", SUBSYSTEM=="misc", OPTIONS+="static_node=uinput", TAG+="uaccess", GROUP="input", MODE="0660"
-  '';
+  # udev rules
+  services.udev = {
+    # Sunshine virtual input (uinput)
+    extraRules = ''
+      KERNEL=="uinput", SUBSYSTEM=="misc", OPTIONS+="static_node=uinput", TAG+="uaccess", GROUP="input", MODE="0660"
+    '';
+    # liquidctl rules for Aquacomputer devices (OCTO, Farbwerk 360)
+    packages = [ pkgs.liquidctl ];
+  };
 
   # Services
   services = {
