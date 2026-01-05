@@ -100,6 +100,7 @@
 
       ## Messaging and Communication
       "whatsapp" # Desktop Whatsapp client"
+      "moonlight" # Game streaming client (for Sunshine)
 
       "qlcolorcode" # Preview source code files with syntax highlighting https://github.com/anthonygelibert/QLColorCode"
 
