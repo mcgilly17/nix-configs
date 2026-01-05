@@ -5,26 +5,26 @@ in
 {
   programs.starship.settings = {
     # Language Symbols
-    docker_context.symbol = mkDefault " ";
-    python.symbol = mkDefault " ";
+    docker_context.symbol = mkDefault "󰡨 ";
+    python.symbol = mkDefault " ";
     package.symbol = mkDefault "󰏗 ";
     nix_shell.symbol = mkDefault " ";
 
     # Git Symbols
-    git_branch.symbol = mkDefault " ";
-    git_commit.tag_symbol = mkDefault " ";
+    git_branch.symbol = mkDefault " ";
+    git_commit.tag_symbol = mkDefault " ";
     git_status = {
       format = mkDefault "([$all_status$ahead_behind]($style) )";
-      conflicted = mkDefault " ";
-      ahead = mkDefault "⇡ ";
-      behind = mkDefault "⇣ ";
+      conflicted = mkDefault " ";
+      ahead = mkDefault " ";
+      behind = mkDefault " ";
       diverged = mkDefault "󰃻 ";
-      untracked = mkDefault " ";
-      stashed = mkDefault "󰏗 ";
-      modified = mkDefault " ";
-      staged = mkDefault " ";
-      renamed = mkDefault "󰑕 ";
-      deleted = mkDefault " ";
+      untracked = mkDefault " ";
+      stashed = mkDefault " ";
+      modified = mkDefault " ";
+      staged = mkDefault " ";
+      renamed = mkDefault " ";
+      deleted = mkDefault " ";
     };
 
     # System Symbols
@@ -36,7 +36,7 @@ in
       empty_symbol = mkDefault "󱉞 ";
     };
 
-    # hyperscaler symbols
+    # Hyperscaler symbols
     aws.symbol = mkDefault "󰸏 ";
     gcloud.symbol = mkDefault "󱇶 ";
   };
