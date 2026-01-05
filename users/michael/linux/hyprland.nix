@@ -12,8 +12,30 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
   wayland.windowManager.hyprland = {
     enable = true;
     settings = {
-      # Monitor configuration (scale 1 for gaming)
-      monitor = [ ",preferred,auto,1" ];
+      # Monitor configuration (dual 1440p@144hz)
+      # DP-3 = primary (right), DP-2 = secondary (left)
+      monitor = [
+        "DP-3,preferred,0x0,1" # Primary at origin
+        "DP-2,preferred,-2560x0,1" # Secondary to the left
+      ];
+
+      # Workspace to monitor bindings
+      workspace = [
+        # Primary monitor (DP-3): workspaces 1-5
+        "1, monitor:DP-3, default:true"
+        "2, monitor:DP-3"
+        "3, monitor:DP-3"
+        "4, monitor:DP-3"
+        "5, monitor:DP-3"
+        # Secondary monitor (DP-2): workspaces 6-10
+        "6, monitor:DP-2, default:true"
+        "7, monitor:DP-2"
+        "8, monitor:DP-2"
+        "9, monitor:DP-2"
+        "10, monitor:DP-2"
+        # Scratchpad
+        "special:scratchpad, on-created-empty:alacritty --class scratchpad"
+      ];
 
       # Environment variables
       env = [
@@ -105,11 +127,6 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
         "size 80% 70%, class:^(scratchpad)$"
         "center, class:^(scratchpad)$"
         "animation slide, class:^(scratchpad)$"
-      ];
-
-      # Special workspace for scratchpad
-      workspace = [
-        "special:scratchpad, on-created-empty:alacritty --class scratchpad"
       ];
 
       # Keybindings
