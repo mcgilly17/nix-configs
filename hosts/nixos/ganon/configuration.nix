@@ -87,10 +87,31 @@
     # Enable power management for proper sleep/wake
     powerManagement.enable = true;
     powerManagement.finegrained = false;
+    # Try proprietary modules if open has sleep issues (uncomment to switch)
     open = true; # Use open kernel modules (recommended for RTX 30 series+)
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
+
+  # NVIDIA suspend/resume services (critical for sleep/wake)
+  # These save/restore GPU state during sleep
+  systemd.services = {
+    nvidia-suspend = {
+      enable = true;
+      wantedBy = [ "suspend.target" ];
+    };
+    nvidia-resume = {
+      enable = true;
+      wantedBy = [ "suspend.target" ];
+    };
+    nvidia-hibernate = {
+      enable = true;
+      wantedBy = [ "hibernate.target" ];
+    };
+  };
+
+  # Keep NVIDIA driver loaded
+  services.xserver.displayManager.gdm.nvidiaWayland = true;
 
   # Enable OpenGL (required for NVIDIA)
   hardware.graphics = {
