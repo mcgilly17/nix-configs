@@ -1,16 +1,12 @@
 # Base Linux desktop applications
 { pkgs, ... }:
 {
-  imports = [
-    ./cli.nix # CLI tools (1password, etc.)
-  ];
-
   home.packages = with pkgs; [
     # Browsers
     google-chrome
     firefox
 
-    # Password manager GUI (CLI is in cli.nix)
+    # Password manager GUI (CLI via shell-plugins in common/tui)
     _1password-gui
 
     # Communication

@@ -5,8 +5,5 @@ _: {
     ../common/core
     ../common/tui
     ../common/shells
-
-    # Linux CLI tools (1password, etc.)
-    ../linux/apps/cli.nix
   ];
 }

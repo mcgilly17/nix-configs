@@ -1,12 +1,5 @@
+{ pkgs, ... }:
 {
-  specialArgs,
-  pkgs,
-  ...
-}: {
-  imports = [
-    ./_1passwordcli.nix
-  ];
-
   home.packages = with pkgs; [
     # Just install these with no config
     ## Entertainment
