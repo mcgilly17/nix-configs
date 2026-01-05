@@ -110,9 +110,6 @@
     };
   };
 
-  # Keep NVIDIA driver loaded
-  services.xserver.displayManager.gdm.nvidiaWayland = true;
-
   # Enable OpenGL (required for NVIDIA)
   hardware.graphics = {
     enable = true;
@@ -184,6 +181,15 @@
     xserver = {
       enable = true;
       videoDrivers = [ "nvidia" ];
+      displayManager.gdm.nvidiaWayland = true;
+    };
+
+    # Sunshine for remote desktop (Moonlight client)
+    sunshine = {
+      enable = true;
+      autoStart = true;
+      capSysAdmin = true; # Required for Wayland capture
+      openFirewall = true;
     };
 
     # Login manager
