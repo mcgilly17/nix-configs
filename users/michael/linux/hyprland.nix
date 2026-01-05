@@ -11,6 +11,13 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
   # Hyprland window manager config
   wayland.windowManager.hyprland = {
     enable = true;
+
+    # Source local config for hot-reloading without rebuilds
+    # Edit ~/.config/hypr/local.conf and run: hyprctl reload
+    extraConfig = ''
+      source = ~/.config/hypr/local.conf
+    '';
+
     settings = {
       # Monitor configuration (dual 1440p@144hz)
       # DP-3 = primary (right), DP-2 = secondary (left)
@@ -645,6 +652,25 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
       }
     '';
   };
+
+  # Create local.conf if it doesn't exist (preserves user changes)
+  home.activation.createHyprlandLocalConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+        if [ ! -f ~/.config/hypr/local.conf ]; then
+          mkdir -p ~/.config/hypr
+          cat > ~/.config/hypr/local.conf << 'EOF'
+    # Local Hyprland config - edit this file and run: hyprctl reload
+    # This file is NOT managed by Nix, so changes persist across rebuilds.
+    #
+    # Example overrides:
+    # general {
+    #   gaps_in = 5
+    #   gaps_out = 10
+    # }
+    #
+    # bind = $mod, B, exec, firefox
+    EOF
+        fi
+  '';
 
   # Additional packages for Hyprland desktop
   home.packages = with pkgs; [
