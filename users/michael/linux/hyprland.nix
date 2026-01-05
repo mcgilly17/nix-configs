@@ -125,6 +125,7 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
         "waybar"
         "swaync"
         "hyprpaper"
+        "~/.local/bin/wallpaper-rotate 1800" # Rotate every 30 minutes
         "hypridle"
       ];
 
@@ -263,13 +264,7 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
 
   # Hyprpaper wallpaper config
   xdg.configFile."hypr/hyprpaper.conf".text = ''
-    # Preload wallpapers (add your wallpaper paths here)
-    # preload = ~/Pictures/wallpaper.jpg
-
-    # Set wallpaper for all monitors
-    # wallpaper = ,~/Pictures/wallpaper.jpg
-
-    # Disable splash
+    # Wallpapers are managed dynamically via wallpaper-rotate script
     splash = false
     ipc = on
   '';
@@ -653,48 +648,85 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
     '';
   };
 
-  # Create local.conf if it doesn't exist (preserves user changes)
-  home.activation.createHyprlandLocalConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-        if [ ! -f ~/.config/hypr/local.conf ]; then
-          mkdir -p ~/.config/hypr
-          cat > ~/.config/hypr/local.conf << 'EOF'
-    # Local Hyprland config - edit this file and run: hyprctl reload
-    # This file is NOT managed by Nix, so changes persist across rebuilds.
-    #
-    # Example overrides:
-    # general {
-    #   gaps_in = 5
-    #   gaps_out = 10
-    # }
-    #
-    # bind = $mod, B, exec, firefox
-    EOF
+  home = {
+    # Wallpaper rotation script
+    file.".local/bin/wallpaper-rotate" = {
+      executable = true;
+      text = ''
+        #!/usr/bin/env bash
+        WALLPAPER_DIR="$HOME/Pictures/Desktops"
+        INTERVAL=''${1:-300}  # Default: 5 minutes
+
+        set_wallpaper() {
+          local img="$1"
+          # Unload previous wallpapers to free memory
+          hyprctl hyprpaper unload all
+          # Preload and set new wallpaper on all monitors
+          hyprctl hyprpaper preload "$img"
+          hyprctl hyprpaper wallpaper ",$img"
+        }
+
+        # Set initial wallpaper
+        if [[ -d "$WALLPAPER_DIR" ]]; then
+          mapfile -t images < <(find "$WALLPAPER_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" \) | shuf)
+          if [[ ''${#images[@]} -gt 0 ]]; then
+            idx=0
+            set_wallpaper "''${images[$idx]}"
+
+            # Rotate through wallpapers
+            while true; do
+              sleep "$INTERVAL"
+              idx=$(( (idx + 1) % ''${#images[@]} ))
+              set_wallpaper "''${images[$idx]}"
+            done
+          fi
         fi
-  '';
+      '';
+    };
 
-  # Additional packages for Hyprland desktop
-  home.packages = with pkgs; [
-    # Launcher
-    walker
+    # Create local.conf if it doesn't exist (preserves user changes)
+    activation.createHyprlandLocalConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      if [ ! -f ~/.config/hypr/local.conf ]; then
+        mkdir -p ~/.config/hypr
+        cat > ~/.config/hypr/local.conf << 'EOF'
+      # Local Hyprland config - edit this file and run: hyprctl reload
+      # This file is NOT managed by Nix, so changes persist across rebuilds.
+      #
+      # Example overrides:
+      # general {
+      #   gaps_in = 5
+      #   gaps_out = 10
+      # }
+      #
+      # bind = $mod, B, exec, firefox
+      EOF
+      fi
+    '';
 
-    # Wayland utilities
-    wl-clipboard
-    grim
-    slurp
-    hyprpaper
-    brightnessctl
+    # Additional packages for Hyprland desktop
+    packages = with pkgs; [
+      # Launcher
+      walker
 
-    # File manager
-    nautilus
+      # Wayland utilities
+      wl-clipboard
+      grim
+      slurp
+      hyprpaper
+      brightnessctl
 
-    # Audio control
-    pavucontrol
+      # File manager
+      nautilus
 
-    # Network settings
-    networkmanagerapplet
+      # Audio control
+      pavucontrol
 
-    # Fonts
-    jetbrains-mono
-    nerd-fonts.jetbrains-mono
-  ];
+      # Network settings
+      networkmanagerapplet
+
+      # Fonts
+      jetbrains-mono
+      nerd-fonts.jetbrains-mono
+    ];
+  };
 }
