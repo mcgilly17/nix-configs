@@ -26,20 +26,20 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
         "DP-2,preferred,-2560x0,1" # Secondary to the left
       ];
 
-      # Workspace to monitor bindings
+      # Workspace to monitor bindings (persistent keeps them locked to monitor)
       workspace = [
         # Primary monitor (DP-3): workspaces 1-5
-        "1, monitor:DP-3, default:true"
-        "2, monitor:DP-3"
-        "3, monitor:DP-3"
-        "4, monitor:DP-3"
-        "5, monitor:DP-3"
+        "1, monitor:DP-3, default:true, persistent:true"
+        "2, monitor:DP-3, persistent:true"
+        "3, monitor:DP-3, persistent:true"
+        "4, monitor:DP-3, persistent:true"
+        "5, monitor:DP-3, persistent:true"
         # Secondary monitor (DP-2): workspaces 6-10
-        "6, monitor:DP-2, default:true"
-        "7, monitor:DP-2"
-        "8, monitor:DP-2"
-        "9, monitor:DP-2"
-        "10, monitor:DP-2"
+        "6, monitor:DP-2, default:true, persistent:true"
+        "7, monitor:DP-2, persistent:true"
+        "8, monitor:DP-2, persistent:true"
+        "9, monitor:DP-2, persistent:true"
+        "10, monitor:DP-2, persistent:true"
         # Scratchpad
         "special:scratchpad, on-created-empty:alacritty --class scratchpad"
       ];
