@@ -26,20 +26,19 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
         "DP-2,preferred,-2560x0,1" # Secondary to the left
       ];
 
-      # Workspace to monitor bindings (persistent keeps them locked to monitor)
+      # Grouped workspaces: odd on DP-3, even on DP-2
+      # Group 1 = WS 1+2, Group 2 = WS 3+4, etc.
       workspace = [
-        # Primary monitor (DP-3): workspaces 1-5
-        "1, monitor:DP-3, default:true, persistent:true"
-        "2, monitor:DP-3, persistent:true"
-        "3, monitor:DP-3, persistent:true"
-        "4, monitor:DP-3, persistent:true"
-        "5, monitor:DP-3, persistent:true"
-        # Secondary monitor (DP-2): workspaces 6-10
-        "6, monitor:DP-2, default:true, persistent:true"
-        "7, monitor:DP-2, persistent:true"
-        "8, monitor:DP-2, persistent:true"
-        "9, monitor:DP-2, persistent:true"
-        "10, monitor:DP-2, persistent:true"
+        "1, monitor:DP-3, default:true"
+        "2, monitor:DP-2, default:true"
+        "3, monitor:DP-3"
+        "4, monitor:DP-2"
+        "5, monitor:DP-3"
+        "6, monitor:DP-2"
+        "7, monitor:DP-3"
+        "8, monitor:DP-2"
+        "9, monitor:DP-3"
+        "10, monitor:DP-2"
         # Scratchpad
         "special:scratchpad, on-created-empty:alacritty --class scratchpad"
       ];
@@ -161,33 +160,19 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
         "$mod, K, movefocus, u"
         "$mod, J, movefocus, d"
 
-        # Workspaces
-        "$mod, 1, workspace, 1"
-        "$mod, 2, workspace, 2"
-        "$mod, 3, workspace, 3"
-        "$mod, 4, workspace, 4"
-        "$mod, 5, workspace, 5"
-        "$mod, 6, workspace, 6"
-        "$mod, 7, workspace, 7"
-        "$mod, 8, workspace, 8"
-        "$mod, 9, workspace, 9"
-        "$mod, 0, workspace, 10"
+        # Switch to group (both monitors change together)
+        "$mod, 1, exec, hyprctl dispatch workspace 1 && hyprctl dispatch workspace 2"
+        "$mod, 2, exec, hyprctl dispatch workspace 3 && hyprctl dispatch workspace 4"
+        "$mod, 3, exec, hyprctl dispatch workspace 5 && hyprctl dispatch workspace 6"
+        "$mod, 4, exec, hyprctl dispatch workspace 7 && hyprctl dispatch workspace 8"
+        "$mod, 5, exec, hyprctl dispatch workspace 9 && hyprctl dispatch workspace 10"
 
-        # Move to workspace
+        # Move window to group (lands on primary monitor DP-3)
         "$mod SHIFT, 1, movetoworkspace, 1"
-        "$mod SHIFT, 2, movetoworkspace, 2"
-        "$mod SHIFT, 3, movetoworkspace, 3"
-        "$mod SHIFT, 4, movetoworkspace, 4"
-        "$mod SHIFT, 5, movetoworkspace, 5"
-        "$mod SHIFT, 6, movetoworkspace, 6"
-        "$mod SHIFT, 7, movetoworkspace, 7"
-        "$mod SHIFT, 8, movetoworkspace, 8"
-        "$mod SHIFT, 9, movetoworkspace, 9"
-        "$mod SHIFT, 0, movetoworkspace, 10"
-
-        # Scroll through workspaces
-        "$mod, mouse_down, workspace, e+1"
-        "$mod, mouse_up, workspace, e-1"
+        "$mod SHIFT, 2, movetoworkspace, 3"
+        "$mod SHIFT, 3, movetoworkspace, 5"
+        "$mod SHIFT, 4, movetoworkspace, 7"
+        "$mod SHIFT, 5, movetoworkspace, 9"
 
         # Move windows
         "$mod SHIFT, H, movewindow, l"
@@ -442,9 +427,35 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
         ];
 
         "hyprland/workspaces" = {
-          format = "{name}";
+          format = "{icon}";
+          format-icons = {
+            "1" = "1";
+            "2" = "1";
+            "3" = "2";
+            "4" = "2";
+            "5" = "3";
+            "6" = "3";
+            "7" = "4";
+            "8" = "4";
+            "9" = "5";
+            "10" = "5";
+          };
+          all-outputs = false;
           persistent-workspaces = {
-            "*" = 5;
+            "DP-3" = [
+              1
+              3
+              5
+              7
+              9
+            ];
+            "DP-2" = [
+              2
+              4
+              6
+              8
+              10
+            ];
           };
           on-click = "activate";
         };
@@ -564,12 +575,17 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
         opacity: 0.8;
       }
 
-      /* Catppuccin colored workspace circles */
-      #workspaces button#hyprland-workspace-1 { background-color: #89b4fa; } /* blue */
-      #workspaces button#hyprland-workspace-2 { background-color: #a6e3a1; } /* green */
-      #workspaces button#hyprland-workspace-3 { background-color: #f9e2af; } /* yellow */
-      #workspaces button#hyprland-workspace-4 { background-color: #fab387; } /* peach */
-      #workspaces button#hyprland-workspace-5 { background-color: #f38ba8; } /* red */
+      /* Catppuccin colored workspace circles - paired by group */
+      #workspaces button#hyprland-workspace-1,
+      #workspaces button#hyprland-workspace-2 { background-color: #89b4fa; } /* blue - group 1 */
+      #workspaces button#hyprland-workspace-3,
+      #workspaces button#hyprland-workspace-4 { background-color: #a6e3a1; } /* green - group 2 */
+      #workspaces button#hyprland-workspace-5,
+      #workspaces button#hyprland-workspace-6 { background-color: #f9e2af; } /* yellow - group 3 */
+      #workspaces button#hyprland-workspace-7,
+      #workspaces button#hyprland-workspace-8 { background-color: #fab387; } /* peach - group 4 */
+      #workspaces button#hyprland-workspace-9,
+      #workspaces button#hyprland-workspace-10 { background-color: #f38ba8; } /* red - group 5 */
 
       #workspaces button.active {
         box-shadow: 0 0 0 2px #cdd6f4;
