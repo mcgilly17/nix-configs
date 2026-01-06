@@ -212,102 +212,399 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
     };
   };
 
-  # Walker launcher config (Raycast-like)
-  xdg.configFile."walker/config.toml".text = ''
-    [search]
-    placeholder = "Search..."
+  # Programs configuration
+  programs = {
+    # Walker v2 launcher (Raycast-like)
+    walker = {
+      enable = true;
+      runAsService = true; # Run as systemd service
+      config = {
+        close_when_open = true;
+        single_click_activation = true;
+        theme = "default";
 
-    [ui]
-    fullscreen = false
+        shell = {
+          anchor_top = true;
+          anchor_bottom = false;
+          anchor_left = true;
+          anchor_right = true;
+        };
 
-    [ui.anchors]
-    top = true
+        placeholders.default = {
+          input = "Search...";
+          list = "No Results";
+        };
 
-    [list]
-    height = 300
+        providers = {
+          default = [
+            "desktopapplications"
+            "calc"
+          ];
+          empty = [ "desktopapplications" ];
+          max_results = 50;
 
-    [[modules]]
-    name = "applications"
-    prefix = ""
+          prefixes = [
+            # { prefix = ">"; provider = "runner"; }
+            {
+              prefix = "=";
+              provider = "calc";
+            }
+            {
+              prefix = "@";
+              provider = "websearch";
+            }
+            {
+              prefix = ":";
+              provider = "clipboard";
+            }
+            {
+              prefix = "/";
+              provider = "files";
+            }
+            {
+              prefix = ";";
+              provider = "providerlist";
+            }
+            {
+              prefix = "p";
+              provider = "1password";
+            }
+          ];
+        };
 
-    [[modules]]
-    name = "runner"
-    prefix = "!"
-
-    [[modules]]
-    name = "websearch"
-    prefix = "?"
-
-    [[modules]]
-    name = "clipboard"
-    prefix = "@"
-
-    [[modules]]
-    name = "calc"
-    prefix = "="
-  '';
-
-  # Hyprlock lockscreen config
-  programs.hyprlock = {
-    enable = true;
-    settings = {
-      general = {
-        hide_cursor = true;
-        grace = 3;
-        no_fade_in = false;
+        keybinds = {
+          close = [ "Escape" ];
+          next = [ "Down" ];
+          previous = [ "Up" ];
+          quick_activate = [
+            "F1"
+            "F2"
+            "F3"
+            "F4"
+          ];
+        };
       };
+    };
 
-      background = [
-        {
-          path = "screenshot";
-          blur_passes = 3;
-          blur_size = 8;
-          noise = 0.01;
-          contrast = 0.9;
-          brightness = 0.6;
-        }
-      ];
+    # Hyprlock lockscreen config
+    hyprlock = {
+      enable = true;
+      settings = {
+        general = {
+          hide_cursor = true;
+          grace = 3;
+          no_fade_in = false;
+        };
 
-      input-field = [
-        {
-          size = "250, 50";
-          position = "0, -80";
-          halign = "center";
-          valign = "center";
-          monitor = "";
-          dots_center = true;
-          fade_on_empty = false;
-          font_color = "rgb(205, 214, 244)";
-          inner_color = "rgb(49, 50, 68)";
-          outer_color = "rgb(137, 180, 250)";
-          outline_thickness = 2;
-          placeholder_text = "<i>Password...</i>";
-          shadow_passes = 2;
-        }
-      ];
+        background = [
+          {
+            path = "screenshot";
+            blur_passes = 3;
+            blur_size = 8;
+            noise = 0.01;
+            contrast = 0.9;
+            brightness = 0.6;
+          }
+        ];
 
-      label = [
-        # Time
-        {
-          text = "cmd[update:1000] echo \"$(date +\"%H:%M\")\"";
-          color = "rgb(205, 214, 244)";
-          font_size = 90;
-          font_family = "JetBrainsMono Nerd Font";
-          position = "0, 100";
-          halign = "center";
-          valign = "center";
+        input-field = [
+          {
+            size = "250, 50";
+            position = "0, -80";
+            halign = "center";
+            valign = "center";
+            monitor = "";
+            dots_center = true;
+            fade_on_empty = false;
+            font_color = "rgb(205, 214, 244)";
+            inner_color = "rgb(49, 50, 68)";
+            outer_color = "rgb(137, 180, 250)";
+            outline_thickness = 2;
+            placeholder_text = "<i>Password...</i>";
+            shadow_passes = 2;
+          }
+        ];
+
+        label = [
+          # Time
+          {
+            text = "cmd[update:1000] echo \"$(date +\"%H:%M\")\"";
+            color = "rgb(205, 214, 244)";
+            font_size = 90;
+            font_family = "JetBrainsMono Nerd Font";
+            position = "0, 100";
+            halign = "center";
+            valign = "center";
+          }
+          # Date
+          {
+            text = "cmd[update:1000] echo \"$(date +\"%A, %d %B\")\"";
+            color = "rgb(186, 194, 222)";
+            font_size = 20;
+            font_family = "JetBrainsMono Nerd Font";
+            position = "0, 20";
+            halign = "center";
+            valign = "center";
+          }
+        ];
+      };
+    };
+
+    # Waybar status bar
+    waybar = {
+      enable = true;
+      settings = {
+        mainBar = {
+          layer = "top";
+          position = "top";
+          height = 34;
+          spacing = 4;
+          margin-top = 6;
+          margin-left = 10;
+          margin-right = 10;
+
+          modules-left = [
+            "custom/notification"
+            "clock"
+            "tray"
+          ];
+          modules-center = [ "hyprland/workspaces" ];
+          modules-right = [
+            "cpu"
+            "memory"
+            "network"
+            "pulseaudio"
+          ];
+
+          "hyprland/workspaces" = {
+            format = "{icon}";
+            format-icons = {
+              "1" = "1";
+              "2" = "1";
+              "3" = "2";
+              "4" = "2";
+              "5" = "3";
+              "6" = "3";
+              "7" = "4";
+              "8" = "4";
+              "9" = "5";
+              "10" = "5";
+            };
+            all-outputs = false;
+            persistent-workspaces = {
+              "DP-3" = [
+                1
+                3
+                5
+                7
+                9
+              ];
+              "DP-2" = [
+                2
+                4
+                6
+                8
+                10
+              ];
+            };
+            on-click = "activate";
+          };
+
+          "clock" = {
+            format = " {:%H:%M}";
+            format-alt = " {:%a %d %b %H:%M}";
+            tooltip-format = "<tt><small>{calendar}</small></tt>";
+            calendar = {
+              mode = "month";
+              weeks-pos = "right";
+              format = {
+                months = "<span color='#cba6f7'><b>{}</b></span>";
+                days = "<span color='#cdd6f4'>{}</span>";
+                weeks = "<span color='#74c7ec'><b>W{}</b></span>";
+                weekdays = "<span color='#f9e2af'><b>{}</b></span>";
+                today = "<span color='#89b4fa'><b><u>{}</u></b></span>";
+              };
+            };
+          };
+
+          "cpu" = {
+            format = " {usage}%";
+            interval = 2;
+            tooltip = true;
+          };
+
+          "memory" = {
+            format = " {}%";
+            interval = 2;
+            tooltip = true;
+            tooltip-format = "{used:0.1f}GB / {total:0.1f}GB";
+          };
+
+          "network" = {
+            format-wifi = "  {signalStrength}%";
+            format-ethernet = " {ipaddr}";
+            format-disconnected = "󰤭 ";
+            tooltip-format-wifi = "{essid} ({signalStrength}%)";
+            tooltip-format-ethernet = "{ifname}: {ipaddr}";
+            on-click = "nm-connection-editor";
+          };
+
+          "pulseaudio" = {
+            format = "{icon} {volume}%";
+            format-muted = "󰝟 ";
+            format-icons = {
+              default = [
+                "󰕿"
+                "󰖀"
+                "󰕾"
+              ];
+            };
+            on-click = "pavucontrol";
+            tooltip-format = "{desc}";
+          };
+
+          "custom/notification" = {
+            exec = "swaync-client -swb";
+            return-type = "json";
+            format = "{icon}";
+            format-icons = {
+              notification = "󱅫";
+              none = "󰂚";
+              dnd-notification = "󰂛";
+              dnd-none = "󰂛";
+            };
+            on-click = "swaync-client -t -sw";
+            on-click-right = "swaync-client -d -sw";
+            escape = true;
+          };
+
+          "tray" = {
+            icon-size = 16;
+            spacing = 8;
+          };
+        };
+      };
+      style = ''
+        * {
+          font-family: "JetBrainsMono Nerd Font";
+          font-size: 13px;
+          min-height: 0;
         }
-        # Date
-        {
-          text = "cmd[update:1000] echo \"$(date +\"%A, %d %B\")\"";
-          color = "rgb(186, 194, 222)";
-          font_size = 20;
-          font_family = "JetBrainsMono Nerd Font";
-          position = "0, 20";
-          halign = "center";
-          valign = "center";
+
+        window#waybar {
+          background: transparent;
+          color: #cdd6f4;
         }
-      ];
+
+        .modules-left,
+        .modules-center,
+        .modules-right {
+          background-color: rgba(30, 30, 46, 0.85);
+          padding: 2px 10px;
+          border-radius: 12px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        #workspaces button {
+          padding: 0;
+          min-width: 24px;
+          min-height: 24px;
+          color: #1e1e2e;
+          font-weight: bold;
+          border-radius: 50%;
+          margin: 2px 4px;
+          transition: all 0.3s ease;
+        }
+
+        #workspaces button.empty {
+          background-color: #45475a;
+          color: #313244;
+        }
+
+        #workspaces button:hover {
+          opacity: 0.8;
+        }
+
+        /* Catppuccin colored workspace circles - paired by group */
+        #workspaces button#hyprland-workspace-1,
+        #workspaces button#hyprland-workspace-2 { background-color: #89b4fa; } /* blue - group 1 */
+        #workspaces button#hyprland-workspace-3,
+        #workspaces button#hyprland-workspace-4 { background-color: #a6e3a1; } /* green - group 2 */
+        #workspaces button#hyprland-workspace-5,
+        #workspaces button#hyprland-workspace-6 { background-color: #f9e2af; } /* yellow - group 3 */
+        #workspaces button#hyprland-workspace-7,
+        #workspaces button#hyprland-workspace-8 { background-color: #fab387; } /* peach - group 4 */
+        #workspaces button#hyprland-workspace-9,
+        #workspaces button#hyprland-workspace-10 { background-color: #f38ba8; } /* red - group 5 */
+
+        #workspaces button.active {
+          box-shadow: 0 0 0 2px #cdd6f4;
+        }
+
+        #clock,
+        #cpu,
+        #memory,
+        #network,
+        #pulseaudio,
+        #custom-notification,
+        #tray {
+          padding: 0 10px;
+          margin: 2px 2px;
+          border-radius: 8px;
+          transition: all 0.3s ease;
+        }
+
+        #clock {
+          color: #89b4fa;
+        }
+
+        #cpu {
+          color: #f38ba8;
+        }
+
+        #memory {
+          color: #fab387;
+        }
+
+        #network {
+          color: #94e2d5;
+        }
+
+        #pulseaudio {
+          color: #cba6f7;
+        }
+
+        #custom-notification {
+          color: #f9e2af;
+        }
+
+        #clock:hover,
+        #cpu:hover,
+        #memory:hover,
+        #network:hover,
+        #pulseaudio:hover,
+        #custom-notification:hover {
+          background-color: rgba(108, 112, 134, 0.2);
+        }
+
+        #tray {
+          color: #cdd6f4;
+        }
+
+        #tray > .passive {
+          -gtk-icon-effect: dim;
+        }
+
+        tooltip {
+          background-color: #1e1e2e;
+          border: 1px solid #89b4fa;
+          border-radius: 8px;
+        }
+
+        tooltip label {
+          color: #cdd6f4;
+        }
+      '';
     };
   };
 
@@ -400,263 +697,6 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
     };
   };
 
-  # Waybar status bar
-  programs.waybar = {
-    enable = true;
-    settings = {
-      mainBar = {
-        layer = "top";
-        position = "top";
-        height = 34;
-        spacing = 4;
-        margin-top = 6;
-        margin-left = 10;
-        margin-right = 10;
-
-        modules-left = [
-          "custom/notification"
-          "clock"
-          "tray"
-        ];
-        modules-center = [ "hyprland/workspaces" ];
-        modules-right = [
-          "cpu"
-          "memory"
-          "network"
-          "pulseaudio"
-        ];
-
-        "hyprland/workspaces" = {
-          format = "{icon}";
-          format-icons = {
-            "1" = "1";
-            "2" = "1";
-            "3" = "2";
-            "4" = "2";
-            "5" = "3";
-            "6" = "3";
-            "7" = "4";
-            "8" = "4";
-            "9" = "5";
-            "10" = "5";
-          };
-          all-outputs = false;
-          persistent-workspaces = {
-            "DP-3" = [
-              1
-              3
-              5
-              7
-              9
-            ];
-            "DP-2" = [
-              2
-              4
-              6
-              8
-              10
-            ];
-          };
-          on-click = "activate";
-        };
-
-        "clock" = {
-          format = " {:%H:%M}";
-          format-alt = " {:%a %d %b %H:%M}";
-          tooltip-format = "<tt><small>{calendar}</small></tt>";
-          calendar = {
-            mode = "month";
-            weeks-pos = "right";
-            format = {
-              months = "<span color='#cba6f7'><b>{}</b></span>";
-              days = "<span color='#cdd6f4'>{}</span>";
-              weeks = "<span color='#74c7ec'><b>W{}</b></span>";
-              weekdays = "<span color='#f9e2af'><b>{}</b></span>";
-              today = "<span color='#89b4fa'><b><u>{}</u></b></span>";
-            };
-          };
-        };
-
-        "cpu" = {
-          format = " {usage}%";
-          interval = 2;
-          tooltip = true;
-        };
-
-        "memory" = {
-          format = " {}%";
-          interval = 2;
-          tooltip = true;
-          tooltip-format = "{used:0.1f}GB / {total:0.1f}GB";
-        };
-
-        "network" = {
-          format-wifi = "  {signalStrength}%";
-          format-ethernet = " {ipaddr}";
-          format-disconnected = "󰤭 ";
-          tooltip-format-wifi = "{essid} ({signalStrength}%)";
-          tooltip-format-ethernet = "{ifname}: {ipaddr}";
-          on-click = "nm-connection-editor";
-        };
-
-        "pulseaudio" = {
-          format = "{icon} {volume}%";
-          format-muted = "󰝟 ";
-          format-icons = {
-            default = [
-              "󰕿"
-              "󰖀"
-              "󰕾"
-            ];
-          };
-          on-click = "pavucontrol";
-          tooltip-format = "{desc}";
-        };
-
-        "custom/notification" = {
-          exec = "swaync-client -swb";
-          return-type = "json";
-          format = "{icon}";
-          format-icons = {
-            notification = "󱅫";
-            none = "󰂚";
-            dnd-notification = "󰂛";
-            dnd-none = "󰂛";
-          };
-          on-click = "swaync-client -t -sw";
-          on-click-right = "swaync-client -d -sw";
-          escape = true;
-        };
-
-        "tray" = {
-          icon-size = 16;
-          spacing = 8;
-        };
-      };
-    };
-    style = ''
-      * {
-        font-family: "JetBrainsMono Nerd Font";
-        font-size: 13px;
-        min-height: 0;
-      }
-
-      window#waybar {
-        background: transparent;
-        color: #cdd6f4;
-      }
-
-      .modules-left,
-      .modules-center,
-      .modules-right {
-        background-color: rgba(30, 30, 46, 0.85);
-        padding: 2px 10px;
-        border-radius: 12px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-      }
-
-      #workspaces button {
-        padding: 0;
-        min-width: 24px;
-        min-height: 24px;
-        color: #1e1e2e;
-        font-weight: bold;
-        border-radius: 50%;
-        margin: 2px 4px;
-        transition: all 0.3s ease;
-      }
-
-      #workspaces button.empty {
-        background-color: #45475a;
-        color: #313244;
-      }
-
-      #workspaces button:hover {
-        opacity: 0.8;
-      }
-
-      /* Catppuccin colored workspace circles - paired by group */
-      #workspaces button#hyprland-workspace-1,
-      #workspaces button#hyprland-workspace-2 { background-color: #89b4fa; } /* blue - group 1 */
-      #workspaces button#hyprland-workspace-3,
-      #workspaces button#hyprland-workspace-4 { background-color: #a6e3a1; } /* green - group 2 */
-      #workspaces button#hyprland-workspace-5,
-      #workspaces button#hyprland-workspace-6 { background-color: #f9e2af; } /* yellow - group 3 */
-      #workspaces button#hyprland-workspace-7,
-      #workspaces button#hyprland-workspace-8 { background-color: #fab387; } /* peach - group 4 */
-      #workspaces button#hyprland-workspace-9,
-      #workspaces button#hyprland-workspace-10 { background-color: #f38ba8; } /* red - group 5 */
-
-      #workspaces button.active {
-        box-shadow: 0 0 0 2px #cdd6f4;
-      }
-
-      #clock,
-      #cpu,
-      #memory,
-      #network,
-      #pulseaudio,
-      #custom-notification,
-      #tray {
-        padding: 0 10px;
-        margin: 2px 2px;
-        border-radius: 8px;
-        transition: all 0.3s ease;
-      }
-
-      #clock {
-        color: #89b4fa;
-      }
-
-      #cpu {
-        color: #f38ba8;
-      }
-
-      #memory {
-        color: #fab387;
-      }
-
-      #network {
-        color: #94e2d5;
-      }
-
-      #pulseaudio {
-        color: #cba6f7;
-      }
-
-      #custom-notification {
-        color: #f9e2af;
-      }
-
-      #clock:hover,
-      #cpu:hover,
-      #memory:hover,
-      #network:hover,
-      #pulseaudio:hover,
-      #custom-notification:hover {
-        background-color: rgba(108, 112, 134, 0.2);
-      }
-
-      #tray {
-        color: #cdd6f4;
-      }
-
-      #tray > .passive {
-        -gtk-icon-effect: dim;
-      }
-
-      tooltip {
-        background-color: #1e1e2e;
-        border: 1px solid #89b4fa;
-        border-radius: 8px;
-      }
-
-      tooltip label {
-        color: #cdd6f4;
-      }
-    '';
-  };
-
   home = {
     # Wallpaper rotation script
     file.".local/bin/wallpaper-rotate" = {
@@ -715,9 +755,6 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
 
     # Additional packages for Hyprland desktop
     packages = with pkgs; [
-      # Launcher
-      walker
-
       # Wayland utilities
       wl-clipboard
       grim

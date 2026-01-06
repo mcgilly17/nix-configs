@@ -45,6 +45,7 @@
         device = "nodev";
         # Theme handled by catppuccin module
         gfxmodeEfi = "2560x1440";
+        gfxpayloadEfi = "keep"; # Pass GRUB resolution to Linux
       };
       efi.canTouchEfiVariables = true;
     };
