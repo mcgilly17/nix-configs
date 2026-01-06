@@ -235,7 +235,7 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
         theme = "default";
 
         shell = {
-          anchor_top = true;
+          anchor_top = false;
           anchor_bottom = false;
           anchor_left = true;
           anchor_right = true;
@@ -483,6 +483,9 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
 
   # Services
   services = {
+    # MPRIS media player daemon (for waybar mpris module)
+    playerctld.enable = true;
+
     # Hypridle auto-lock config
     hypridle = {
       enable = true;
