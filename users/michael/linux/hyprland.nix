@@ -69,6 +69,11 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
         layout = "master";
       };
 
+      # Cursor behavior
+      cursor = {
+        no_warps = true; # Prevent cursor jumping when switching workspaces
+      };
+
       # Master layout settings
       master = {
         new_status = "slave";
@@ -357,139 +362,10 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
     };
 
     # Waybar status bar
+    # Waybar - config managed externally at ~/.config/waybar/config for hot-reload
     waybar = {
       enable = true;
-      settings = {
-        mainBar = {
-          layer = "top";
-          position = "top";
-          height = 34;
-          spacing = 4;
-          margin-top = 6;
-          margin-left = 10;
-          margin-right = 10;
-
-          modules-left = [
-            "custom/notification"
-            "clock"
-            "tray"
-          ];
-          modules-center = [ "hyprland/workspaces" ];
-          modules-right = [
-            "cpu"
-            "memory"
-            "network"
-            "pulseaudio"
-          ];
-
-          "hyprland/workspaces" = {
-            format = "{icon}";
-            format-icons = {
-              "1" = "1";
-              "2" = "1";
-              "3" = "2";
-              "4" = "2";
-              "5" = "3";
-              "6" = "3";
-              "7" = "4";
-              "8" = "4";
-              "9" = "5";
-              "10" = "5";
-            };
-            all-outputs = false;
-            persistent-workspaces = {
-              "DP-3" = [
-                1
-                3
-                5
-                7
-                9
-              ];
-              "DP-2" = [
-                2
-                4
-                6
-                8
-                10
-              ];
-            };
-            on-click = "activate";
-          };
-
-          "clock" = {
-            format = " {:%H:%M}";
-            format-alt = " {:%a %d %b %H:%M}";
-            tooltip-format = "<tt><small>{calendar}</small></tt>";
-            calendar = {
-              mode = "month";
-              weeks-pos = "right";
-              format = {
-                months = "<span color='#cba6f7'><b>{}</b></span>";
-                days = "<span color='#cdd6f4'>{}</span>";
-                weeks = "<span color='#74c7ec'><b>W{}</b></span>";
-                weekdays = "<span color='#f9e2af'><b>{}</b></span>";
-                today = "<span color='#89b4fa'><b><u>{}</u></b></span>";
-              };
-            };
-          };
-
-          "cpu" = {
-            format = " {usage}%";
-            interval = 2;
-            tooltip = true;
-          };
-
-          "memory" = {
-            format = " {}%";
-            interval = 2;
-            tooltip = true;
-            tooltip-format = "{used:0.1f}GB / {total:0.1f}GB";
-          };
-
-          "network" = {
-            format-wifi = "  {signalStrength}%";
-            format-ethernet = " {ipaddr}";
-            format-disconnected = "󰤭 ";
-            tooltip-format-wifi = "{essid} ({signalStrength}%)";
-            tooltip-format-ethernet = "{ifname}: {ipaddr}";
-            on-click = "nm-connection-editor";
-          };
-
-          "pulseaudio" = {
-            format = "{icon} {volume}%";
-            format-muted = "󰝟 ";
-            format-icons = {
-              default = [
-                "󰕿"
-                "󰖀"
-                "󰕾"
-              ];
-            };
-            on-click = "pavucontrol";
-            tooltip-format = "{desc}";
-          };
-
-          "custom/notification" = {
-            exec = "swaync-client -swb";
-            return-type = "json";
-            format = "{icon}";
-            format-icons = {
-              notification = "󱅫";
-              none = "󰂚";
-              dnd-notification = "󰂛";
-              dnd-none = "󰂛";
-            };
-            on-click = "swaync-client -t -sw";
-            on-click-right = "swaync-client -d -sw";
-            escape = true;
-          };
-
-          "tray" = {
-            icon-size = 16;
-            spacing = 8;
-          };
-        };
-      };
+      # Settings managed in ~/.config/waybar/config (not nix) for hot-reload
       style = ''
         * {
           font-family: "JetBrainsMono Nerd Font";
@@ -531,17 +407,8 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
           opacity: 0.8;
         }
 
-        /* Catppuccin colored workspace circles - paired by group */
-        #workspaces button#hyprland-workspace-1,
-        #workspaces button#hyprland-workspace-2 { background-color: #89b4fa; } /* blue - group 1 */
-        #workspaces button#hyprland-workspace-3,
-        #workspaces button#hyprland-workspace-4 { background-color: #a6e3a1; } /* green - group 2 */
-        #workspaces button#hyprland-workspace-5,
-        #workspaces button#hyprland-workspace-6 { background-color: #f9e2af; } /* yellow - group 3 */
-        #workspaces button#hyprland-workspace-7,
-        #workspaces button#hyprland-workspace-8 { background-color: #fab387; } /* peach - group 4 */
-        #workspaces button#hyprland-workspace-9,
-        #workspaces button#hyprland-workspace-10 { background-color: #f38ba8; } /* red - group 5 */
+        /* Workspace colors loaded from local override file for hot-reload */
+        @import "local.css";
 
         #workspaces button.active {
           box-shadow: 0 0 0 2px #cdd6f4;
