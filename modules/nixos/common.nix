@@ -20,10 +20,7 @@
 
     # Tailscale VPN with Mullvad integration
     ./tailscale.nix
-  ]
-  ++ (map myLibs.relativeToRoot [
-    "users/michael" # Your existing user setup
-  ]);
+  ];
 
   # Home Manager configuration (matching your Darwin pattern)
   home-manager = {
@@ -71,20 +68,26 @@
   # Memory optimization with compressed RAM swap
   zramSwap.enable = true;
 
-  # Enhanced system-level zsh (matches your Darwin setup)
-  programs.zsh = {
-    enable = true;
-    enableCompletion = true;
-    autosuggestions.enable = true;
-    syntaxHighlighting.enable = true;
-  };
+  # System programs
+  programs = {
+    # Enhanced system-level zsh (matches your Darwin setup)
+    zsh = {
+      enable = true;
+      enableCompletion = true;
+      autosuggestions.enable = true;
+      syntaxHighlighting.enable = true;
+    };
 
-  # Better Nix tooling with nh (NixOS system-level)
-  programs.nh = {
-    enable = true;
-    clean.enable = true;
-    clean.extraArgs = "--keep-since 20d --keep 20";
-    flake = "/home/michael/Projects/dots";
+    # Better Nix tooling with nh (NixOS system-level)
+    nh = {
+      enable = true;
+      clean.enable = true;
+      clean.extraArgs = "--keep-since 20d --keep 20";
+      flake = "/home/michael/Projects/dots";
+    };
+
+    # 1Password CLI (required for proper permissions and shell plugin integration)
+    _1password.enable = true;
   };
 
   # Your timezone/locale

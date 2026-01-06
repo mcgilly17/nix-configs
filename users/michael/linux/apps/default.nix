@@ -6,8 +6,7 @@
     google-chrome
     firefox
 
-    # Password manager GUI (CLI via shell-plugins in common/tui)
-    _1password-gui
+    # 1Password GUI/CLI enabled via NixOS modules in modules/nixos/common.nix
 
     # Communication
     discord

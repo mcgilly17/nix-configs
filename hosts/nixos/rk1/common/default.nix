@@ -10,14 +10,15 @@
 
 {
   imports = [
-    # Disko for disk management
+    # Hardware & Disk
     inputs.disko.nixosModules.disko
 
-    # Base NixOS configuration
+    # NixOS system modules
     ../../../../modules/nixos/common.nix
-
-    # SOPS for secrets management
     ../../../../modules/nixos/sops.nix
+
+    # User configs (minimal - see users/michael/hosts/rk1-node*.nix)
+    ../../../../users/michael
   ];
 
   # Host specification for all RK1 nodes

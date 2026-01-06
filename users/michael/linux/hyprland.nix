@@ -121,11 +121,13 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
 
       # Startup applications
       exec-once = [
+        "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
         "waybar"
         "swaync"
         "swww-daemon"
         "~/.local/bin/wallpaper-rotate 1800" # Rotate every 30 minutes
         "hypridle"
+        "1password --silent"
       ];
 
       # Scratchpad window rules
@@ -214,6 +216,10 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
 
   # Programs configuration
   programs = {
+    # Elephant backend for Walker - use patched package until upstream fixes go.sum
+    # TODO: Remove this override once https://github.com/abenz1267/elephant go.sum is fixed
+    elephant.package = pkgs.elephant-patched;
+
     # Walker v2 launcher (Raycast-like)
     walker = {
       enable = true;
