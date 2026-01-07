@@ -17,6 +17,7 @@
     # NixOS system modules
     ../../../modules/nixos/common.nix
     ../../../modules/nixos/apps/desktop.nix
+    ../../../modules/nixos/greeters/tuigreet.nix
     ../../../modules/nixos/sops.nix
 
     # User configs
@@ -53,6 +54,10 @@
       enable = true;
       # Use a nice monospace font for password input
       font = "${pkgs.jetbrains-mono}/share/fonts/truetype/JetBrainsMono-Regular.ttf";
+      # Force DRM renderer for NVIDIA framebuffer
+      extraConfig = ''
+        DeviceScale=1
+      '';
     };
 
     # Enable systemd in initrd for graphical LUKS password prompt
@@ -200,17 +205,6 @@
       autoStart = true;
       capSysAdmin = true; # Required for Wayland capture
       openFirewall = true;
-    };
-
-    # Login manager
-    greetd = {
-      enable = true;
-      settings = {
-        default_session = {
-          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --sessions ${config.services.displayManager.sessionData.desktops}/share/wayland-sessions";
-          user = "greeter";
-        };
-      };
     };
 
     # OpenRGB for motherboard RGB control
