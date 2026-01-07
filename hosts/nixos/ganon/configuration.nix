@@ -54,6 +54,10 @@
       enable = true;
       # Use a nice monospace font for password input
       font = "${pkgs.jetbrains-mono}/share/fonts/truetype/JetBrainsMono-Regular.ttf";
+      # Hide the default NixOS logo
+      logo = pkgs.runCommand "transparent.png" { } ''
+        ${pkgs.imagemagick}/bin/convert -size 1x1 xc:transparent $out
+      '';
       # Force DRM renderer for NVIDIA framebuffer
       extraConfig = ''
         DeviceScale=1
