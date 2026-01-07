@@ -17,6 +17,7 @@
     # NixOS system modules
     ../../../modules/nixos/common.nix
     ../../../modules/nixos/apps/desktop.nix
+    ../../../modules/nixos/apps/development
     ../../../modules/nixos/greeters/regreet.nix
     ../../../modules/nixos/sops.nix
 
