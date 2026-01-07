@@ -1,33 +1,62 @@
 # ReGreet - GTK-based graphical greeter for Wayland
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
+let
+  # Hyprland wrapper script with NVIDIA environment
+  hyprlandGreeter = pkgs.writeShellScript "hyprland-greeter" ''
+    export WLR_NO_HARDWARE_CURSORS=1
+    export GBM_BACKEND=nvidia-drm
+    export __GLX_VENDOR_LIBRARY_NAME=nvidia
+    export LIBVA_DRIVER_NAME=nvidia
+    exec ${pkgs.hyprland}/bin/Hyprland --config /etc/greetd/hyprland.conf
+  '';
+in
 {
   programs.regreet = {
     enable = true;
     settings = {
       background = {
-        # Set a wallpaper path or remove for solid color
-        # path = "/home/michael/Pictures/Desktops/wallpaper.jpg";
         fit = "Cover";
       };
       GTK = {
         application_prefer_dark_theme = true;
       };
     };
-  };
-
-  services.greetd = {
-    enable = true;
-    settings = {
-      default_session = {
-        command = "${pkgs.hyprland}/bin/Hyprland --config /etc/greetd/hyprland.conf";
-        user = "greeter";
+    # Use catppuccin theme
+    theme = {
+      name = "catppuccin-mocha-blue-standard";
+      package = pkgs.catppuccin-gtk.override {
+        variant = "mocha";
+        accents = [ "blue" ];
       };
     };
+    cursorTheme = {
+      name = "catppuccin-mocha-dark-cursors";
+      package = pkgs.catppuccin-cursors.mochaDark;
+    };
+    iconTheme = {
+      name = "Papirus-Dark";
+      package = pkgs.papirus-icon-theme;
+    };
+    font = {
+      name = "JetBrainsMono Nerd Font";
+      package = pkgs.nerd-fonts.jetbrains-mono;
+      size = 14;
+    };
+  };
+
+  # Override the default cage session with Hyprland
+  services.greetd.settings.default_session = {
+    command = lib.mkForce "${hyprlandGreeter}";
+    user = "greeter";
   };
 
   # Minimal Hyprland config just for the greeter
   environment.etc."greetd/hyprland.conf".text = ''
-    exec-once = regreet; hyprctl dispatch exit
+    # Auto-start regreet and exit when done
+    exec-once = ${lib.getExe pkgs.greetd.regreet}; hyprctl dispatch exit
+
+    # Use all monitors
+    monitor = ,preferred,auto,1
 
     misc {
       disable_hyprland_logo = true
@@ -35,12 +64,10 @@
       force_default_wallpaper = 0
     }
 
-    # Basic input config
     input {
       kb_layout = us
     }
 
-    # Minimal decoration for greeter
     decoration {
       blur {
         enabled = false
