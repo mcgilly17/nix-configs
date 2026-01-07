@@ -17,7 +17,7 @@
     # NixOS system modules
     ../../../modules/nixos/common.nix
     ../../../modules/nixos/apps/desktop.nix
-    ../../../modules/nixos/greeters/tuigreet.nix
+    ../../../modules/nixos/greeters/regreet.nix
     ../../../modules/nixos/sops.nix
 
     # User configs
