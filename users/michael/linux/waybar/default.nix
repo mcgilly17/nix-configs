@@ -21,7 +21,7 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
 
         modules-left = [
           "group/left"
-          "group/media"
+          "mpris"
         ];
         modules-center = [ "hyprland/workspaces" ];
         modules-right = [
@@ -38,11 +38,6 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
             "clock"
             "tray"
           ];
-        };
-
-        "group/media" = {
-          orientation = "horizontal";
-          modules = [ "mpris" ];
         };
 
         "hyprland/workspaces" = {
