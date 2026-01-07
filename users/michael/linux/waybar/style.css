@@ -1,0 +1,135 @@
+* {
+  font-family: "JetBrainsMono Nerd Font";
+  font-size: 13px;
+  min-height: 0;
+}
+
+window#waybar {
+  background: transparent;
+  color: #cdd6f4;
+}
+
+.modules-left {
+  padding: 0;
+  box-shadow: none;
+}
+
+.modules-center,
+.modules-right {
+  background-color: rgba(30, 30, 46, 0.85);
+  padding: 2px 10px;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Group pill styling */
+#left,
+#media {
+  background-color: rgba(30, 30, 46, 0.85);
+  padding: 2px 10px;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+#media {
+  margin-left: 8px;
+}
+
+#mpris {
+  color: #a6e3a1;
+}
+
+#workspaces button {
+  padding: 0;
+  min-width: 24px;
+  min-height: 24px;
+  color: #1e1e2e;
+  font-weight: bold;
+  border-radius: 50%;
+  margin: 2px 4px;
+  transition: all 0.3s ease;
+}
+
+#workspaces button.empty {
+  background-color: #45475a;
+  color: #313244;
+}
+
+#workspaces button:hover {
+  opacity: 0.8;
+}
+
+/* Catppuccin colored workspace circles - paired by group */
+#workspaces button:nth-child(1) { background-color: #89b4fa; } /* blue - group 1 */
+#workspaces button:nth-child(2) { background-color: #a6e3a1; } /* green - group 2 */
+#workspaces button:nth-child(3) { background-color: #f9e2af; } /* yellow - group 3 */
+#workspaces button:nth-child(4) { background-color: #fab387; } /* peach - group 4 */
+#workspaces button:nth-child(5) { background-color: #f38ba8; } /* red - group 5 */
+
+#workspaces button.active {
+  box-shadow: 0 0 0 2px #cdd6f4;
+}
+
+#clock,
+#cpu,
+#memory,
+#network,
+#pulseaudio,
+#custom-notification,
+#tray {
+  padding: 0 10px;
+  margin: 2px 2px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+#clock {
+  color: #89b4fa;
+}
+
+#cpu {
+  color: #f38ba8;
+}
+
+#memory {
+  color: #fab387;
+}
+
+#network {
+  color: #94e2d5;
+}
+
+#pulseaudio {
+  color: #cba6f7;
+}
+
+#custom-notification {
+  color: #f9e2af;
+}
+
+#clock:hover,
+#cpu:hover,
+#memory:hover,
+#network:hover,
+#pulseaudio:hover,
+#custom-notification:hover {
+  background-color: rgba(108, 112, 134, 0.2);
+}
+
+#tray {
+  color: #cdd6f4;
+}
+
+#tray > .passive {
+  -gtk-icon-effect: dim;
+}
+
+tooltip {
+  background-color: #1e1e2e;
+  border: 1px solid #89b4fa;
+  border-radius: 8px;
+}
+
+tooltip label {
+  color: #cdd6f4;
+}
