@@ -23,8 +23,7 @@ window#waybar {
 }
 
 /* Group pill styling */
-#left,
-#media {
+#left {
   background-color: rgba(30, 30, 46, 0.85);
   padding: 2px 10px;
   border-radius: 12px;
@@ -33,6 +32,16 @@ window#waybar {
 
 #media {
   margin-left: 8px;
+  padding: 2px 10px;
+  border-radius: 12px;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+/* Show background only when media has content */
+#media:not(:empty) {
+  background-color: rgba(30, 30, 46, 0.85);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 #mpris {
