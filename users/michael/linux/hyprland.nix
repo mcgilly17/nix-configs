@@ -152,7 +152,7 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
 
         # App workspace assignments (silent = don't switch to workspace)
         # Group 2: WS 3 (right/DP-3), WS 4 (left/DP-2)
-        "workspace 4 silent, class:^(Spotify)$"
+        "workspace 4 silent, class:^(spotify)$"
         "workspace 3 silent, class:^(Slack)$"
         "workspace 3 silent, class:^(discord)$"
       ];
