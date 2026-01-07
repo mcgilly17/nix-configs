@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ inputs, pkgs, ... }:
 {
   imports = [
     # Core Hyprland window manager
@@ -14,4 +14,13 @@
     inputs.walker.homeManagerModules.default
     ./walker
   ];
+
+  # Cursor theme (catppuccin mocha dark)
+  home.pointerCursor = {
+    name = "catppuccin-mocha-dark-cursors";
+    package = pkgs.catppuccin-cursors.mochaDark;
+    size = 24;
+    gtk.enable = true;
+    x11.enable = true;
+  };
 }
