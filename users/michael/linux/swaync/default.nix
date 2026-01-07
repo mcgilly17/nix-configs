@@ -44,6 +44,8 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
         mpris = {
           image-size = 96;
           image-radius = 8;
+          # Blacklist playerctld to prevent it from showing as an idle player in waybar
+          blacklist = [ "playerctld" ];
         };
       };
     };
