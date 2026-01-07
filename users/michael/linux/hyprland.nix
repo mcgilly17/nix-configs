@@ -134,12 +134,27 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
         "1password --silent"
       ];
 
-      # Scratchpad window rules
+      # Window rules
       windowrulev2 = [
+        # Scratchpad
         "float, class:^(scratchpad)$"
         "size 80% 70%, class:^(scratchpad)$"
         "center, class:^(scratchpad)$"
         "animation slide, class:^(scratchpad)$"
+
+        # Floating apps (like Finder on macOS)
+        "float, class:^(org.gnome.Nautilus)$"
+        "size 60% 70%, class:^(org.gnome.Nautilus)$"
+        "center, class:^(org.gnome.Nautilus)$"
+
+        "float, class:^(1Password)$"
+        "center, class:^(1Password)$"
+
+        # App workspace assignments (silent = don't switch to workspace)
+        # Group 2: WS 3 (right/DP-3), WS 4 (left/DP-2)
+        "workspace 4 silent, class:^(Spotify)$"
+        "workspace 3 silent, class:^(Slack)$"
+        "workspace 3 silent, class:^(discord)$"
       ];
 
       # Keybindings
