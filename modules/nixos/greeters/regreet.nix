@@ -55,8 +55,9 @@ in
     # Auto-start regreet and exit when done
     exec-once = ${lib.getExe pkgs.greetd.regreet}; hyprctl dispatch exit
 
-    # Use all monitors
-    monitor = ,preferred,auto,1
+    # Primary monitor on right (DP-3), secondary on left (DP-2)
+    monitor = DP-3,preferred,0x0,1
+    monitor = DP-2,preferred,-2560x0,1
 
     misc {
       disable_hyprland_logo = true
