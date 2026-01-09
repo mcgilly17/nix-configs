@@ -1,16 +1,19 @@
 # Hyprlock lockscreen configuration
+# Based on catppuccin/hyprlock macchiato theme
 {
   lib,
   osConfig,
   ...
 }:
 lib.mkIf (osConfig.programs.hyprland.enable or false) {
-  # Use catppuccin theme for hyprlock
+  # Use catppuccin theme for hyprlock (provides color variables)
   catppuccin.hyprlock.enable = true;
 
   programs.hyprlock = {
     enable = true;
     settings = {
+      "$font" = "JetBrainsMono Nerd Font";
+
       general = {
         hide_cursor = true;
         grace = 3;
@@ -20,70 +23,81 @@ lib.mkIf (osConfig.programs.hyprland.enable or false) {
       background = [
         {
           monitor = "";
-          path = "screenshot";
-          blur_passes = 3;
-          blur_size = 6;
-          noise = 0.0117;
-          contrast = 0.9;
-          brightness = 0.7;
-          vibrancy = 0.2;
-          vibrancy_darkness = 0.0;
+          path = "";
+          color = "$base";
+        }
+      ];
+
+      # User avatar (requires ~/.face image)
+      image = [
+        {
+          monitor = "";
+          path = "$HOME/.face";
+          size = 80;
+          border_color = "$accent";
+          position = "0, 60";
+          halign = "center";
+          valign = "center";
         }
       ];
 
       input-field = [
         {
           monitor = "";
-          size = "300, 50";
-          position = "0, -120";
-          halign = "center";
-          valign = "center";
+          size = "250, 50";
           outline_thickness = 3;
-          dots_size = 0.25;
+          dots_size = 0.2;
           dots_spacing = 0.2;
           dots_center = true;
-          dots_rounding = -1;
+          outer_color = "$accent";
+          inner_color = "$surface0";
+          font_color = "$text";
           fade_on_empty = false;
-          fade_timeout = 1000;
-          placeholder_text = "Enter Password";
+          placeholder_text = ''<span foreground="##$textAlpha"><i>󰌾 Logged in as </i><span foreground="##$accentAlpha">$USER</span></span>'';
           hide_input = false;
-          rounding = 15;
-          fail_text = "<i>$FAIL</i>";
-          fail_transition = 300;
-          capslock_color = "rgb(249, 226, 175)";
+          check_color = "$accent";
+          fail_color = "$red";
+          fail_text = "<i>$FAIL <b>($ATTEMPTS)</b></i>";
+          capslock_color = "$yellow";
+          position = "0, -35";
+          halign = "center";
+          valign = "center";
         }
       ];
 
       label = [
-        # Time
+        # Layout indicator (top-left)
+        {
+          monitor = "";
+          text = "Layout: $LAYOUT";
+          color = "$text";
+          font_size = 18;
+          font_family = "$font";
+          position = "20, -20";
+          halign = "left";
+          valign = "top";
+        }
+        # Time (top-right)
         {
           monitor = "";
           text = "$TIME";
-          font_size = 120;
-          font_family = "JetBrainsMono Nerd Font Bold";
-          position = "0, 200";
-          halign = "center";
-          valign = "center";
+          color = "$text";
+          font_size = 72;
+          font_family = "$font";
+          position = "-20, 0";
+          halign = "right";
+          valign = "top";
         }
-        # Date
+        # Date (top-right, below time)
         {
           monitor = "";
-          text = "cmd[update:3600000] echo \"$(date +\"%A, %d %B\")\"";
-          font_size = 22;
-          font_family = "JetBrainsMono Nerd Font";
-          position = "0, 100";
-          halign = "center";
-          valign = "center";
-        }
-        # Greeting
-        {
-          monitor = "";
-          text = "Hi, $USER";
+          text = ''cmd[update:43200000] date +"%A, %d %B %Y"'';
+          color = "$text";
           font_size = 18;
-          font_family = "JetBrainsMono Nerd Font";
-          position = "0, -40";
-          halign = "center";
-          valign = "center";
+          font_family = "$font";
+          position = "-20, -110";
+          halign = "right";
+          valign = "top";
         }
       ];
     };
