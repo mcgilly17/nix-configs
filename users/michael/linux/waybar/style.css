@@ -74,6 +74,8 @@ window#waybar {
 #clock,
 #cpu,
 #memory,
+#custom-temps,
+#custom-fans,
 #network,
 #pulseaudio,
 #custom-notification,
@@ -82,6 +84,11 @@ window#waybar {
   margin: 2px 2px;
   border-radius: 8px;
   transition: all 0.3s ease;
+}
+
+/* Hardware group drawer */
+#hardware {
+  margin-right: 4px;
 }
 
 #clock {
@@ -94,6 +101,14 @@ window#waybar {
 
 #memory {
   color: #fab387;
+}
+
+#custom-temps {
+  color: #f9e2af;
+}
+
+#custom-fans {
+  color: #89dceb;
 }
 
 #network {
@@ -111,6 +126,8 @@ window#waybar {
 #clock:hover,
 #cpu:hover,
 #memory:hover,
+#custom-temps:hover,
+#custom-fans:hover,
 #network:hover,
 #pulseaudio:hover,
 #custom-notification:hover {
