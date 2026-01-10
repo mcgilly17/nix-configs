@@ -7,7 +7,7 @@ let
     export GBM_BACKEND=nvidia-drm
     export __GLX_VENDOR_LIBRARY_NAME=nvidia
     export LIBVA_DRIVER_NAME=nvidia
-    exec ${pkgs.hyprland}/bin/Hyprland --config /etc/greetd/hyprland.conf
+    exec ${pkgs.hyprland}/bin/start-hyprland -- --config /etc/greetd/hyprland.conf
   '';
 in
 {
