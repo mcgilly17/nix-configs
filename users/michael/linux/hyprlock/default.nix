@@ -1,13 +1,16 @@
 # Hyprlock lockscreen configuration
-# Based on catppuccin/hyprlock macchiato theme
+# Using catppuccin macchiato colors
 {
   lib,
   osConfig,
   ...
 }:
 lib.mkIf (osConfig.programs.hyprland.enable or false) {
-  # Use catppuccin theme for hyprlock (provides color variables)
-  catppuccin.hyprlock.enable = true;
+  # Use catppuccin colors but not its default widget layout
+  catppuccin.hyprlock = {
+    enable = true;
+    useDefaultConfig = false;
+  };
 
   programs.hyprlock = {
     enable = true;
