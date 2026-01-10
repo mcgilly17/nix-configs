@@ -1,127 +1,19 @@
 layout {
-    // define default tab layout
     default_tab_template {
-        // tab bar on the top
         pane size=1 borderless=true {
           plugin location="zellij:tab-bar"
         }
-
-        // child tabs and panes
         children
-
-        // status bar on the bottom
         pane size=2 borderless=true {
           plugin location="zellij:status-bar"
         }
     }
-    cwd "/Users/michael"
+
     tab name="Shell" focus=true hide_floating_panes=true {
-      pane cwd="/Users/michael"
+      pane
     }
 
     tab name="Files" hide_floating_panes=true {
-      pane cwd="Users/michael" command="yazi"
+      pane command="yazi"
     }
-    tab name="Projects" hide_floating_panes=true {
-      pane cwd="/Users/michael/Projects/"
-    }
-    tab name="Dots" hide_floating_panes=true {
-      pane split_direction="vertical" {
-        pane size="50%" cwd="Projects/dots" {
-          command "claude"
-        }
-        pane size="50%" split_direction="horizontal" {
-          pane size="50%" cwd="Projects/dots" {
-            command "vim"
-          }
-          pane size="50%" cwd="Projects/dots" {
-          }
-        }
-      }
-    }
-    tab name="Mosaic" hide_floating_panes=true {
-      pane split_direction="vertical" {
-        pane size="50%" cwd="Projects/Mosaic" {
-          command "claude"
-        }
-        pane size="50%" split_direction="horizontal" {
-          pane size="50%" cwd="Projects/Mosaic" {
-            command "vim"
-          }
-          pane size="50%" cwd="Projects/Mosaic" {
-          }
-        }
-      }
-    }
-    tab name="Bloc" hide_floating_panes=true {
-      pane split_direction="vertical" {
-        pane size="50%" cwd="/Users/michael/Projects/bloc" {
-          command "claude"
-        }
-        pane size="50%" split_direction="horizontal" {
-          pane size="50%" cwd="/Users/michael/Projects/bloc" {
-            command "vim"
-          }
-          pane size="50%" cwd="/Users/michael/Projects/bloc" {
-          }
-        }
-      }
-    }
-    tab name="Myxr" hide_floating_panes=true {
-      pane split_direction="vertical" {
-        pane size="50%" cwd="Projects/mikey-max-corp" {
-          command "claude"
-        }
-        pane size="50%" split_direction="horizontal" {
-          pane size="50%" cwd="Projects/mikey-max-corp" {
-            command "vim"
-          }
-          pane size="50%" cwd="Projects/mikey-max-corp" {
-          }
-        }
-      }
-    }
-    tab name="Ullr" hide_floating_panes=true {
-      pane split_direction="vertical" {
-        pane size="50%" cwd="Projects/ullr" {
-          command "claude"
-        }
-        pane size="50%" split_direction="horizontal" {
-          pane size="50%" cwd="Projects/ullr" {
-            command "vim"
-          }
-          pane size="50%" cwd="Projects/ullr" {
-          }
-        }
-      }
-    }
-    tab name="Neurovirse" hide_floating_panes=true {
-      pane split_direction="vertical" {
-        pane size="50%" cwd="Projects/neurovirse" {
-          command "claude"
-        }
-        pane size="50%" split_direction="horizontal" {
-          pane size="50%" cwd="Projects/neurovirse" {
-            command "vim"
-          }
-          pane size="50%" cwd="Projects/neurovirse" {
-          }
-        }
-      }
-    } 
-    tab name="Asterisk" hide_floating_panes=true {
-      pane split_direction="vertical" {
-        pane size="50%" cwd="Projects/asterisk" {
-          command "claude"
-        }
-        pane size="50%" split_direction="horizontal" {
-          pane size="50%" cwd="Projects/asterisk" {
-            command "vim"
-          }
-          pane size="50%" cwd="Projects/asterisk" {
-          }
-        }
-      }
-    }
-
 }

@@ -1,8 +1,12 @@
-_:
+{ osConfig, ... }:
 let
   shellAliases = {
     "zj" = "zellij";
   };
+
+  hostname = osConfig.networking.hostName;
+  hostLayout = ./layouts/${hostname}.kdl;
+  layoutFile = if builtins.pathExists hostLayout then hostLayout else ./layouts/default.kdl;
 in
 {
   programs.zellij = {
@@ -15,7 +19,7 @@ in
   };
 
   xdg.configFile."zellij/config.kdl".source = ./config.kdl;
-  xdg.configFile."zellij/layouts/default.kdl".source = ./layouts/default.kdl;
+  xdg.configFile."zellij/layouts/default.kdl".source = layoutFile;
 
   home.shellAliases = shellAliases;
 }
