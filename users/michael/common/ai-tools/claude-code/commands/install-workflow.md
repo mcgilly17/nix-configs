@@ -1,7 +1,7 @@
 ---
 allowed-tools: Bash, AskUserQuestion, Read, Write, Edit
 argument-hint: "[framework-name] [folder]"
-description: Install AI development workflow framework (BMAD, Spec Kit, OpenSpec, or Superpowers)
+description: Install AI development workflow framework (BMAD, Spec Kit, OpenSpec, Superpowers, or Get Shit Done)
 ---
 
 # Install Workflow Command
@@ -9,7 +9,7 @@ description: Install AI development workflow framework (BMAD, Spec Kit, OpenSpec
 Installs AI development workflow frameworks into your project with intelligent setup.
 
 **Syntax:** `/install-workflow [framework-name] [folder]`
-- `framework-name`: Optional - bmad, spec-kit, openspec, superpowers (prompts if omitted)
+- `framework-name`: Optional - bmad, spec-kit, openspec, superpowers, gsd (prompts if omitted)
 - `folder`: Optional - target installation directory (defaults to current directory)
 
 ## Installation Strategy
@@ -202,6 +202,45 @@ Add to `.claude/settings.local.json`:
 
 ---
 
+### 5. Get Shit Done (GSD)
+
+**Best for:** Solo developers wanting structured AI-assisted development without enterprise ceremony
+
+**What it provides:**
+- Context engineering with PROJECT.md, ROADMAP.md, and STATE.md
+- Atomic 2-3 task phases executed in fresh subagents (prevents context degradation)
+- XML-structured task planning with verification steps
+- Individual git commits per task for traceability
+- Brownfield project support via codebase mapping
+
+**Installation via devenv.nix:**
+```nix
+{ pkgs, ... }:
+{
+  packages = [ pkgs.nodejs ];
+
+  scripts.gsd-setup.exec = ''
+    npx get-shit-done-cc
+  '';
+
+  enterShell = ''
+    if [ ! -f .claude/commands/gsd:new-project.md ]; then
+      echo "Run: gsd-setup"
+    fi
+  '';
+}
+```
+
+**Direct installation:** `npx get-shit-done-cc`
+
+**Location:** `.claude/` directory (local or global `~/.claude/`)
+
+**Usage:** `/gsd:new-project`, `/gsd:create-roadmap`, `/gsd:map-codebase`, `/gsd:plan-phase`, `/gsd:execute-plan`
+
+**Repository:** https://github.com/glittercowboy/get-shit-done
+
+---
+
 ## Usage
 
 ```bash
@@ -241,6 +280,7 @@ If no framework argument provided, use AskUserQuestion to present options:
 3. **OpenSpec** - Lightweight spec workflow, file-based (solo developers)
 4. **Spec-Workflow-MCP** - OpenSpec + real-time dashboard (solo developers, visual tracking)
 5. **Superpowers** - Core skills library, auto-activating (minimal overhead, any team size)
+6. **Get Shit Done** - Context engineering with subagent execution (solo developers, structured without ceremony)
 
 ### Step 3: Environment Detection
 
@@ -394,6 +434,31 @@ echo "Start dashboard: npx -y @pimzino/spec-workflow-mcp@latest --dashboard"
 echo "Dashboard URL: http://localhost:5000"
 ```
 
+#### For Get Shit Done (GSD):
+
+**If devenv.nix exists:**
+```bash
+# Add GSD configuration to devenv.nix
+# - Add nodejs to packages
+# - Add gsd-setup script
+# - Add enterShell notification
+
+echo "✓ Added GSD to devenv.nix"
+echo "Run 'devenv shell' then 'gsd-setup' to complete installation"
+```
+
+**If no devenv.nix:**
+```bash
+# Run interactive installer
+npx get-shit-done-cc
+
+# Choose local (./.claude/) or global (~/.claude/) installation
+
+echo "✓ GSD installed"
+echo "New projects: /gsd:new-project"
+echo "Existing codebases: /gsd:map-codebase"
+```
+
 ### Step 5: Verification & Next Steps
 
 **Report installation results:**
@@ -407,14 +472,17 @@ echo "Dashboard URL: http://localhost:5000"
 **Can be used together:**
 - Superpowers + any other framework (complementary)
 - OpenSpec + Superpowers (minimal overhead)
+- GSD + Superpowers (structured execution + skills)
 
 **Potentially conflicting:**
 - BMAD + Spec Kit (both provide full PM workflows)
 - OpenSpec + Spec Kit (overlapping approaches)
+- GSD + BMAD (both provide structured task execution)
+- GSD + Spec Kit (overlapping spec-driven approaches)
 
 **Best combinations:**
 - **Solo dev, minimal overhead:** Superpowers only
-- **Solo dev, structured:** OpenSpec + Superpowers
+- **Solo dev, structured:** OpenSpec + Superpowers or GSD + Superpowers
 - **Small team:** Spec Kit + Superpowers
 - **Large team:** BMAD + Superpowers
 
@@ -444,6 +512,11 @@ echo "Dashboard URL: http://localhost:5000"
 - Remove if needed: `claude mcp remove spec-workflow`
 - Ensure port 5000 available for dashboard
 
+**GSD installation issues:**
+- Ensure Node.js is installed: `node --version`
+- Check npx available: `npx --version`
+- Try explicit installation: `npm install -g get-shit-done-cc` then run `get-shit-done-cc`
+
 **devenv.nix modifications:**
 - Back up before editing: `cp devenv.nix devenv.nix.backup`
 - Test shell: `devenv shell`
@@ -460,6 +533,9 @@ echo "Dashboard URL: http://localhost:5000"
 
 # Install lightweight spec workflow for solo project
 /install-workflow openspec
+
+# Install GSD for structured solo development
+/install-workflow gsd
 
 # Install Spec Kit in a specific subfolder
 /install-workflow spec-kit my-new-project

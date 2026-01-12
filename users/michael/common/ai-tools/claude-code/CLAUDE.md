@@ -35,7 +35,7 @@ Quick workflows via slash commands:
 - `/docs [type] [target]` - Generate documentation
 - `/security-audit [scope]` - Security analysis
 - `/refactor [target]` - Plan refactoring
-- `/install-workflow [framework]` - Install AI workflow framework (BMAD, Spec Kit, OpenSpec, Superpowers)
+- `/install-workflow [framework]` - Install AI workflow framework (BMAD, Spec Kit, OpenSpec, Superpowers, GSD)
 
 ### Skills (Auto-Activate)
 
@@ -129,6 +129,7 @@ Focus on maintainable solutions over clever abstractions.
 This dotfiles setup is **framework-agnostic**. For project-specific workflows:
 
 - **No framework** - Use simple dev-docs pattern
+- **Get Shit Done (GSD)** - Context engineering with subagent execution (solo devs)
 - **spec-workflow-mcp** - Sequential gating with approval gates
 - **BMAD** - Full PM framework with multi-agent workflows
 - **Custom** - Build your own
