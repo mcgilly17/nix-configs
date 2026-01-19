@@ -8,7 +8,7 @@ yabai -m rule --add app="^iTerm2$" space=1
 yabai -m rule --add app="^kitty$" space=1
 yabai -m rule --add app="^Code$" space=2 manage=off
 yabai -m rule --add app="^Code" space=2 manage=off
-yabai -m rule --add app="^Fusion$" space=2 layer=above manage=off
+yabai -m rule --add app="^Fusion$" space=2 sub-layer=above manage=off
 yabai -m rule --add app="^Autodesk Fusion 360$" space=2 manage=off
 yabai -m rule --add app="^Godot" space=2 manage=off
 yabai -m rule --add app="^Slack$" space=4
