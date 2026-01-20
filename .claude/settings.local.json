@@ -7,7 +7,8 @@
       "WebFetch(domain:nixos.wiki)",
       "WebFetch(domain:wiki.hypr.land)",
       "WebFetch(domain:gist.github.com)",
-      "WebFetch(domain:discourse.nixos.org)"
+      "WebFetch(domain:discourse.nixos.org)",
+      "WebFetch(domain:maplibre.org)"
     ],
     "deny": [],
     "ask": []
