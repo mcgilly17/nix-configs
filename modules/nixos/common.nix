@@ -39,23 +39,31 @@
     sddm.enable = false;
   };
 
-  # Keyboard remapping (Caps Lock → Escape on tap, Ctrl on hold)
-  services.keyd = {
-    enable = true;
-    keyboards.default = {
-      ids = [ "*" ];
-      settings.main = {
-        capslock = "overload(control, esc)";
+  # NixOS-specific services
+  services = {
+    # mDNS discovery
+    avahi = {
+      enable = true;
+      nssmdns4 = true;
+    };
+
+    # Keyboard remapping (Caps Lock → Escape on tap, Ctrl on hold)
+    keyd = {
+      enable = true;
+      keyboards.default = {
+        ids = [ "*" ];
+        settings.main = {
+          capslock = "overload(control, esc)";
+        };
       };
     };
-  };
 
-  # NixOS-specific settings
-  services.openssh = {
-    enable = true;
-    settings = {
-      PermitRootLogin = "yes"; # For nixos-anywhere
-      PasswordAuthentication = false;
+    openssh = {
+      enable = true;
+      settings = {
+        PermitRootLogin = "yes"; # For nixos-anywhere
+        PasswordAuthentication = false;
+      };
     };
   };
 
