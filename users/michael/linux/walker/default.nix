@@ -1,16 +1,11 @@
 # Walker v2 launcher configuration (Raycast-like)
 {
-  pkgs,
   lib,
   osConfig,
   ...
 }:
 lib.mkIf (osConfig.programs.hyprland.enable or false) {
   programs = {
-    # Elephant backend for Walker - use patched package until upstream fixes go.sum
-    # TODO: Remove this override once https://github.com/abenz1267/elephant go.sum is fixed
-    elephant.package = pkgs.elephant-patched;
-
     walker = {
       enable = true;
       runAsService = true;

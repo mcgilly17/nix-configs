@@ -40,12 +40,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Walker v2 launcher with Elephant backend
-    elephant.url = "github:abenz1267/elephant";
-    walker = {
-      url = "github:abenz1267/walker";
-      inputs.elephant.follows = "elephant";
-    };
+    # Walker v2 launcher
+    walker.url = "github:abenz1267/walker";
 
     _1password-shell-plugins = {
       url = "github:1Password/shell-plugins";
