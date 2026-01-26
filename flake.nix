@@ -125,16 +125,7 @@
 
       formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
 
-      # MacBook Air M1 20202
       darwinConfigurations = {
-        sephiroth = darwin.lib.darwinSystem {
-          system = "aarch64-darwin";
-          inherit specialArgs;
-
-          modules = [
-            ./hosts/sephiroth
-          ];
-        };
         bowser = darwin.lib.darwinSystem {
           system = "aarch64-darwin";
           inherit specialArgs;
@@ -154,35 +145,39 @@
           ];
         };
 
-        rk1-node1 = nixpkgs.lib.nixosSystem {
+        # RK1 Dev Node - Full development environment with Tailscale
+        sephiroth = nixpkgs.lib.nixosSystem {
           system = "aarch64-linux";
           inherit specialArgs;
           modules = [
-            ./hosts/nixos/rk1/node1
+            ./hosts/nixos/rk1/sephiroth
           ];
         };
 
-        rk1-node2 = nixpkgs.lib.nixosSystem {
+        # Nova K3s Cluster - Control plane
+        nova-1 = nixpkgs.lib.nixosSystem {
           system = "aarch64-linux";
           inherit specialArgs;
           modules = [
-            ./hosts/nixos/rk1/node2
+            ./hosts/nixos/rk1/nova-1
           ];
         };
 
-        rk1-node3 = nixpkgs.lib.nixosSystem {
+        # Nova K3s Cluster - Agent
+        nova-2 = nixpkgs.lib.nixosSystem {
           system = "aarch64-linux";
           inherit specialArgs;
           modules = [
-            ./hosts/nixos/rk1/node3
+            ./hosts/nixos/rk1/nova-2
           ];
         };
 
-        rk1-node4 = nixpkgs.lib.nixosSystem {
+        # Nova K3s Cluster - Agent
+        nova-3 = nixpkgs.lib.nixosSystem {
           system = "aarch64-linux";
           inherit specialArgs;
           modules = [
-            ./hosts/nixos/rk1/node4
+            ./hosts/nixos/rk1/nova-3
           ];
         };
 

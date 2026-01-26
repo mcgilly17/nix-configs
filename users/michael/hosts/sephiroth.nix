@@ -1,21 +1,12 @@
-{
-  pkgs,
-  specialArgs,
-  ...
-}:
-{
+# Sephiroth - RK1 Development Server
+# Full development environment with TUI tools, shells, and AI tools
+_: {
   imports = [
-    # import Darwin specific configs
-    ../darwin
-
-    # Common home manager configs for any envinroment
+    # Common home manager configs
     ../common/home.nix
     ../common/core
-    ../common/ai-tools
     ../common/tui
     ../common/shells
-    ../common/desktop
-    ../common/desktop/terminals
-    # ../common/desktop/creative
+    ../common/ai-tools
   ];
 }

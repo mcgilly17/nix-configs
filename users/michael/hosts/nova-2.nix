@@ -1,0 +1,7 @@
+# Nova-2 - K3s Agent
+# Minimal config - cluster nodes don't need user customization
+_: {
+  imports = [
+    ../common/home.nix
+  ];
+}
