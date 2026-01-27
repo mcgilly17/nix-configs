@@ -99,84 +99,30 @@
     deviceTree.enable = true;
   };
 
-  # Stable networking configuration for cluster deployment
+  # Simple networking - matches working nixos-rk1 config
   networking = {
-    # Disable legacy DHCP to use systemd-networkd
-    useDHCP = false;
-
-    # Enable systemd-networkd for predictable interface naming
-    useNetworkd = true;
-
-    # Basic firewall (cluster-specific ports can be added per-node)
-    firewall.enable = true;
-
-    # Use systemd-networkd instead of NetworkManager (lighter for headless cluster)
-    networkmanager.enable = lib.mkForce false;
+    useDHCP = lib.mkDefault true;
+    networkmanager.enable = lib.mkForce false; # Disable NetworkManager from common.nix
   };
 
-  # systemd-networkd configuration for DHCP
-  systemd.network = {
-    enable = true;
-    networks."10-ethernet" = {
-      matchConfig.Name = "en*";
-      networkConfig = {
-        DHCP = "ipv4";
-        IPv4Forwarding = true; # Enable for cluster networking
-        IPv6Forwarding = true;
-      };
-      dhcpV4Config = {
-        UseDNS = true;
-        UseRoutes = true;
-      };
-    };
-  };
-
-  # Services configuration
+  # Services configuration - minimal to match nixos-rk1
   services = {
-    # Enable resolved for DNS
-    resolved = {
-      enable = true;
-      settings.Resolve = {
-        DNSSEC = "true";
-        Domains = [ "~." ];
-        FallbackDNS = [
-          "1.1.1.1"
-          "8.8.8.8"
-        ];
-      };
-    };
-
-    # Essential for remote management
+    # Essential for remote management (matches nixos-rk1)
     openssh = {
       enable = true;
       settings = {
-        PermitRootLogin = "yes"; # For nixos-anywhere deployment
-        PasswordAuthentication = false;
+        PermitRootLogin = "yes";
+        PasswordAuthentication = lib.mkForce true; # TODO: disable after verifying SSH keys work
       };
     };
+
+    # Console autologin for BMC/UART emergency access
+    # TODO: remove after hardening
+    getty.autologinUser = "root";
 
     # File system trim for eMMC longevity
     fstrim.enable = true;
   };
-
-  # Power management for cluster stability
-  services.tlp = {
-    enable = true;
-    settings = {
-      CPU_SCALING_GOVERNOR_ON_AC = "performance";
-      CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
-
-      # Disable USB autosuspend for cluster stability
-      USB_AUTOSUSPEND = 0;
-
-      # PCIe power management
-      RUNTIME_PM_ON_AC = "auto";
-      RUNTIME_PM_ON_BAT = "auto";
-    };
-  };
-
-  # Disable conflicting power management services
-  services.power-profiles-daemon.enable = false;
 
   # iSCSI initiator for Longhorn storage support
   services.openiscsi = {
@@ -195,6 +141,10 @@
   services.udisks2.enable = false;
   documentation.enable = false;
   documentation.nixos.enable = false;
+
+  # Temp root password for emergency access (nixos123)
+  # TODO: remove after hardening
+  users.users.root.hashedPassword = "$6$7cgSbtkpOMIQDV9Y$g9.rrnx6cOs76gz4hyuOqKBIoqTDQwQSijCjigd5F9zdd6MraH7HjctrYZKR3bsNL5WIN8/YCEaRmBB.GH7yS1";
 
   # Essential system packages (from mcgilly17/nixos-rk1 + extras)
   environment.systemPackages = with pkgs; [
