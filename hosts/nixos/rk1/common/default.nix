@@ -48,11 +48,11 @@
     ];
 
     # Essential kernel modules for RK3588
+    # RK3588 uses DesignWare IP cores (different from older Rockchip SoCs)
     initrd.availableKernelModules = [
-      "nvme" # NVMe support (requires UEFI firmware)
-      "pcie_rockchip_host" # PCIe support
-      "dw_mmc_rockchip" # eMMC support
-      "sdhci_dwcmshc" # SD/eMMC controller
+      "nvme" # NVMe storage
+      "pcie-dw-rockchip" # RK3588 PCIe (DesignWare core)
+      "sdhci-of-dwcmshc" # RK3588 eMMC/SD controller
     ];
 
     # File system support
