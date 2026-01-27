@@ -47,12 +47,25 @@
       "systemd.unified_cgroup_hierarchy=0" # cgroup v1 for compatibility
     ];
 
-    # Essential kernel modules for RK3588
-    # RK3588 uses DesignWare IP cores (different from older Rockchip SoCs)
+    # Initrd modules (from mcgilly17/nixos-rk1)
     initrd.availableKernelModules = [
-      "nvme" # NVMe storage
-      "pcie-dw-rockchip" # RK3588 PCIe (DesignWare core)
-      "sdhci-of-dwcmshc" # RK3588 eMMC/SD controller
+      "xhci_pci"
+      "usbhid"
+      "usb_storage"
+      "sd_mod"
+      "mmc_block"
+      "nvme"
+      "ahci"
+      # Note: sdhci_of_dwcmshc is built-in (=y) in latest kernel
+    ];
+
+    # Runtime kernel modules for RK3588 hardware
+    kernelModules = [
+      "rockchipdrm"
+      "rockchip_thermal"
+      "rockchip_saradc"
+      "panfrost"
+      "fusb302"
     ];
 
     # File system support
