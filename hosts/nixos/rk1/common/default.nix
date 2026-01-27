@@ -30,11 +30,10 @@
 
   # RK3588-specific kernel and hardware configuration
   boot = {
-    # UEFI boot configuration (preferred for RK3588 in 2025)
+    # U-Boot/extlinux bootloader (standard for RK3588 ARM64)
     loader = {
-      systemd-boot.enable = true;
-      efi.canTouchEfiVariables = true;
       grub.enable = false;
+      generic-extlinux-compatible.enable = true;
     };
 
     # Use latest kernel for best RK3588 support
@@ -66,6 +65,7 @@
       "rockchip_saradc"
       "panfrost"
       "fusb302"
+      "nvme"
     ];
 
     # File system support
@@ -178,23 +178,52 @@
   # Disable conflicting power management services
   services.power-profiles-daemon.enable = false;
 
-  # Essential system packages (minimal cluster tools)
+  # iSCSI initiator for Longhorn storage support
+  services.openiscsi = {
+    enable = true;
+    name = "iqn.2025-01.com.turingpi:rk1";
+  };
+
+  # Temperature monitoring - Industrial I/O sensors
+  hardware.sensor.iio.enable = true;
+
+  # Container support for K3s
+  virtualisation.containers.enable = true;
+  virtualisation.podman.enable = true;
+
+  # Disable unnecessary services to reduce resource usage
+  services.udisks2.enable = false;
+  documentation.enable = false;
+  documentation.nixos.enable = false;
+
+  # Essential system packages (from mcgilly17/nixos-rk1 + extras)
   environment.systemPackages = with pkgs; [
     # System monitoring
     htop
     iotop
+    lm_sensors
 
     # Network debugging
     ethtool
     tcpdump
+    iperf3
 
     # Hardware information
     pciutils
     usbutils
 
+    # Storage tools
+    hdparm
+    smartmontools
+    nvme-cli
+    nfs-utils
+
     # File system tools
     e2fsprogs
     btrfs-progs
+
+    # Testing
+    stress-ng
   ];
 
   # Enable zram for memory efficiency in cluster nodes

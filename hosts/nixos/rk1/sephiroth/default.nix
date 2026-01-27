@@ -29,6 +29,7 @@
   # Then set Mullvad exit node:
   #   tailscale set --exit-node=<mullvad-node>
   services.tailscale = {
+    enable = true;
     useRoutingFeatures = "client"; # Use exit nodes (Mullvad)
   };
 
