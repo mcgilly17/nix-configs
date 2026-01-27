@@ -51,7 +51,6 @@
     initrd.availableKernelModules = [
       "nvme" # NVMe support (requires UEFI firmware)
       "pcie_rockchip_host" # PCIe support
-      "rockchip_pcie3" # RK3588 PCIe 3.0
       "dw_mmc_rockchip" # eMMC support
       "sdhci_dwcmshc" # SD/eMMC controller
     ];
@@ -109,7 +108,8 @@
       matchConfig.Name = "en*";
       networkConfig = {
         DHCP = "ipv4";
-        IPForward = true; # Enable for cluster networking
+        IPv4Forwarding = true; # Enable for cluster networking
+        IPv6Forwarding = true;
       };
       dhcpV4Config = {
         UseDNS = true;
@@ -123,12 +123,14 @@
     # Enable resolved for DNS
     resolved = {
       enable = true;
-      dnssec = "true";
-      domains = [ "~." ];
-      fallbackDns = [
-        "1.1.1.1"
-        "8.8.8.8"
-      ];
+      settings.Resolve = {
+        DNSSEC = "true";
+        Domains = [ "~." ];
+        FallbackDNS = [
+          "1.1.1.1"
+          "8.8.8.8"
+        ];
+      };
     };
 
     # Essential for remote management
