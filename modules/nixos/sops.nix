@@ -49,6 +49,10 @@
     deps = [ "setupSecrets" ];
     text = ''
       if [ -f /run/secrets/private_keys/michael ]; then
+        # Ensure home directory exists with correct ownership
+        mkdir -p /home/michael
+        chown michael:michael /home/michael
+
         # Copy SSH key to ~/.ssh/ (canonical location)
         mkdir -p /home/michael/.ssh
         cp /run/secrets/private_keys/michael /home/michael/.ssh/id_ed25519
@@ -68,6 +72,7 @@
 
         # Derive age key from SSH key for Home Manager sops
         mkdir -p /home/michael/.config/sops/age
+        chown michael:michael /home/michael/.config
         chown michael:michael /home/michael/.config/sops
         chown michael:michael /home/michael/.config/sops/age
         ${pkgs.ssh-to-age}/bin/ssh-to-age -private-key \
