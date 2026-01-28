@@ -330,10 +330,10 @@
     },
     "nix-secrets": {
       "locked": {
-        "lastModified": 1766989300,
-        "narHash": "sha256-jM7yY3SBg+txbJdPIRb6L4ce4i3ftJM4KSbctBW85RM=",
+        "lastModified": 1769586055,
+        "narHash": "sha256-lndL6eOrrvNe1uIqMUIoLVKSP/+XN/68yKXa8Le5oZM=",
         "ref": "main",
-        "rev": "865b3492dfef664cf6d044417bd9f5c612d125ee",
+        "rev": "84d730876bdd191f3c982236ee002b07bcf3c51d",
         "shallow": true,
         "type": "git",
         "url": "https://github.com/mcgilly17/nix-secrets.git"

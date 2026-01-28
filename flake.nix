@@ -154,30 +154,30 @@
           ];
         };
 
-        # Nova K3s Cluster - Control plane
-        nova-1 = nixpkgs.lib.nixosSystem {
+        # Zenith K3s Cluster - Control plane
+        zenith-1 = nixpkgs.lib.nixosSystem {
           system = "aarch64-linux";
           inherit specialArgs;
           modules = [
-            ./hosts/nixos/rk1/nova-1
+            ./hosts/nixos/rk1/zenith-1
           ];
         };
 
-        # Nova K3s Cluster - Agent
-        nova-2 = nixpkgs.lib.nixosSystem {
+        # Zenith K3s Cluster - Agent
+        zenith-2 = nixpkgs.lib.nixosSystem {
           system = "aarch64-linux";
           inherit specialArgs;
           modules = [
-            ./hosts/nixos/rk1/nova-2
+            ./hosts/nixos/rk1/zenith-2
           ];
         };
 
-        # Nova K3s Cluster - Agent
-        nova-3 = nixpkgs.lib.nixosSystem {
+        # Zenith K3s Cluster - Agent
+        zenith-3 = nixpkgs.lib.nixosSystem {
           system = "aarch64-linux";
           inherit specialArgs;
           modules = [
-            ./hosts/nixos/rk1/nova-3
+            ./hosts/nixos/rk1/zenith-3
           ];
         };
 
