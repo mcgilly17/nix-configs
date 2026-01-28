@@ -1,7 +1,10 @@
 # Zenith-2 - K3s Agent
-# Minimal config - cluster nodes don't need user customization
+# Includes TUI tools for cluster debugging
 _: {
   imports = [
     ../common/home.nix
+    ../common/core
+    ../common/tui
+    ../common/shells
   ];
 }
