@@ -128,7 +128,10 @@
 
   # Container support for K3s
   virtualisation.containers.enable = true;
-  virtualisation.podman.enable = true;
+  virtualisation.podman = {
+    enable = true;
+    dockerCompat = true; # Create docker alias
+  };
 
   # Disable unnecessary services to reduce resource usage
   services.udisks2.enable = false;
@@ -140,6 +143,9 @@
 
   # Essential system packages (from mcgilly17/nixos-rk1 + extras)
   environment.systemPackages = with pkgs; [
+    # Container tools
+    podman-compose
+
     # Terminal support for SSH from kitty/wezterm/alacritty
     kitty.terminfo
     alacritty.terminfo

@@ -1,7 +1,6 @@
 {
   pkgs,
   config,
-  myVars,
   ...
 }:
 {
@@ -87,6 +86,7 @@
       cat = "bat"; # better cat - bat
       cd = "z"; # better cd - zoxide
       tig = "gitui"; # my fingers just do this too often
+      docker-compose = "podman-compose";
     };
 
     shellGlobalAliases = {
