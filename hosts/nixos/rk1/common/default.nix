@@ -16,6 +16,7 @@
     # NixOS system modules
     ../../../../modules/nixos/common.nix
     ../../../../modules/nixos/sops.nix
+    ../../../../modules/nixos/tailscale.nix
 
     # User configs (minimal - see users/michael/hosts/rk1-node*.nix)
     ../../../../users/michael

@@ -16,7 +16,7 @@
   services.tailscale = {
     enable = true;
     useRoutingFeatures = "client"; # Allow using exit nodes
-    extraSetFlags = [ "--exit-node-allow-lan-access" ]; # Allow LAN access while using exit node
+    extraSetFlags = [ "--exit-node-allow-lan-access=true" ]; # Allow LAN access while using exit node
   };
 
   # Open firewall for Tailscale
