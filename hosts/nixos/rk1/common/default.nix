@@ -99,26 +99,18 @@
     deviceTree.enable = true;
   };
 
-  # Simple networking - matches working nixos-rk1 config
+  # Networking
   networking = {
     useDHCP = lib.mkDefault true;
-    networkmanager.enable = lib.mkForce false; # Disable NetworkManager from common.nix
+    networkmanager.enable = lib.mkForce false;
   };
 
-  # Services configuration - minimal to match nixos-rk1
+  # Services configuration
   services = {
-    # Essential for remote management (matches nixos-rk1)
     openssh = {
       enable = true;
-      settings = {
-        PermitRootLogin = "yes";
-        PasswordAuthentication = lib.mkForce true; # TODO: disable after verifying SSH keys work
-      };
+      settings.PermitRootLogin = "no";
     };
-
-    # Console autologin for BMC/UART emergency access
-    # TODO: remove after hardening
-    getty.autologinUser = "root";
 
     # File system trim for eMMC longevity
     fstrim.enable = true;
@@ -142,9 +134,8 @@
   documentation.enable = false;
   documentation.nixos.enable = false;
 
-  # Temp root password for emergency access (nixos123)
-  # TODO: remove after hardening
-  users.users.root.hashedPassword = "$6$7cgSbtkpOMIQDV9Y$g9.rrnx6cOs76gz4hyuOqKBIoqTDQwQSijCjigd5F9zdd6MraH7HjctrYZKR3bsNL5WIN8/YCEaRmBB.GH7yS1";
+  # Lock root account (SSH key access only via michael user)
+  users.users.root.hashedPassword = "!";
 
   # Essential system packages (from mcgilly17/nixos-rk1 + extras)
   environment.systemPackages = with pkgs; [

@@ -1,5 +1,6 @@
 # Common NixOS configuration for all hosts
 {
+  lib,
   inputs,
   outputs,
   myLibs,
@@ -61,7 +62,7 @@
     openssh = {
       enable = true;
       settings = {
-        PermitRootLogin = "yes"; # For nixos-anywhere
+        PermitRootLogin = lib.mkDefault "yes"; # For nixos-anywhere, hosts can override
         PasswordAuthentication = false;
       };
     };
