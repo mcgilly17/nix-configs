@@ -24,13 +24,13 @@
   networking.hostName = "sephiroth";
 
   # Tailscale configuration - full device with exit node support
-  # After deployment, run:
-  #   sudo tailscale up --accept-dns=false
-  # Then set Mullvad exit node:
-  #   tailscale set --exit-node=<mullvad-node>
+  # After deployment, run: sudo tailscale up
+  # To use Mullvad when needed: tailscale set --exit-node=<mullvad-node>
+  # To disable exit node: tailscale set --exit-node=
   services.tailscale = {
     enable = true;
-    useRoutingFeatures = "client"; # Use exit nodes (Mullvad)
+    useRoutingFeatures = "client";
+    extraSetFlags = [ "--exit-node-allow-lan-access" ];
   };
 
   # Additional dev packages at system level
