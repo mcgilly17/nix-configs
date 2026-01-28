@@ -148,6 +148,10 @@
 
   # Essential system packages (from mcgilly17/nixos-rk1 + extras)
   environment.systemPackages = with pkgs; [
+    # Terminal support for SSH from kitty/wezterm/alacritty
+    kitty.terminfo
+    alacritty.terminfo
+
     # System monitoring
     htop
     iotop
