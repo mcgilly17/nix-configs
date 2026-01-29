@@ -12,6 +12,7 @@
 # michael's SSH public key (via: cat id_ed25519.pub | ssh-to-age)
 {
   config,
+  lib,
   pkgs,
   inputs,
   ...
@@ -36,15 +37,16 @@
     };
 
     # Extract michael's SSH private key from secrets
-    # This will be converted to an age key by the activation script
-    secrets."private_keys/michael" = {
+    # Only on non-cluster nodes (dev servers) - cluster nodes don't need personal SSH key
+    secrets."private_keys/michael" = lib.mkIf (!config.hostSpec.isClusterNode) {
       mode = "0400";
       owner = config.users.users.michael.name;
     };
   };
 
   # Set up user SSH key and derive age key after secrets are decrypted
-  system.activationScripts.userAgeKey = {
+  # Only on non-cluster nodes - cluster nodes don't need personal SSH key
+  system.activationScripts.userAgeKey = lib.mkIf (!config.hostSpec.isClusterNode) {
     # Run after sops-nix has decrypted secrets
     deps = [ "setupSecrets" ];
     text = ''
