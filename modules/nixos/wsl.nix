@@ -15,8 +15,6 @@
   wsl = {
     enable = true;
     defaultUser = "michael";
-    # Use native systemd (WSL2 feature)
-    nativeSystemd = true;
     # Enable Windows interop (access to Windows executables)
     interop = {
       register = true;
