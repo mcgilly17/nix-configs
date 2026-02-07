@@ -1,5 +1,6 @@
 # Common NixOS configuration for all hosts
 {
+  config,
   lib,
   inputs,
   outputs,
@@ -96,7 +97,8 @@
     };
 
     # 1Password CLI (required for proper permissions and shell plugin integration)
-    _1password.enable = true;
+    # Disabled on WSL - use Windows 1Password integration instead
+    _1password.enable = !config.hostSpec.isWSL;
   };
 
   # Your timezone/locale
