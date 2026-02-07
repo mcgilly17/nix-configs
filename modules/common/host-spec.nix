@@ -40,6 +40,18 @@
           default = false;
           description = "Indicate a host that is part of a cluster";
         };
+
+        isWSL = lib.mkOption {
+          type = lib.types.bool;
+          default = false;
+          description = "Indicate a WSL2 host";
+        };
+
+        hasGPU = lib.mkOption {
+          type = lib.types.bool;
+          default = false;
+          description = "Indicate a host with dedicated GPU for CUDA";
+        };
       };
     };
   };

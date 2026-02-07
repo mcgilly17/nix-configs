@@ -54,6 +54,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # NixOS on Windows Subsystem for Linux
+    nixos-wsl = {
+      url = "github:nix-community/NixOS-WSL";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # Remote NixOS installation
     nixos-anywhere = {
       url = "github:nix-community/nixos-anywhere";
@@ -186,6 +192,25 @@
           inherit specialArgs;
           modules = [
             ./hosts/nixos/glados
+          ];
+        };
+
+        # WSL Hosts - Metal Gear Solid themed
+        # Ocelot - Primary Windows machine with GPU
+        ocelot = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          inherit specialArgs;
+          modules = [
+            ./hosts/nixos/wsl/ocelot
+          ];
+        };
+
+        # Mantis - Secondary Windows machine with GPU
+        mantis = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          inherit specialArgs;
+          modules = [
+            ./hosts/nixos/wsl/mantis
           ];
         };
       };
