@@ -1,4 +1,8 @@
-{ config, lib, pkgs, ... }:
+{
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   # Auto-discover command files
@@ -9,6 +13,14 @@ let
   commandFileAttrs = lib.mapAttrs' (
     name: _: lib.nameValuePair ".claude/commands/${name}" { source = ./commands/${name}; }
   ) commandEntries;
+
+  # Auto-discover hook files
+  hooksDir = ./hooks;
+  hookFiles = builtins.readDir hooksDir;
+  importHook = name: import (hooksDir + "/${name}") { inherit pkgs; };
+  hooks = lib.foldl' (acc: name: acc // (importHook name)) { } (
+    lib.filter (name: lib.hasSuffix ".nix" name) (builtins.attrNames hookFiles)
+  );
 
 in
 {
@@ -26,6 +38,7 @@ in
     enable = true;
     settings = {
       theme = "dark";
+      inherit hooks;
       permissions = {
         allow = [
           # Safe read-only git commands
@@ -118,7 +131,7 @@ in
           "Bash(killall:*)"
           "Bash(pkill:*)"
         ];
-        deny = [];
+        deny = [ ];
         defaultMode = "default";
       };
       verbose = true;
