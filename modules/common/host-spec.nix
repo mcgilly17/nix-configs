@@ -7,6 +7,7 @@
 }:
 {
   options.hostSpec = lib.mkOption {
+    default = { };
     type = lib.types.submodule {
       options = {
         # Host identification
