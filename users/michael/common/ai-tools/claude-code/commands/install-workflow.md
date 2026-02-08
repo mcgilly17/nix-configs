@@ -220,7 +220,7 @@ Add to `.claude/settings.local.json`:
   packages = [ pkgs.nodejs ];
 
   scripts.gsd-setup.exec = ''
-    npx get-shit-done-cc
+    npx get-shit-done-cc --local
   '';
 
   enterShell = ''
@@ -231,9 +231,9 @@ Add to `.claude/settings.local.json`:
 }
 ```
 
-**Direct installation:** `npx get-shit-done-cc`
+**Direct installation:** `npx get-shit-done-cc --local`
 
-**Location:** `.claude/` directory (local or global `~/.claude/`)
+**Location:** `.claude/` directory (project-local only)
 
 **Usage:** `/gsd:new-project`, `/gsd:create-roadmap`, `/gsd:map-codebase`, `/gsd:plan-phase`, `/gsd:execute-plan`
 
@@ -449,12 +449,10 @@ echo "Run 'devenv shell' then 'gsd-setup' to complete installation"
 
 **If no devenv.nix:**
 ```bash
-# Run interactive installer
-npx get-shit-done-cc
+# Run installer with local flag (project-specific install)
+npx get-shit-done-cc --local
 
-# Choose local (./.claude/) or global (~/.claude/) installation
-
-echo "✓ GSD installed"
+echo "✓ GSD installed to .claude/"
 echo "New projects: /gsd:new-project"
 echo "Existing codebases: /gsd:map-codebase"
 ```
@@ -515,7 +513,7 @@ echo "Existing codebases: /gsd:map-codebase"
 **GSD installation issues:**
 - Ensure Node.js is installed: `node --version`
 - Check npx available: `npx --version`
-- Try explicit installation: `npm install -g get-shit-done-cc` then run `get-shit-done-cc`
+- Always use `--local` flag: `npx get-shit-done-cc --local`
 
 **devenv.nix modifications:**
 - Back up before editing: `cp devenv.nix devenv.nix.backup`
