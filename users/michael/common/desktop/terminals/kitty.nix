@@ -1,13 +1,11 @@
-{ config, pkgs, ... }: {
+{ pkgs, ... }:
+{
   programs.kitty = {
     enable = true;
     font = {
       name = "MesloLGS Nerd Font Mono"; # Should try "JetBrainsMono Nerd Font"
       # use different font size on macOS
-      size =
-        if pkgs.stdenv.isDarwin
-        then 12
-        else 11;
+      size = if pkgs.stdenv.isDarwin then 12 else 11;
     };
     settings = {
       background_opacity = "0.98";
@@ -25,5 +23,13 @@
     };
     # macOS specific settings
     darwinLaunchOptions = [ ];
+
+    # Extra config for mouse mappings
+    extraConfig = ''
+      # Cmd+click to open URLs (macOS convention)
+      # Mirrors the default ctrl+shift+left binding
+      mouse_map cmd+left press grabbed discard_event
+      mouse_map cmd+left release grabbed,ungrabbed mouse_handle_click link
+    '';
   };
 }
