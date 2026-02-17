@@ -10,6 +10,7 @@
     ../common/desktop # Includes 1Password shell plugins
     ../common/desktop/terminals
     ../common/desktop/development
+    ../common/dev # Dev machine specific (kubeconfig, etc.)
 
     # Linux-specific (Hyprland, Walker, Waybar, etc.)
     ../linux

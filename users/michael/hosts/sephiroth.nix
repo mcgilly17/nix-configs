@@ -8,5 +8,6 @@ _: {
     ../common/tui
     ../common/shells
     ../common/ai-tools
+    ../common/dev # Dev machine specific (kubeconfig, etc.)
   ];
 }

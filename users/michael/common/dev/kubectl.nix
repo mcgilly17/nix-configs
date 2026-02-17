@@ -28,8 +28,10 @@ in
   sops = {
     age.keyFile = "${homeDirectory}/.config/sops/age/keys.txt";
 
-    secrets."kubeconfig-zenith" = {
+    secrets.kubeconfig-zenith = {
       sopsFile = "${secretsDirectory}/kubeconfig.yaml";
+      format = "yaml";
+      key = ""; # Empty key means the entire file
       path = "${kubeconfigDir}/zenith.yaml";
     };
   };
