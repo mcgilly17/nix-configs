@@ -106,6 +106,7 @@
     prettierd # Prettier, as a daemon, for improved formatting speed
     kubectl
     kubetail
+    fluxcd
     devbox
     graphviz
     mutagen
