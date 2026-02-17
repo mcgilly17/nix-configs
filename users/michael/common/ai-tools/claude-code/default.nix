@@ -131,7 +131,15 @@ in
           "Bash(killall:*)"
           "Bash(pkill:*)"
         ];
-        deny = [ ];
+        deny = [
+          # Sensitive files - secrets, credentials, keys
+          "Read(.env)"
+          "Read(.env.*)"
+          "Read(**/secrets/*)"
+          "Read(**/*credential*)"
+          "Read(**/*.pem)"
+          "Read(**/*.key)"
+        ];
         defaultMode = "default";
       };
       verbose = true;
