@@ -10,6 +10,7 @@
     ../common/tui
     ../common/shells
     ../common/ai-tools
+    ../common/dev # Dev machine specific (kubeconfig, etc.)
   ];
 
   # WSL-specific shell aliases for Windows integration
