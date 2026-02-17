@@ -23,7 +23,6 @@
     variables = {
       # Fix https://github.com/LnL7/nix-darwin/wiki/Terminfo-issues
       # TERMINFO_DIRS = map (path: path + "/share/terminfo") config.environment.profiles ++ [ "/usr/share/terminfo" ];
-      EDITOR = "nvim";
     };
 
     shells = [

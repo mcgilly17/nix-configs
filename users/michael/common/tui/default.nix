@@ -25,6 +25,11 @@
     };
   };
 
+  home.sessionVariables = {
+    EDITOR = "nvim";
+    VISUAL = "nvim";
+  };
+
   home.packages = with pkgs; [
     # Just install these with no config
     # Search here for config options for each. https://mynixos.com/home-manager/options/programs
@@ -108,7 +113,6 @@
     socat
     neofetch
     devenv
-    watchman
     nodejs_24
 
     # Neovim LSP and other pkgs
