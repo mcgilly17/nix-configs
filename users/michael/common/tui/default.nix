@@ -99,6 +99,7 @@
     jq # json in the terminal
     yq-go # yaml processor https://github.com/mikefarah/yq
     prettierd # Prettier, as a daemon, for improved formatting speed
+    kubectl
     kubetail
     devbox
     graphviz
