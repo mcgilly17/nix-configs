@@ -97,7 +97,6 @@
     nixpkgs-review # review pull-requests on nixpkgs
     nixpkgs-fmt # Nix code formatter for nixpkgs
     deadnix # scan nix files for dead code
-    node2nix # generate Nix expressions to build NPM packages
     alejandra # Nix formatter
 
     # Development Specific
