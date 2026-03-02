@@ -145,6 +145,19 @@ in
       verbose = true;
       includeCoAuthoredBy = false;
 
+      # Plugins
+      extraKnownMarketplaces = {
+        "777genius/claude-notifications-go" = {
+          source = {
+            source = "github";
+            repo = "777genius/claude-notifications-go";
+          };
+        };
+      };
+      enabledPlugins = {
+        "claude-notifications-go@777genius/claude-notifications-go" = true;
+      };
+
       statusLine = {
         type = "command";
         command = "input=$(cat); echo \"[$(echo \"$input\" | jq -r '.model.display_name')] 📁 $(basename \"$(echo \"$input\" | jq -r '.workspace.current_dir')\")\"";
