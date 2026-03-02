@@ -47,10 +47,9 @@ in
   programs.zellij = {
     enable = true;
     enableZshIntegration = false; # Use custom integration below
-    exitShellOnExit = true;
   };
 
-  programs.zsh.initExtra = zellijAutoStart;
+  programs.zsh.initContent = zellijAutoStart;
 
   xdg.configFile."zellij/config.kdl".text = configContent;
   xdg.configFile."zellij/layouts/default.kdl".source = layoutFile;
