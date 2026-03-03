@@ -31,7 +31,7 @@ in
     ];
 
     # Copy sops-decrypted configs to writable location (kubectx needs write access)
-    activation.kubeconfig = config.lib.dag.entryAfter [ "sopsNix" ] ''
+    activation.kubeconfig = config.lib.dag.entryAfter [ "setupSecrets" ] ''
       mkdir -p "${kubeconfigDir}"
       for f in "${sopsKubeconfigDir}"/*.yaml; do
         [ -f "$f" ] && cp -fL "$f" "${kubeconfigDir}/$(basename "$f")" && chmod 0600 "${kubeconfigDir}/$(basename "$f")"
