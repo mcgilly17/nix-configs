@@ -50,7 +50,8 @@
     };
 
     # Keyboard remapping (Caps Lock → Escape on tap, Ctrl on hold)
-    keyd = {
+    # Disabled on WSL - no direct input device access
+    keyd = lib.mkIf (!config.hostSpec.isWSL) {
       enable = true;
       keyboards.default = {
         ids = [ "*" ];
