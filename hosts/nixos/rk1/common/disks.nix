@@ -9,7 +9,8 @@
 #   /dev/nvme0n1p2 - rest  btrfs → /data (zstd compressed)
 #
 # Dev server (sephiroth):
-#   /dev/nvme0n1p1 - 100%  btrfs → /data (zstd compressed)
+#   /dev/nvme0n1p1 - 100%  btrfs → /nix (zstd compressed, offload from eMMC)
+#                                   /data (zstd compressed)
 { config, lib, ... }:
 
 {
@@ -51,6 +52,16 @@
               subvolumes = {
                 "/data" = {
                   mountpoint = "/data";
+                  mountOptions = [
+                    "compress=zstd"
+                    "noatime"
+                  ];
+                };
+              }
+              // lib.optionalAttrs (!config.hostSpec.isClusterNode) {
+                # Dev servers: offload /nix to NVMe (eMMC is too small)
+                "/nix" = {
+                  mountpoint = "/nix";
                   mountOptions = [
                     "compress=zstd"
                     "noatime"
