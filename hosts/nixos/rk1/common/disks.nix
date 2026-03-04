@@ -1,58 +1,65 @@
 # RK1 Disk Configuration
-# Shared disk layout for all RK1 cluster nodes
+# Shared disk layout for all RK1 nodes
 #
-# Root filesystem: Simple ext4 matching the nixos-rk1 SD image layout
-# NVMe (future): LUKS-encrypted data drive via disko
-_:
+# Root: Pre-flashed SD image on eMMC (not managed by disko)
+# NVMe: btrfs local storage + reserved Longhorn partition (cluster nodes only)
+#
+# Cluster nodes (zenith-1, zenith-2, zenith-3):
+#   /dev/nvme0n1p1 - 200G  ext4  → /var/lib/longhorn (reserved for future use)
+#   /dev/nvme0n1p2 - rest  btrfs → /data (zstd compressed)
+#
+# Dev server (sephiroth):
+#   /dev/nvme0n1p1 - 100%  btrfs → /data (zstd compressed)
+{ config, lib, ... }:
 
 {
   # Root filesystem - matches the flashed nixos-rk1 SD image (MBR + ext4)
-  # This is NOT managed by disko since the image is pre-flashed
+  # Not managed by disko since the image is pre-flashed
   fileSystems."/" = {
     device = "/dev/disk/by-label/NIXOS_SD";
     fsType = "ext4";
-    options = [ "noatime" ]; # Reduce wear on eMMC
+    options = [ "noatime" ];
   };
 
-  # Disable disko for root - we use the pre-flashed SD image layout
-  # Disko would try to reformat which we don't want
-
-  # NVMe LUKS Configuration (commented out until NVMe is installed)
-  # Uncomment and configure when adding NVMe storage
-  #
-  # disko.devices = {
-  #   disk = {
-  #     nvme = {
-  #       type = "disk";
-  #       device = "/dev/nvme0n1";
-  #       content = {
-  #         type = "gpt";
-  #         partitions = {
-  #           luks = {
-  #             size = "100%";
-  #             content = {
-  #               type = "luks";
-  #               name = "cryptdata";
-  #               # Password will be prompted on boot, or use:
-  #               # passwordFile = "/tmp/disk-password"; # For nixos-anywhere
-  #               settings = {
-  #                 allowDiscards = true; # Enable TRIM for SSD
-  #               };
-  #               content = {
-  #                 type = "btrfs";
-  #                 extraArgs = [ "-f" ];
-  #                 subvolumes = {
-  #                   "/data" = {
-  #                     mountpoint = "/data";
-  #                     mountOptions = [ "compress=zstd" "noatime" ];
-  #                   };
-  #                 };
-  #               };
-  #             };
-  #           };
-  #         };
-  #       };
-  #     };
-  #   };
-  # };
+  # NVMe storage via disko
+  # Deploy only after NVMe drives are physically installed
+  disko.devices.disk.nvme = {
+    type = "disk";
+    device = "/dev/nvme0n1";
+    content = {
+      type = "gpt";
+      partitions =
+        # Cluster nodes get a reserved Longhorn partition (200G)
+        lib.optionalAttrs config.hostSpec.isClusterNode {
+          longhorn = {
+            size = "200G";
+            content = {
+              type = "filesystem";
+              format = "ext4";
+              mountpoint = "/var/lib/longhorn";
+              mountOptions = [ "noatime" ];
+            };
+          };
+        }
+        // {
+          # Local storage (takes remaining space)
+          local = {
+            size = "100%";
+            content = {
+              type = "btrfs";
+              extraArgs = [ "-f" ];
+              subvolumes = {
+                "/data" = {
+                  mountpoint = "/data";
+                  mountOptions = [
+                    "compress=zstd"
+                    "noatime"
+                  ];
+                };
+              };
+            };
+          };
+        };
+    };
+  };
 }
