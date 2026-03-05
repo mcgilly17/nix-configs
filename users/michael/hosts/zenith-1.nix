@@ -4,7 +4,7 @@ _: {
   imports = [
     ../common/home.nix
     ../common/core
-    ../common/tui
+    ../common/tui-server
     ../common/shells
   ];
 }
