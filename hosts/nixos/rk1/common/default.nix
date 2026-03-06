@@ -67,6 +67,7 @@
       "panfrost"
       "fusb302"
       "nvme"
+      "iscsi_tcp" # Required by Longhorn for iSCSI block transport
     ];
 
     # File system support
@@ -122,6 +123,12 @@
     enable = true;
     name = "iqn.2025-01.com.turingpi:rk1";
   };
+
+  # Longhorn uses nsenter to execute host binaries (iscsiadm, mount, etc.)
+  # but searches standard FHS paths (/usr/local/bin) which don't exist on NixOS
+  systemd.tmpfiles.rules = [
+    "L+ /usr/local/bin - - - - /run/current-system/sw/bin/"
+  ];
 
   # Temperature monitoring - Industrial I/O sensors
   hardware.sensor.iio.enable = true;
