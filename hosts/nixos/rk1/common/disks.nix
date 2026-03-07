@@ -58,6 +58,23 @@
                   ];
                 };
               }
+              // lib.optionalAttrs config.hostSpec.isClusterNode {
+                # K3s data on NVMe instead of eMMC to save space and improve performance
+                "/rancher" = {
+                  mountpoint = "/var/lib/rancher";
+                  mountOptions = [
+                    "compress=zstd"
+                    "noatime"
+                  ];
+                };
+                "/kubelet" = {
+                  mountpoint = "/var/lib/kubelet";
+                  mountOptions = [
+                    "compress=zstd"
+                    "noatime"
+                  ];
+                };
+              }
               // lib.optionalAttrs (!config.hostSpec.isClusterNode) {
                 # Dev servers: offload /nix to NVMe (eMMC is too small)
                 "/nix" = {
