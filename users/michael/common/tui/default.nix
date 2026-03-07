@@ -112,7 +112,7 @@
     mutagen
     rclone
     socat
-    neofetch
+    fastfetch
     devenv
     nodejs_24
 
