@@ -41,10 +41,18 @@ in
 
     secrets = {
       openAIKey = { };
+      vault-addr = { };
       # SSH private key - will be copied to ~/.ssh/ by activation script
       "private_keys/michael" = { };
     };
   };
+
+  # Export VAULT_ADDR from sops secret
+  programs.zsh.initContent = lib.mkAfter ''
+    if [ -f "${homeDirectory}/.config/sops-nix/secrets/vault-addr" ]; then
+      export VAULT_ADDR="https://$(cat "${homeDirectory}/.config/sops-nix/secrets/vault-addr")"
+    fi
+  '';
 
   # Copy SSH key from sops secret to ~/.ssh/ after secrets are decrypted
   home.activation.setupSshKey = lib.hm.dag.entryAfter [ "setupSecrets" ] ''

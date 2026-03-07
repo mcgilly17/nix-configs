@@ -106,6 +106,7 @@
     kubectl
     kubetail
     fluxcd
+    vault
     devbox
     graphviz
     mutagen

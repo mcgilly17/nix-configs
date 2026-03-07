@@ -74,6 +74,7 @@
     kubectl
     kubetail
     fluxcd
+    vault
 
     # Network debugging
     nmap
