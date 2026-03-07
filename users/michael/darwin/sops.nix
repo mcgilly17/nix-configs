@@ -41,16 +41,20 @@ in
 
     secrets = {
       openAIKey = { };
-      vault-addr = { };
+      "vault/vault-addr" = { };
+      "vault/vault-token" = { };
       # SSH private key - will be copied to ~/.ssh/ by activation script
       "private_keys/michael" = { };
     };
   };
 
-  # Export VAULT_ADDR from sops secret
+  # Export vault env vars from sops secrets
   programs.zsh.initContent = lib.mkAfter ''
-    if [ -f "${homeDirectory}/.config/sops-nix/secrets/vault-addr" ]; then
-      export VAULT_ADDR="https://$(cat "${homeDirectory}/.config/sops-nix/secrets/vault-addr")"
+    if [ -f "${homeDirectory}/.config/sops-nix/secrets/vault/vault-addr" ]; then
+      export VAULT_ADDR="https://$(cat "${homeDirectory}/.config/sops-nix/secrets/vault/vault-addr")"
+    fi
+    if [ -f "${homeDirectory}/.config/sops-nix/secrets/vault/vault-token" ]; then
+      export VAULT_TOKEN="$(cat "${homeDirectory}/.config/sops-nix/secrets/vault/vault-token")"
     fi
   '';
 
