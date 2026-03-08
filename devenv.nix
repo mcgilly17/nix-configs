@@ -2,18 +2,22 @@
   pkgs,
   lib,
   ...
-}: {
+}:
+{
   # Nix development tools
   packages = with pkgs; [
     # Nix tooling
-    nil                # Nix LSP
-    nixfmt-rfc-style   # Nix formatter (matches flake.nix formatter)
-    statix             # Nix linter
-    deadnix            # Find dead Nix code
+    nil # Nix LSP
+    nixfmt-rfc-style # Nix formatter (matches flake.nix formatter)
+    statix # Nix linter
+    deadnix # Find dead Nix code
 
     # For Spec Kit
     python3
     uv
+
+    # For GSD (Get Shit Done)
+    nodejs
   ];
 
   # Nix language support
@@ -54,6 +58,11 @@
       TARGET_DIR="''${1:-.}"
       ${lib.getExe pkgs.uv}x --from git+https://github.com/github/spec-kit.git specify init "$TARGET_DIR"
     '';
+
+    # GSD (Get Shit Done) setup
+    gsd-setup.exec = ''
+      npx get-shit-done-cc --local
+    '';
   };
 
   enterShell = ''
@@ -70,6 +79,7 @@
     echo "  build-darwin     Build darwin config (default: sephiroth)"
     echo "  build-nixos      Build NixOS config (default: ganon)"
     echo "  speckit-setup    Initialize Spec Kit"
+    echo "  gsd-setup        Install Get Shit Done workflow"
   '';
 
   # Git hooks for code quality
