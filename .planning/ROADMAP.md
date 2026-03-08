@@ -12,7 +12,7 @@ Starting from an existing NixOS-WSL dotfiles repo, this roadmap builds out decla
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Activation Scaffold** - Windows module directory, isWSL guard, and sync hook that copies configs from WSL to the Windows filesystem
+- [x] **Phase 1: Activation Scaffold** - Windows module directory, isWSL guard, and sync hook that copies configs from WSL to the Windows filesystem (completed 2026-03-08)
 - [ ] **Phase 2: Komorebi** - komorebi tiling WM config (komorebi.json) with workspaces, layouts, float rules, and Catppuccin Mocha theme
 - [ ] **Phase 3: whkd** - whkd hotkey daemon config (.whkdrc) with workspace switching, window management, and layout cycling keybindings
 - [ ] **Phase 4: YASB** - YASB status bar config.yaml and styles.css with komorebi widgets, system widgets, and Catppuccin Mocha theming
@@ -28,7 +28,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. Running `home-manager switch` on a non-WSL host does not evaluate or apply any Windows module
   3. After activation on a WSL host with `/mnt/c` mounted, any file staged by a Windows module appears at `/mnt/c/Users/michael/.config/`
   4. If `/mnt/c` is not mounted during activation, the hook exits silently without failing the build
-**Plans:** 1 plan
+**Plans:** 1/1 plans complete
 
 Plans:
 - [ ] 01-01-PLAN.md — Windows sync scaffold: module, option, isWSL guard, activation hook, and host wiring
@@ -71,7 +71,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Activation Scaffold | 0/1 | Planning complete | - |
+| 1. Activation Scaffold | 1/1 | Complete   | 2026-03-08 |
 | 2. Komorebi | 0/TBD | Not started | - |
 | 3. whkd | 0/TBD | Not started | - |
 | 4. YASB | 0/TBD | Not started | - |

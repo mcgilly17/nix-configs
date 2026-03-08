@@ -7,10 +7,10 @@
 
 ### Scaffold
 
-- [ ] **SCAF-01**: Windows module directory exists at `users/michael/windows/` with aggregator `default.nix`
-- [ ] **SCAF-02**: All Windows modules guarded by `hostSpec.isWSL` flag
-- [ ] **SCAF-03**: `home.activation` sync hook copies configs from WSL to `/mnt/c/Users/michael/`
-- [ ] **SCAF-04**: Sync hook guards writes with `/mnt/c` mount check
+- [x] **SCAF-01**: Windows module directory exists at `users/michael/windows/` with aggregator `default.nix`
+- [x] **SCAF-02**: All Windows modules guarded by `hostSpec.isWSL` flag
+- [x] **SCAF-03**: `home.activation` sync hook copies configs from WSL to `/mnt/c/Users/michael/`
+- [x] **SCAF-04**: Sync hook guards writes with `/mnt/c` mount check
 
 ### Komorebi
 
@@ -67,10 +67,10 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| SCAF-01 | Phase 1 | Pending |
-| SCAF-02 | Phase 1 | Pending |
-| SCAF-03 | Phase 1 | Pending |
-| SCAF-04 | Phase 1 | Pending |
+| SCAF-01 | Phase 1 | Complete |
+| SCAF-02 | Phase 1 | Complete |
+| SCAF-03 | Phase 1 | Complete |
+| SCAF-04 | Phase 1 | Complete |
 | KOMO-01 | Phase 2 | Pending |
 | KOMO-02 | Phase 2 | Pending |
 | KOMO-03 | Phase 2 | Pending |
