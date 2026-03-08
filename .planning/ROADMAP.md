@@ -31,7 +31,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans:** 1/1 plans complete
 
 Plans:
-- [ ] 01-01-PLAN.md — Windows sync scaffold: module, option, isWSL guard, activation hook, and host wiring
+- [x] 01-01-PLAN.md — Windows sync scaffold: module, option, isWSL guard, activation hook, and host wiring
 
 ### Phase 2: Komorebi
 **Goal**: komorebi is fully configured via Nix, synced to Windows, and ready to manage windows with Catppuccin Mocha theming, sensible layouts, and float rules for system dialogs
@@ -41,7 +41,10 @@ Plans:
   1. `komorebi.json` is generated at the correct Windows path with workspace definitions, layout configuration, border and gap settings, and Catppuccin Mocha applied via the native `"theme"` key
   2. Float rules for common Windows system dialogs (Settings, Task Manager, file pickers) are present and take effect when komorebi loads
   3. Per-monitor workspace configuration is present in `komorebi.json` and takes effect when multiple monitors are connected
-**Plans**: TBD
+**Plans:** 1 plan
+
+Plans:
+- [ ] 02-01-PLAN.md — Komorebi module: generate komorebi.json with workspaces, Catppuccin Mocha theme, float rules, and multi-monitor config
 
 ### Phase 3: whkd
 **Goal**: whkd hotkey daemon is configured via Nix with keybindings for all window management operations, providing keyboard-driven control of the komorebi tiling layout
@@ -72,6 +75,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Activation Scaffold | 1/1 | Complete   | 2026-03-08 |
-| 2. Komorebi | 0/TBD | Not started | - |
+| 2. Komorebi | 0/1 | Planning | - |
 | 3. whkd | 0/TBD | Not started | - |
 | 4. YASB | 0/TBD | Not started | - |
