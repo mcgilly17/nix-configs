@@ -13,7 +13,7 @@ Starting from an existing NixOS-WSL dotfiles repo, this roadmap builds out decla
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Activation Scaffold** - Windows module directory, isWSL guard, and sync hook that copies configs from WSL to the Windows filesystem (completed 2026-03-08)
-- [ ] **Phase 2: Komorebi** - komorebi tiling WM config (komorebi.json) with workspaces, layouts, float rules, and Catppuccin Mocha theme
+- [x] **Phase 2: Komorebi** - komorebi tiling WM config (komorebi.json) with workspaces, layouts, float rules, and Catppuccin Mocha theme (completed 2026-03-08)
 - [ ] **Phase 3: whkd** - whkd hotkey daemon config (.whkdrc) with workspace switching, window management, and layout cycling keybindings
 - [ ] **Phase 4: YASB** - YASB status bar config.yaml and styles.css with komorebi widgets, system widgets, and Catppuccin Mocha theming
 
@@ -41,7 +41,7 @@ Plans:
   1. `komorebi.json` is generated at the correct Windows path with workspace definitions, layout configuration, border and gap settings, and Catppuccin Mocha applied via the native `"theme"` key
   2. Float rules for common Windows system dialogs (Settings, Task Manager, file pickers) are present and take effect when komorebi loads
   3. Per-monitor workspace configuration is present in `komorebi.json` and takes effect when multiple monitors are connected
-**Plans:** 1 plan
+**Plans:** 1/1 plans complete
 
 Plans:
 - [ ] 02-01-PLAN.md — Komorebi module: generate komorebi.json with workspaces, Catppuccin Mocha theme, float rules, and multi-monitor config
@@ -75,6 +75,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Activation Scaffold | 1/1 | Complete   | 2026-03-08 |
-| 2. Komorebi | 0/1 | Planning | - |
+| 2. Komorebi | 1/1 | Complete   | 2026-03-08 |
 | 3. whkd | 0/TBD | Not started | - |
 | 4. YASB | 0/TBD | Not started | - |

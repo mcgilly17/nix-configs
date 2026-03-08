@@ -14,10 +14,10 @@
 
 ### Komorebi
 
-- [ ] **KOMO-01**: `komorebi.json` generated via `builtins.toJSON` with workspaces, layouts, borders, gaps
-- [ ] **KOMO-02**: Application-specific float rules for common Windows apps (Settings, Task Manager, dialogs)
-- [ ] **KOMO-03**: Catppuccin Mocha theme applied via native `"theme"` config key
-- [ ] **KOMO-04**: Per-monitor workspace configuration support
+- [x] **KOMO-01**: `komorebi.json` generated via `builtins.toJSON` with workspaces, layouts, borders, gaps
+- [x] **KOMO-02**: Application-specific float rules for common Windows apps (Settings, Task Manager, dialogs)
+- [x] **KOMO-03**: Catppuccin Mocha theme applied via native `"theme"` config key
+- [x] **KOMO-04**: Per-monitor workspace configuration support
 
 ### whkd
 
@@ -71,10 +71,10 @@
 | SCAF-02 | Phase 1 | Complete |
 | SCAF-03 | Phase 1 | Complete |
 | SCAF-04 | Phase 1 | Complete |
-| KOMO-01 | Phase 2 | Pending |
-| KOMO-02 | Phase 2 | Pending |
-| KOMO-03 | Phase 2 | Pending |
-| KOMO-04 | Phase 2 | Pending |
+| KOMO-01 | Phase 2 | Complete |
+| KOMO-02 | Phase 2 | Complete |
+| KOMO-03 | Phase 2 | Complete |
+| KOMO-04 | Phase 2 | Complete |
 | WHKD-01 | Phase 3 | Pending |
 | WHKD-02 | Phase 3 | Pending |
 | WHKD-03 | Phase 3 | Pending |

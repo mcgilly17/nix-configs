@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 01-activation-scaffold-01-01-PLAN.md
-last_updated: "2026-03-08T21:38:24.391Z"
+stopped_at: Completed 02-komorebi-01-PLAN.md
+last_updated: "2026-03-08T22:10:16.484Z"
 last_activity: 2026-03-08 — Roadmap created, requirements defined, research completed
 progress:
   total_phases: 4
-  completed_phases: 1
-  total_plans: 1
-  completed_plans: 1
+  completed_phases: 2
+  total_plans: 2
+  completed_plans: 2
   percent: 0
 ---
 
@@ -51,6 +51,7 @@ Progress: [░░░░░░░░░░] 0%
 
 *Updated after each plan completion*
 | Phase 01-activation-scaffold P01 | 10 | 2 tasks | 3 files |
+| Phase 02-komorebi P01 | 7min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -65,6 +66,10 @@ Recent decisions affecting current work:
 - [Phase 01-activation-scaffold]: Options declared unconditionally outside lib.mkIf — non-WSL hosts can import windows module without type errors
 - [Phase 01-activation-scaffold]: entryAfter writeBoundary chosen for activation hook — store paths must exist before copy operations
 - [Phase 01-activation-scaffold]: Mount guard exits 0 (not error) when /mnt/c/Users/michael not accessible — valid state in some WSL contexts
+- [Phase 02-komorebi]: lib parameter omitted from sub-module function signature — deadnix pre-commit hook enforces no unused lambda patterns
+- [Phase 02-komorebi]: Float rules in komorebi.json floating_applications (not applications.json) — applications.json overwritten by komorebic fetch-asc
+- [Phase 02-komorebi]: window_hiding_behaviour = Cloak — both target hosts are Windows 11; Cloak uses cleaner Win11-specific API
+- [Phase 02-komorebi]: No isWSL guard in sub-module — parent aggregator windows/default.nix wraps config in lib.mkIf isWSL; sub-module sets option unconditionally
 
 ### Pending Todos
 
@@ -77,6 +82,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-08T21:33:46.449Z
-Stopped at: Completed 01-activation-scaffold-01-01-PLAN.md
+Last session: 2026-03-08T22:10:16.481Z
+Stopped at: Completed 02-komorebi-01-PLAN.md
 Resume file: None
