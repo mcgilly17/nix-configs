@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: planning
-stopped_at: Completed 02-komorebi-01-PLAN.md
-last_updated: "2026-03-08T22:14:06.401Z"
-last_activity: 2026-03-08 — Roadmap created, requirements defined, research completed
+status: complete
+stopped_at: All phases complete
+last_updated: "2026-03-08"
+last_activity: 2026-03-08 — Phases 3 (whkd) and 4 (YASB) implemented
 progress:
   total_phases: 4
-  completed_phases: 2
-  total_plans: 2
-  completed_plans: 2
-  percent: 0
+  completed_phases: 4
+  total_plans: 4
+  completed_plans: 4
+  percent: 100
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-08)
 
 **Core value:** Windows app configs generated declaratively in Nix and auto-synced to the Windows side — reproducible, version-controlled Windows desktop
-**Current focus:** Phase 1 - Activation Scaffold
+**Current focus:** Milestone v1.0 complete — all 4 phases done
 
 ## Current Position
 
-Phase: 1 of 4 (Activation Scaffold)
-Plan: 0 of TBD in current phase
-Status: Ready to plan
-Last activity: 2026-03-08 — Roadmap created, requirements defined, research completed
+Phase: 4 of 4 (all complete)
+Plan: All plans complete
+Status: Milestone complete
+Last activity: 2026-03-08 — Phases 3 (whkd) and 4 (YASB) implemented
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 

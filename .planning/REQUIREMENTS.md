@@ -21,18 +21,18 @@
 
 ### whkd
 
-- [ ] **WHKD-01**: `.whkdrc` generated with workspace switching keybindings
-- [ ] **WHKD-02**: Window movement and focus keybindings via `komorebic` commands
-- [ ] **WHKD-03**: Layout cycling keybindings (BSP, stack, monocle)
+- [x] **WHKD-01**: `.whkdrc` generated with workspace switching keybindings
+- [x] **WHKD-02**: Window movement and focus keybindings via `komorebic` commands
+- [x] **WHKD-03**: Layout cycling keybindings (BSP, stack, monocle)
 
 ### YASB
 
-- [ ] **YASB-01**: `config.yaml` generated with bar layout and widget definitions
-- [ ] **YASB-02**: Komorebi workspace widget showing active/populated workspaces
-- [ ] **YASB-03**: Komorebi layout widget showing current layout
-- [ ] **YASB-04**: Clock, CPU, memory system widgets
-- [ ] **YASB-05**: `styles.css` with Catppuccin Mocha colors and Sapphire accent
-- [ ] **YASB-06**: Media, volume, active window, and power menu widgets
+- [x] **YASB-01**: `config.yaml` generated with bar layout and widget definitions
+- [x] **YASB-02**: Komorebi workspace widget showing active/populated workspaces
+- [x] **YASB-03**: Komorebi layout widget showing current layout
+- [x] **YASB-04**: Clock, CPU, memory system widgets
+- [x] **YASB-05**: `styles.css` with Catppuccin Mocha colors and Sapphire accent
+- [x] **YASB-06**: Media, volume, active window, and power menu widgets
 
 ## v2 Requirements
 
@@ -75,15 +75,15 @@
 | KOMO-02 | Phase 2 | Complete |
 | KOMO-03 | Phase 2 | Complete |
 | KOMO-04 | Phase 2 | Complete |
-| WHKD-01 | Phase 3 | Pending |
-| WHKD-02 | Phase 3 | Pending |
-| WHKD-03 | Phase 3 | Pending |
-| YASB-01 | Phase 4 | Pending |
-| YASB-02 | Phase 4 | Pending |
-| YASB-03 | Phase 4 | Pending |
-| YASB-04 | Phase 4 | Pending |
-| YASB-05 | Phase 4 | Pending |
-| YASB-06 | Phase 4 | Pending |
+| WHKD-01 | Phase 3 | Complete |
+| WHKD-02 | Phase 3 | Complete |
+| WHKD-03 | Phase 3 | Complete |
+| YASB-01 | Phase 4 | Complete |
+| YASB-02 | Phase 4 | Complete |
+| YASB-03 | Phase 4 | Complete |
+| YASB-04 | Phase 4 | Complete |
+| YASB-05 | Phase 4 | Complete |
+| YASB-06 | Phase 4 | Complete |
 
 **Coverage:**
 - v1 requirements: 17 total

@@ -14,8 +14,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Activation Scaffold** - Windows module directory, isWSL guard, and sync hook that copies configs from WSL to the Windows filesystem (completed 2026-03-08)
 - [x] **Phase 2: Komorebi** - komorebi tiling WM config (komorebi.json) with workspaces, layouts, float rules, and Catppuccin Mocha theme (completed 2026-03-08)
-- [ ] **Phase 3: whkd** - whkd hotkey daemon config (.whkdrc) with workspace switching, window management, and layout cycling keybindings
-- [ ] **Phase 4: YASB** - YASB status bar config.yaml and styles.css with komorebi widgets, system widgets, and Catppuccin Mocha theming
+- [x] **Phase 3: whkd** - whkd hotkey daemon config (.whkdrc) with workspace switching, window management, and layout cycling keybindings (completed 2026-03-08)
+- [x] **Phase 4: YASB** - YASB status bar config.yaml and styles.css with komorebi widgets, system widgets, and Catppuccin Mocha theming (completed 2026-03-08)
 
 ## Phase Details
 
@@ -54,7 +54,10 @@ Plans:
   1. `.whkdrc` is generated and synced to Windows with keybindings for switching between all defined workspaces
   2. Keybindings for moving windows between workspaces and changing window focus direction are present and wired to `komorebic` commands
   3. Keybindings for cycling through layouts (BSP, stack, monocle) are present and functional
-**Plans**: TBD
+**Plans:** 1/1 plans complete
+
+Plans:
+- [x] Direct implementation — whkd module with vim-style komorebi keybindings
 
 ### Phase 4: YASB
 **Goal**: YASB status bar is configured via Nix with komorebi workspace and layout widgets, system resource widgets, and Catppuccin Mocha styling that visually matches the Linux side
@@ -65,7 +68,10 @@ Plans:
   2. Clock, CPU, and memory widgets appear on the bar and display live system data
   3. Media player, volume, active window title, and power menu widgets appear on the bar and respond correctly to user interaction
   4. `styles.css` applies Catppuccin Mocha colors with Sapphire accent using explicit font names, producing a visual appearance consistent with the Linux waybar
-**Plans**: TBD
+**Plans:** 1/1 plans complete
+
+Plans:
+- [x] Direct implementation — YASB config.yaml + styles.css with komorebi widgets and Catppuccin Mocha theme
 
 ## Progress
 
@@ -76,5 +82,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 |-------|----------------|--------|-----------|
 | 1. Activation Scaffold | 1/1 | Complete   | 2026-03-08 |
 | 2. Komorebi | 1/1 | Complete   | 2026-03-08 |
-| 3. whkd | 0/TBD | Not started | - |
-| 4. YASB | 0/TBD | Not started | - |
+| 3. whkd | 1/1 | Complete   | 2026-03-08 |
+| 4. YASB | 1/1 | Complete   | 2026-03-08 |
