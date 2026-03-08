@@ -11,6 +11,7 @@
     ../common/shells
     ../common/ai-tools
     ../common/dev # Dev machine specific (kubeconfig, etc.)
+    ../windows # Windows config sync (WSL only)
   ];
 
   # WSL-specific shell aliases for Windows integration
