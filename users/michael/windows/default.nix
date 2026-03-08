@@ -49,6 +49,10 @@ let
   );
 in
 {
+  imports = [
+    ./komorebi
+  ];
+
   # Option declared unconditionally so non-WSL hosts can still evaluate the type
   # (sub-modules may reference it regardless of isWSL).
   options.windows.configFiles = lib.mkOption {
