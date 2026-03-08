@@ -51,6 +51,8 @@ in
 {
   imports = [
     ./komorebi
+    ./whkd
+    ./yasb
   ];
 
   # Option declared unconditionally so non-WSL hosts can still evaluate the type
