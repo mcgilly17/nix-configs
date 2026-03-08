@@ -28,7 +28,10 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. Running `home-manager switch` on a non-WSL host does not evaluate or apply any Windows module
   3. After activation on a WSL host with `/mnt/c` mounted, any file staged by a Windows module appears at `/mnt/c/Users/michael/.config/`
   4. If `/mnt/c` is not mounted during activation, the hook exits silently without failing the build
-**Plans**: TBD
+**Plans:** 1 plan
+
+Plans:
+- [ ] 01-01-PLAN.md — Windows sync scaffold: module, option, isWSL guard, activation hook, and host wiring
 
 ### Phase 2: Komorebi
 **Goal**: komorebi is fully configured via Nix, synced to Windows, and ready to manage windows with Catppuccin Mocha theming, sensible layouts, and float rules for system dialogs
@@ -68,7 +71,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Activation Scaffold | 0/TBD | Not started | - |
+| 1. Activation Scaffold | 0/1 | Planning complete | - |
 | 2. Komorebi | 0/TBD | Not started | - |
 | 3. whkd | 0/TBD | Not started | - |
 | 4. YASB | 0/TBD | Not started | - |
