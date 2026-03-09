@@ -30,8 +30,8 @@ let
     ctrl + alt + down              : komorebic focus down
     ctrl + alt + up                : komorebic focus up
     ctrl + alt + right             : komorebic focus right
-    ctrl + alt + oem_4             : komorebic cycle-focus previous
-    ctrl + alt + oem_6             : komorebic cycle-focus next
+    ctrl + alt + oem_comma          : komorebic cycle-focus previous
+    ctrl + alt + oem_period         : komorebic cycle-focus next
 
     # Move/swap windows
     ctrl + alt + shift + h         : komorebic move left
@@ -73,8 +73,12 @@ let
     ctrl + shift + 5               : komorebic move-to-workspace 4
 
     # Monitor focus
-    ctrl + alt + oem_comma         : komorebic cycle-monitor previous
-    ctrl + alt + oem_period        : komorebic cycle-monitor next
+    ctrl + alt + oem_4             : komorebic cycle-monitor previous
+    ctrl + alt + oem_6             : komorebic cycle-monitor next
+
+    # Move window to monitor
+    ctrl + shift + left            : komorebic move-to-monitor 0
+    ctrl + shift + right           : komorebic move-to-monitor 1
   '';
 in
 {
