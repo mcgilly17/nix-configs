@@ -5,7 +5,7 @@
 #   ctrl+alt+hjkl        = focus
 #   ctrl+alt+shift+hjkl  = move/swap
 #   ctrl+alt+1-5         = switch workspace
-#   alt+1-5              = move window to workspace
+#   ctrl+shift+1-5       = move window to workspace
 #
 # No isWSL guard needed — parent aggregator handles it.
 { pkgs, ... }:
@@ -66,11 +66,11 @@ let
     ctrl + right                   : komorebic cycle-workspace next
 
     # Move window to workspace
-    alt + 1                        : komorebic move-to-workspace 0
-    alt + 2                        : komorebic move-to-workspace 1
-    alt + 3                        : komorebic move-to-workspace 2
-    alt + 4                        : komorebic move-to-workspace 3
-    alt + 5                        : komorebic move-to-workspace 4
+    ctrl + shift + 1               : komorebic move-to-workspace 0
+    ctrl + shift + 2               : komorebic move-to-workspace 1
+    ctrl + shift + 3               : komorebic move-to-workspace 2
+    ctrl + shift + 4               : komorebic move-to-workspace 3
+    ctrl + shift + 5               : komorebic move-to-workspace 4
 
     # Monitor focus
     ctrl + alt + oem_comma         : komorebic cycle-monitor previous
