@@ -59,9 +59,15 @@ let
       komorebi_workspaces:
         type: "komorebi.workspaces.WorkspaceWidget"
         options:
-          label_offline: "Komorebi Offline"
-          hide_empty_workspaces: true
+          label_offline: "\u23fc Offline"
+          label_workspace_btn: "\udb80\udd30"
+          label_workspace_active_btn: "\udb80\udd2f"
+          label_workspace_populated_btn: "\udb80\udd30"
+          label_default_name: "{index}"
+          label_zero_index: false
+          hide_empty_workspaces: false
           hide_if_offline: true
+          animation: false
 
       komorebi_active_layout:
         type: "komorebi.active_layout.ActiveLayoutWidget"
