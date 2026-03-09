@@ -51,7 +51,7 @@ let
           enabled: true
           duration: 400
         widgets:
-          left: ["komorebi_workspaces", "komorebi_active_layout", "active_window"]
+          left: ["komorebi_workspaces", "komorebi_active_layout", "active_window", "traffic"]
           center: ["clock"]
           right: ["systray", "media", "cpu", "memory", "wifi", "volume", "notifications", "power_menu"]
 
@@ -109,6 +109,34 @@ let
           max_length_ellipsis: "..."
           monitor_exclusive: true
 
+      traffic:
+        type: "yasb.traffic.TrafficWidget"
+        options:
+          label: "\ueab4 {download_speed} \ueab7 {upload_speed}"
+          label_alt: "\ueab4 {download_speed} \ueab7 {upload_speed}"
+          update_interval: 1000
+          interface: "Auto"
+          hide_if_offline: false
+          speed_unit: "bits"
+          hide_decimal: true
+          speed_threshold:
+            min_upload: 1000
+            min_download: 1000
+          callbacks:
+            on_left: "toggle_menu"
+            on_right: "toggle_label"
+          menu:
+            blur: true
+            round_corners: true
+            round_corners_type: "normal"
+            border_color: "None"
+            alignment: "left"
+            direction: "down"
+            offset_top: 6
+            offset_left: 0
+            show_interface_name: true
+            show_internet_info: true
+
       clock:
         type: "yasb.clock.ClockWidget"
         options:
@@ -157,13 +185,13 @@ let
           show_thumbnail: false
           controls_only: false
           controls_left: true
-          controls_hide: true
+          controls_hide: false
           hide_empty: true
           icons:
-            prev_track: "\ue892"
-            next_track: "\ue893"
-            play: "\ue768"
-            pause: "\ue769"
+            prev_track: "\uf048"
+            next_track: "\uf051"
+            play: "\uf04b"
+            pause: "\uf04c"
           callbacks:
             on_left: "toggle_media_menu"
             on_middle: "toggle_play_pause"
@@ -193,6 +221,8 @@ let
         options:
           label: "<span>{icon}</span> {level}"
           label_alt: "{volume}"
+          scroll_step: 2
+          tooltip: true
           volume_icons:
             - "\ueee8"
             - "\uf026"
@@ -202,14 +232,23 @@ let
           audio_menu:
             blur: true
             round_corners: true
-            round_corners_type: "small"
-            border_color: "#89b4fa"
-            alignment: "center"
+            round_corners_type: "normal"
+            border_color: "None"
+            alignment: "right"
             direction: "down"
-            offset_top: 0
+            offset_top: 6
+            offset_left: 0
+            show_apps: true
+            show_app_labels: false
+            show_app_icons: true
+            show_apps_expanded: false
+            app_icons:
+              toggle_down: "\uf078"
+              toggle_up: "\uf077"
           callbacks:
-            on_left: "toggle_mute"
-            on_right: "toggle_label"
+            on_left: "toggle_volume_menu"
+            on_middle: "do_nothing"
+            on_right: "toggle_mute"
 
       systray:
         type: "yasb.systray.SystrayWidget"
@@ -238,12 +277,12 @@ let
             on_middle: "do_nothing"
             on_right: "exec cmd /c ncpa.cpl"
           wifi_icons:
-            - "\udb82\udd2e"
-            - "\udb82\udd1f"
-            - "\udb82\udd22"
-            - "\udb82\udd25"
-            - "\udb82\udd28"
-          ethernet_icon: "\uf6ff"
+            - "\uf92b"
+            - "\uf91f"
+            - "\uf922"
+            - "\uf925"
+            - "\uf928"
+          ethernet_icon: "\uf0e8"
 
       notifications:
         type: "yasb.notifications.NotificationsWidget"
@@ -302,7 +341,7 @@ let
       --surface2: #585b70;
       --surface1: #45475a;
       --surface0: #313244;
-      --base: #1e1e2e;
+      --base: rgba(30, 30, 46, 0.8);
       --mantle: rgba(24, 24, 37, 0.8);
       --crust: rgba(17, 17, 27, 0.8);
     }
@@ -319,7 +358,7 @@ let
     .yasb-bar {
       padding: 0;
       margin: 0;
-      background-color: var(--crust);
+      background-color: var(--base);
     }
 
     .widget {
@@ -411,7 +450,7 @@ let
     .komorebi-workspaces .ws-btn {
       font-size: 14px;
       border: none;
-      color: var(--overlay0);
+      color: var(--text);
       padding: 0 6px;
       cursor: pointer;
     }
@@ -433,6 +472,158 @@ let
     .komorebi-workspaces .ws-btn.active.button-8,
     .komorebi-workspaces .ws-btn.populated.button-8 { color: var(--mauve); font-weight: 900; }
 
+    /* Traffic */
+    .traffic-widget {
+      color: var(--sky);
+    }
+
+    .traffic-widget .widget-container {
+      color: var(--sky);
+    }
+
+    .traffic-widget .label {
+      color: var(--sky);
+    }
+
+    .traffic-widget .icon {
+      color: var(--sky);
+    }
+
+    .traffic-menu {
+      background-color: var(--crust);
+      min-width: 280px;
+    }
+
+    .traffic-menu .header {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      background-color: var(--crust);
+    }
+
+    .traffic-menu .header .title {
+      padding: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      font-family: 'Segoe UI';
+      color: var(--text);
+    }
+
+    .traffic-menu .header .reset-button {
+      font-size: 11px;
+      padding: 4px 8px;
+      margin-right: 8px;
+      font-family: 'Segoe UI';
+      border-radius: 4px;
+      font-weight: 600;
+      background-color: transparent;
+      border: none;
+    }
+
+    .traffic-menu .reset-button:hover {
+      color: var(--text);
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .traffic-menu .reset-button:pressed {
+      color: var(--text);
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .traffic-menu .download-speed,
+    .traffic-menu .upload-speed {
+      background-color: transparent;
+      padding: 4px 10px;
+      margin-right: 12px;
+      margin-left: 12px;
+      margin-top: 16px;
+      margin-bottom: 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .traffic-menu .speed-separator {
+      max-width: 1px;
+      background-color: rgba(255, 255, 255, 0.2);
+      margin: 32px 0 16px 0;
+    }
+
+    .traffic-menu .upload-speed-value,
+    .traffic-menu .download-speed-value {
+      font-size: 24px;
+      font-weight: 900;
+      font-family: 'Segoe UI';
+      color: var(--subtext1);
+    }
+
+    .traffic-menu .upload-speed-unit,
+    .traffic-menu .download-speed-unit {
+      font-size: 13px;
+      font-family: 'Segoe UI';
+      font-weight: 600;
+      padding-top: 4px;
+    }
+
+    .traffic-menu .upload-speed-placeholder,
+    .traffic-menu .download-speed-placeholder {
+      color: var(--overlay0);
+      font-size: 11px;
+      font-family: 'Segoe UI';
+      padding: 0 0 4px 0;
+    }
+
+    .traffic-menu .section-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--overlay1);
+      margin-bottom: 4px;
+      font-family: 'Segoe UI';
+    }
+
+    .traffic-menu .session-section,
+    .traffic-menu .today-section,
+    .traffic-menu .alltime-section {
+      margin: 8px 8px 0 8px;
+      padding: 0 10px 10px 10px;
+      background-color: transparent;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .traffic-menu .data-text {
+      font-size: 13px;
+      color: var(--subtext0);
+      padding: 2px 0;
+      font-family: 'Segoe UI';
+    }
+
+    .traffic-menu .data-value {
+      font-weight: 600;
+      font-size: 13px;
+      font-family: 'Segoe UI';
+      padding: 2px 0;
+    }
+
+    .traffic-menu .interface-info,
+    .traffic-menu .internet-info {
+      font-size: 12px;
+      color: var(--overlay0);
+      padding: 8px 0;
+      font-family: 'Segoe UI';
+    }
+
+    .traffic-menu .internet-info {
+      background-color: rgba(68, 68, 68, 0.1);
+    }
+
+    .traffic-menu .internet-info.connected {
+      background-color: rgba(166, 227, 161, 0.096);
+      color: var(--green);
+    }
+
+    .traffic-menu .internet-info.disconnected {
+      background-color: rgba(243, 139, 168, 0.1);
+      color: var(--red);
+    }
+
     /* Volume */
     .volume-widget .icon {
       color: var(--blue);
@@ -440,7 +631,7 @@ let
     }
 
     .audio-menu {
-      background-color: var(--mantle);
+      background-color: var(--crust);
     }
 
     .audio-container .device {
@@ -460,6 +651,29 @@ let
       background-color: rgba(255, 255, 255, 0.06);
     }
 
+    .audio-menu .toggle-apps {
+      background-color: transparent;
+      border: none;
+      color: var(--overlay1);
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+
+    .audio-menu .toggle-apps:hover {
+      background-color: rgba(255, 255, 255, 0.06);
+    }
+
+    .audio-menu .apps-container .app {
+      background-color: transparent;
+      padding: 4px 8px;
+      margin: 2px 0;
+      border-radius: 4px;
+    }
+
+    .audio-menu .apps-container .app:hover {
+      background-color: rgba(255, 255, 255, 0.06);
+    }
+
     /* Memory */
     .memory-widget .icon {
       color: var(--mauve);
@@ -476,6 +690,19 @@ let
     }
 
     .media-widget .btn {
+      color: var(--green);
+      background-color: transparent;
+      border: none;
+      font-size: 12px;
+      padding: 0 4px;
+      margin: 0 2px;
+    }
+
+    .media-widget .btn:hover {
+      color: var(--text);
+    }
+
+    .media-widget .label {
       color: var(--green);
     }
 
@@ -604,7 +831,7 @@ let
 
     /* Wifi */
     .wifi-widget .icon {
-      color: var(--teal);
+      color: var(--sky);
     }
 
     /* Notifications */
