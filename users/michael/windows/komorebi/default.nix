@@ -29,8 +29,8 @@ let
     # Layout and spacing (KOMO-01)
     default_workspace_padding = 10;
     default_container_padding = 10;
-    border = true;
-    border_width = 8;
+    border = false;
+    border_width = 0;
     border_offset = -1;
 
     # Catppuccin Mocha theme — native palette support, no hex values needed (KOMO-03)
