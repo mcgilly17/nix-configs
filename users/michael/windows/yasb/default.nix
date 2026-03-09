@@ -639,6 +639,10 @@ let
       margin: 1px 2px 0 0;
     }
 
+    .volume-widget .label {
+      color: var(--blue);
+    }
+
     .audio-menu {
       background-color: var(--crust);
     }
@@ -685,21 +689,29 @@ let
 
     /* Memory */
     .memory-widget .icon {
-      color: var(--mauve);
+      color: var(--yellow);
+    }
+
+    .memory-widget .label {
+      color: var(--yellow);
     }
 
     /* CPU */
     .cpu-widget .icon {
-      color: var(--red);
+      color: var(--peach);
+    }
+
+    .cpu-widget .label {
+      color: var(--peach);
     }
 
     /* Media */
     .media-widget {
-      color: var(--green);
+      color: var(--red);
     }
 
     .media-widget .btn {
-      color: var(--green);
+      color: var(--red);
       background-color: transparent;
       border: none;
       font-size: 12px;
@@ -712,7 +724,7 @@ let
     }
 
     .media-widget .label {
-      color: var(--green);
+      color: var(--red);
     }
 
     /* Media menu */
@@ -840,16 +852,24 @@ let
 
     /* Wifi */
     .wifi-widget .icon {
-      color: var(--sky);
+      color: var(--green);
+    }
+
+    .wifi-widget .label {
+      color: var(--green);
     }
 
     /* Notifications */
     .notification-widget .icon {
-      color: var(--overlay1);
+      color: var(--mauve);
     }
 
     .notification-widget .icon.new-notification {
-      color: var(--blue);
+      color: var(--mauve);
+    }
+
+    .notification-widget .label {
+      color: var(--mauve);
     }
 
     /* Power menu */
