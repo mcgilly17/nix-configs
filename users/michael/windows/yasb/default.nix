@@ -235,10 +235,10 @@ let
       --overlay0: #6c7086;
       --surface2: #585b70;
       --surface1: #45475a;
-      --surface0: #282936;
+      --surface0: #313244;
       --base: #1e1e2e;
-      --mantle: rgba(24, 24, 37, 0.5);
-      --crust: rgba(32, 32, 43, 0.8);
+      --mantle: rgba(24, 24, 37, 0.8);
+      --crust: rgba(17, 17, 27, 0.8);
     }
 
     * {
