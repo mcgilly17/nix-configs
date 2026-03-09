@@ -51,7 +51,7 @@ let
           enabled: true
           duration: 400
         widgets:
-          left: ["komorebi_workspaces", "komorebi_active_layout", "active_window", "traffic"]
+          left: ["komorebi_active_layout", "komorebi_workspaces", "active_window", "traffic"]
           center: ["clock"]
           right: ["systray", "media", "cpu", "memory", "wifi", "volume", "notifications", "power_menu"]
 
@@ -82,16 +82,16 @@ let
             - "vertical_stack"
             - "horizontal_stack"
           layout_icons:
-            bsp: "BSP"
-            columns: "COLS"
-            rows: "ROWS"
-            grid: "GRID"
-            vertical_stack: "V-STK"
-            horizontal_stack: "H-STK"
-            monocle: "MONO"
-            maximized: "MAX"
-            floating: "FLOAT"
-            paused: "PAUSE"
+            bsp: "\uebeb"
+            columns: "\uebf7"
+            rows: "\uec01"
+            grid: "\udb81\udf58"
+            vertical_stack: "\uebee"
+            horizontal_stack: "\uebf0"
+            monocle: "\uf06f"
+            maximized: "\uf06f"
+            floating: "\uf2d2"
+            paused: "\udb83\udf89"
           callbacks:
             on_left: "next_layout"
             on_middle: "toggle_monocle"
@@ -471,6 +471,15 @@ let
     .komorebi-workspaces .ws-btn.populated.button-7 { color: var(--blue); font-weight: 900; }
     .komorebi-workspaces .ws-btn.active.button-8,
     .komorebi-workspaces .ws-btn.populated.button-8 { color: var(--mauve); font-weight: 900; }
+
+    /* Layout */
+    .komorebi-active-layout .icon {
+      font-size: 18px;
+    }
+
+    .komorebi-active-layout .label {
+      font-size: 18px;
+    }
 
     /* Traffic */
     .traffic-widget {
