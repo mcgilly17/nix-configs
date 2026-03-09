@@ -53,7 +53,7 @@ let
         widgets:
           left: ["komorebi_workspaces", "komorebi_active_layout", "active_window"]
           center: ["clock"]
-          right: ["media", "cpu", "memory", "volume", "power_menu"]
+          right: ["systray", "media", "cpu", "memory", "wifi", "volume", "notifications", "power_menu"]
 
     widgets:
       komorebi_workspaces:
@@ -138,8 +138,8 @@ let
       memory:
         type: "yasb.memory.MemoryWidget"
         options:
-          label: "<span>\uf4bc</span> {virtual_mem_outof}"
-          label_alt: "<span>\uf4bc</span> {virtual_mem_outof}"
+          label: "<span>\uefc5</span> {virtual_mem_outof}"
+          label_alt: "<span>\uefc5</span> {virtual_mem_outof}"
           update_interval: 10000
           callbacks:
             on_left: "toggle_label"
@@ -190,6 +190,52 @@ let
           callbacks:
             on_left: "toggle_mute"
             on_right: "toggle_label"
+
+      systray:
+        type: "yasb.systray.SystrayWidget"
+        options:
+          class_name: "systray"
+          label_collapsed: "\uf47d"
+          label_expanded: "\uf460"
+          label_position: "right"
+          icon_size: 16
+          pin_click_modifier: "alt"
+          show_unpinned: false
+          show_unpinned_button: true
+          show_battery: false
+          show_volume: false
+          show_network: false
+          tooltip: true
+
+      wifi:
+        type: "yasb.wifi.WifiWidget"
+        options:
+          label: "<span>{wifi_icon}</span>"
+          label_alt: "<span>{wifi_icon}</span> {wifi_name}"
+          update_interval: 5000
+          callbacks:
+            on_left: "toggle_label"
+            on_middle: "do_nothing"
+            on_right: "exec cmd /c ncpa.cpl"
+          wifi_icons:
+            - "\udb82\udd2e"
+            - "\udb82\udd1f"
+            - "\udb82\udd22"
+            - "\udb82\udd25"
+            - "\udb82\udd28"
+          ethernet_icon: "\uf6ff"
+
+      notifications:
+        type: "yasb.notifications.NotificationsWidget"
+        options:
+          label: "<span>\uf476</span> {count}"
+          label_alt: "{count} notifications"
+          hide_empty: true
+          tooltip: false
+          callbacks:
+            on_left: "toggle_notification"
+            on_right: "do_nothing"
+            on_middle: "toggle_label"
 
       power_menu:
         type: "yasb.power_menu.PowerMenuWidget"
@@ -350,15 +396,16 @@ let
       cursor: pointer;
     }
 
-    .komorebi-workspaces .ws-btn.active {
-      color: var(--red);
-      font-weight: 900;
-    }
-
-    .komorebi-workspaces .ws-btn.populated {
-      color: var(--blue);
-      font-weight: 900;
-    }
+    .komorebi-workspaces .ws-btn.active:nth-child(1),
+    .komorebi-workspaces .ws-btn.populated:nth-child(1) { color: var(--red); font-weight: 900; }
+    .komorebi-workspaces .ws-btn.active:nth-child(2),
+    .komorebi-workspaces .ws-btn.populated:nth-child(2) { color: var(--peach); font-weight: 900; }
+    .komorebi-workspaces .ws-btn.active:nth-child(3),
+    .komorebi-workspaces .ws-btn.populated:nth-child(3) { color: var(--green); font-weight: 900; }
+    .komorebi-workspaces .ws-btn.active:nth-child(4),
+    .komorebi-workspaces .ws-btn.populated:nth-child(4) { color: var(--blue); font-weight: 900; }
+    .komorebi-workspaces .ws-btn.active:nth-child(5),
+    .komorebi-workspaces .ws-btn.populated:nth-child(5) { color: var(--mauve); font-weight: 900; }
 
     /* Volume */
     .volume-widget .icon {
@@ -404,6 +451,51 @@ let
 
     .media-widget .btn {
       color: var(--green);
+    }
+
+    /* System tray */
+    .systray {
+      background: transparent;
+      border: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .systray .button {
+      border-radius: 4px;
+      padding: 2px 2px;
+      background-color: transparent;
+    }
+
+    .systray .button:hover,
+    .systray .unpinned-visibility-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .systray .unpinned-visibility-btn {
+      height: 20px;
+      width: 16px;
+      background-color: transparent;
+      border: none;
+      font-size: 14px;
+    }
+
+    .systray .unpinned-visibility-btn:hover {
+      border-radius: 4px;
+    }
+
+    /* Wifi */
+    .wifi-widget .icon {
+      color: var(--teal);
+    }
+
+    /* Notifications */
+    .notification-widget .icon {
+      color: var(--overlay1);
+    }
+
+    .notification-widget .icon.new-notification {
+      color: var(--blue);
     }
 
     /* Power menu */
