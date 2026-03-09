@@ -416,16 +416,22 @@ let
       cursor: pointer;
     }
 
-    .komorebi-workspaces .ws-btn.active:nth-child(1),
-    .komorebi-workspaces .ws-btn.populated:nth-child(1) { color: var(--red); font-weight: 900; }
-    .komorebi-workspaces .ws-btn.active:nth-child(2),
-    .komorebi-workspaces .ws-btn.populated:nth-child(2) { color: var(--peach); font-weight: 900; }
-    .komorebi-workspaces .ws-btn.active:nth-child(3),
-    .komorebi-workspaces .ws-btn.populated:nth-child(3) { color: var(--green); font-weight: 900; }
-    .komorebi-workspaces .ws-btn.active:nth-child(4),
-    .komorebi-workspaces .ws-btn.populated:nth-child(4) { color: var(--blue); font-weight: 900; }
-    .komorebi-workspaces .ws-btn.active:nth-child(5),
-    .komorebi-workspaces .ws-btn.populated:nth-child(5) { color: var(--mauve); font-weight: 900; }
+    .komorebi-workspaces .ws-btn.active.button-1,
+    .komorebi-workspaces .ws-btn.populated.button-1 { color: var(--red); font-weight: 900; }
+    .komorebi-workspaces .ws-btn.active.button-2,
+    .komorebi-workspaces .ws-btn.populated.button-2 { color: var(--peach); font-weight: 900; }
+    .komorebi-workspaces .ws-btn.active.button-3,
+    .komorebi-workspaces .ws-btn.populated.button-3 { color: var(--yellow); font-weight: 900; }
+    .komorebi-workspaces .ws-btn.active.button-4,
+    .komorebi-workspaces .ws-btn.populated.button-4 { color: var(--green); font-weight: 900; }
+    .komorebi-workspaces .ws-btn.active.button-5,
+    .komorebi-workspaces .ws-btn.populated.button-5 { color: var(--teal); font-weight: 900; }
+    .komorebi-workspaces .ws-btn.active.button-6,
+    .komorebi-workspaces .ws-btn.populated.button-6 { color: var(--sapphire); font-weight: 900; }
+    .komorebi-workspaces .ws-btn.active.button-7,
+    .komorebi-workspaces .ws-btn.populated.button-7 { color: var(--blue); font-weight: 900; }
+    .komorebi-workspaces .ws-btn.active.button-8,
+    .komorebi-workspaces .ws-btn.populated.button-8 { color: var(--mauve); font-weight: 900; }
 
     /* Volume */
     .volume-widget .icon {
