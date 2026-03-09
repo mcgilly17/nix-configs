@@ -149,7 +149,8 @@ let
         type: "yasb.media.MediaWidget"
         options:
           label: "{title}"
-          label_alt: "{artist} - {title}"
+          label_alt: "{title}{s}{artist}"
+          separator: " - "
           max_field_size:
             label: 20
             label_alt: 30
@@ -159,14 +160,33 @@ let
           controls_hide: true
           hide_empty: true
           icons:
-            prev_track: "\uf048"
-            next_track: "\uf051"
-            play: "\uf04b"
-            pause: "\uf04c"
+            prev_track: "\ue892"
+            next_track: "\ue893"
+            play: "\ue768"
+            pause: "\ue769"
           callbacks:
-            on_left: "play_pause"
-            on_middle: "do_nothing"
+            on_left: "toggle_media_menu"
+            on_middle: "toggle_play_pause"
             on_right: "toggle_label"
+          media_menu:
+            blur: true
+            round_corners: true
+            round_corners_type: "normal"
+            border_color: "None"
+            alignment: "right"
+            direction: "down"
+            offset_top: 6
+            offset_left: 0
+            thumbnail_corner_radius: 4
+            thumbnail_size: 80
+            max_title_size: 60
+            max_artist_size: 20
+            show_source: true
+          media_menu_icons:
+            play: "\ue768"
+            pause: "\ue769"
+            prev_track: "\ue892"
+            next_track: "\ue893"
 
       volume:
         type: "yasb.volume.VolumeWidget"
@@ -451,6 +471,98 @@ let
 
     .media-widget .btn {
       color: var(--green);
+    }
+
+    /* Media menu */
+    .media-menu {
+      min-width: 360px;
+      max-width: 360px;
+      background-color: var(--crust);
+    }
+
+    .media-menu .title,
+    .media-menu .artist,
+    .media-menu .source {
+      font-size: 14px;
+      font-weight: 600;
+      margin-left: 10px;
+      font-family: 'Segoe UI';
+    }
+
+    .media-menu .artist {
+      font-size: 13px;
+      color: var(--overlay0);
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+
+    .media-menu .source {
+      font-size: 11px;
+      color: var(--crust);
+      font-weight: normal;
+      border-radius: 3px;
+      background-color: var(--subtext1);
+      padding: 2px 4px;
+    }
+
+    .media-menu .btn {
+      font-family: "Segoe Fluent Icons";
+      font-size: 14px;
+      font-weight: 400;
+      margin: 10px 2px 0 2px;
+      min-width: 40px;
+      max-width: 40px;
+      min-height: 40px;
+      max-height: 40px;
+      border-radius: 20px;
+    }
+
+    .media-menu .btn:hover {
+      color: white;
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .media-menu .btn.play {
+      background-color: rgba(255, 255, 255, 0.1);
+      font-size: 20px;
+    }
+
+    .media-menu .btn.disabled:hover,
+    .media-menu .btn.disabled {
+      color: var(--surface2);
+      background-color: transparent;
+    }
+
+    .media-menu .playback-time {
+      font-size: 13px;
+      font-family: 'Segoe UI';
+      color: var(--overlay1);
+      margin-top: 0;
+      min-width: 100px;
+    }
+
+    .media-menu .progress-slider {
+      height: 20px;
+      margin: 0 4px 5px 4px;
+      border-radius: 3px;
+    }
+
+    .media-menu .progress-slider::groove {
+      background: rgba(255, 255, 255, 0.1);
+      height: 2px;
+      border-radius: 3px;
+    }
+
+    .media-menu .progress-slider::groove:hover {
+      background: rgba(255, 255, 255, 0.2);
+      height: 6px;
+      border-radius: 3px;
+    }
+
+    .media-menu .progress-slider::sub-page {
+      background: var(--blue);
+      border-radius: 3px;
+      height: 4px;
     }
 
     /* System tray */
