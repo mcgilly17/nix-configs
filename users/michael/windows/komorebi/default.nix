@@ -73,6 +73,24 @@ let
         id = "Control Panel";
         matching_strategy = "Equals";
       }
+      # File Explorer
+      {
+        kind = "Class";
+        id = "CabinetWClass";
+        matching_strategy = "Equals";
+      }
+      # Calculator
+      {
+        kind = "Exe";
+        id = "CalculatorApp.exe";
+        matching_strategy = "Equals";
+      }
+      # 1Password
+      {
+        kind = "Exe";
+        id = "1Password.exe";
+        matching_strategy = "Equals";
+      }
     ];
 
     # Per-monitor workspace configuration (KOMO-04)
@@ -87,19 +105,19 @@ let
           }
           {
             name = "II";
-            layout = "VerticalStack";
+            layout = "BSP";
           }
           {
             name = "III";
-            layout = "HorizontalStack";
+            layout = "BSP";
           }
           {
             name = "IV";
-            layout = "Grid";
+            layout = "BSP";
           }
           {
             name = "V";
-            layout = "Monocle";
+            layout = "BSP";
           }
         ];
       }
@@ -111,11 +129,11 @@ let
           }
           {
             name = "2";
-            layout = "VerticalStack";
+            layout = "BSP";
           }
           {
             name = "3";
-            layout = "HorizontalStack";
+            layout = "BSP";
           }
         ];
       }
