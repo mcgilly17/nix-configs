@@ -11,7 +11,7 @@
 { pkgs, ... }:
 let
   whkdConfig = ''
-    .shell pwsh
+    .shell powershell
 
     # Reload
     ctrl + alt + o                 : taskkill /f /im whkd.exe && start /b whkd
@@ -62,6 +62,8 @@ let
     ctrl + alt + 3                 : komorebic focus-workspace 2
     ctrl + alt + 4                 : komorebic focus-workspace 3
     ctrl + alt + 5                 : komorebic focus-workspace 4
+    ctrl + left                    : komorebic cycle-workspace previous
+    ctrl + right                   : komorebic cycle-workspace next
 
     # Move window to workspace
     alt + 1                        : komorebic move-to-workspace 0
