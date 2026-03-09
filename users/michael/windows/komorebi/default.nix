@@ -93,6 +93,24 @@ let
       }
     ];
 
+    # Workspace rules — pin apps to specific workspaces
+    initial_workspace_rules = [
+      {
+        kind = "Exe";
+        id = "WhatsApp.exe";
+        matching_strategy = "Equals";
+        monitor_index = 0;
+        workspace_name = "III";
+      }
+      {
+        kind = "Exe";
+        id = "Discord.exe";
+        matching_strategy = "Equals";
+        monitor_index = 0;
+        workspace_name = "III";
+      }
+    ];
+
     # Per-monitor workspace configuration (KOMO-04)
     # monitors[0] = primary, monitors[1] = secondary.
     # komorebi silently ignores extra entries when fewer monitors are connected.
