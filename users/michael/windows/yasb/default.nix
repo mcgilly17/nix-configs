@@ -31,9 +31,10 @@ let
           center: true
         blur_effect:
           enabled: true
-          acrylic: true
+          acrylic: false
           dark_mode: true
-          round_corners: false
+          round_corners: true
+          round_corners_type: "normal"
           border_color: None
         window_flags:
           always_on_top: false
@@ -42,10 +43,10 @@ let
           width: "100%"
           height: 32
         padding:
-          top: 0
-          left: 0
-          bottom: 0
-          right: 0
+          top: 4
+          left: 4
+          bottom: 4
+          right: 4
         animation:
           enabled: true
           duration: 400
@@ -231,7 +232,7 @@ let
       --surface0: #282936;
       --base: #1e1e2e;
       --mantle: rgba(24, 24, 37, 0.5);
-      --crust: rgba(17, 17, 27, 0.75);
+      --crust: rgba(32, 32, 43, 0.8);
     }
 
     * {
