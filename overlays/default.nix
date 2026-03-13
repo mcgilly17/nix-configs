@@ -14,7 +14,10 @@
   # This one contains whatever you want to overlay
   # You can change versions, add patches, set compilation flags, anything really.
   # https://nixos.wiki/wiki/Overlays
-  modifications = _final: _prev: {
+  modifications = final: _prev: {
+    # Pin devenv to flake input to avoid nixpkgs lagging behind fixes
+    # See: https://github.com/cachix/devenv/issues/2552
+    inherit (inputs.devenv.packages.${final.system}) devenv;
     # leaving as an example - moved to github.com/mcgilly17/Mosaic
     # vimPlugins =
     #   prev.vimPlugins

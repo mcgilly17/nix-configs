@@ -80,6 +80,9 @@
       flake = false;
     };
 
+    # Devenv - pinned to fix "Exclusion ranges overlap" bug in 2.0.1
+    devenv.url = "github:cachix/devenv/latest";
+
     #################### Personal Repositories ####################
 
     # Private secrets repo.
