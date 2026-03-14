@@ -66,6 +66,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Remote NixOS deployment
+    deploy-rs = {
+      url = "github:serokell/deploy-rs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     #################### Non Flakes ####################
     homebrew-bundle = {
       url = "github:homebrew/homebrew-bundle";
@@ -217,5 +223,41 @@
           ];
         };
       };
+
+      # Remote deployment via deploy-rs
+      deploy.nodes = {
+        zenith-1 = {
+          hostname = "zenith-1";
+          sshUser = "michael";
+          remoteBuild = true;
+          profiles.system = {
+            user = "root";
+            path = inputs.deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.zenith-1;
+          };
+        };
+
+        zenith-2 = {
+          hostname = "zenith-2";
+          sshUser = "michael";
+          remoteBuild = true;
+          profiles.system = {
+            user = "root";
+            path = inputs.deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.zenith-2;
+          };
+        };
+
+        zenith-3 = {
+          hostname = "zenith-3";
+          sshUser = "michael";
+          remoteBuild = true;
+          profiles.system = {
+            user = "root";
+            path = inputs.deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.zenith-3;
+          };
+        };
+      };
+
+      # deploy-rs checks (zenith nodes are aarch64-linux only)
+      checks."aarch64-linux" = inputs.deploy-rs.lib.aarch64-linux.deployChecks self.deploy;
     };
 }
