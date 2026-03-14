@@ -58,13 +58,12 @@ Context-aware knowledge that loads automatically based on file paths and keyword
 
 ## Environment Configuration
 
-### GitHub CLI (1Password Integration)
+### GitHub Access
 
-**Always use:** `op plugin run -- gh <command>`
+**Public repos (reading, browsing, research):** Use `WebFetch` or `WebSearch` tools — no auth needed, no approval prompts.
 
-**Examples:** `op plugin run -- gh pr create`, `op plugin run -- gh issue list`
-
-Applies to all `gh` commands (pr, issue, repo, workflow, api).
+**Private repos (PRs, issues, auth-required operations):** Use `op plugin run -- gh <command>`
+- Examples: `op plugin run -- gh pr create`, `op plugin run -- gh issue list`
 
 ## Code Organization
 
