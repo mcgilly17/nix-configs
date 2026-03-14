@@ -36,6 +36,16 @@ in
 
   programs.claude-code = {
     enable = true;
+    mcpServers = {
+      figma-desktop = {
+        type = "http";
+        url = "http://127.0.0.1:3845/mcp";
+      };
+      playwright = {
+        command = "npx";
+        args = [ "@playwright/mcp@latest" ];
+      };
+    };
     settings = {
       theme = "dark";
       inherit hooks;
@@ -147,7 +157,7 @@ in
 
       # Plugins
       extraKnownMarketplaces = {
-        "777genius/claude-notifications-go" = {
+        "claude-notifications-go" = {
           source = {
             source = "github";
             repo = "777genius/claude-notifications-go";
@@ -155,7 +165,13 @@ in
         };
       };
       enabledPlugins = {
-        "claude-notifications-go@777genius/claude-notifications-go" = true;
+        "claude-notifications-go@claude-notifications-go" = true;
+        "typescript-lsp@claude-plugins-official" = true;
+        "security-guidance@claude-plugins-official" = true;
+        "context7@claude-plugins-official" = true;
+
+        "explanatory-output-style@claude-plugins-official" = true;
+        "frontend-design@claude-plugins-official" = true;
       };
 
       statusLine = {
