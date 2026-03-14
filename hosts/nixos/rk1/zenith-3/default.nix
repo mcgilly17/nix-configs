@@ -30,6 +30,7 @@
   # Open firewall for K3s agent
   networking.firewall = {
     allowedTCPPorts = [
+      9100 # Prometheus node exporter
       10250 # Kubelet metrics
     ];
   };

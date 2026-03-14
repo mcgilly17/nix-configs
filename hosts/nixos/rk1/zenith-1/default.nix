@@ -36,6 +36,7 @@
   networking.firewall = {
     allowedTCPPorts = [
       6443 # Kubernetes API
+      9100 # Prometheus node exporter
       10250 # Kubelet metrics
     ];
   };
