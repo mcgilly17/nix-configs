@@ -78,6 +78,10 @@
     mdcat # cat for markdown files
     tpi
     zstd
+    topgrade # upgrade everything at once (nix, homebrew, npm, etc.)
+    ncspot # Spotify TUI client
+    act # run GitHub Actions locally
+    tokei # fast code statistics
 
     # Networking
     nmap # Port scanning utility for large networks https://nmap.org/
