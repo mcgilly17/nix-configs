@@ -11,7 +11,7 @@
 - [ ] Explore bar options for mac (spacebar from Calum MacRae)
 - [ ] Update dock config to allow for spacers
 - [ ] update/config starship prompt for development envs and cloud providers
-- [ ] checkout cli/tui tools lazydocker, navi
+- [ ] checkout cli/tui tools lazydocker, navi, gh-dash, opencode
 - [ ] setup nix shell
 - [ ] separate brew apps of different types
 - [ ] Karabiner configs: <https://github.com/mattsawyer77/nix-configuration/blob/7b099354e249fa73b3c31418d604953a09f94199/home/karabiner/default.nix#L474>
@@ -24,10 +24,19 @@
 - [ ] line wrapping
 - [ ] incremental rename
 
+## Infrastructure Improvements
+
+- [ ] CI/CD: GitHub Actions workflow for automated weekly flake updates (DeterminateSystems/update-flake-lock)
+- [ ] CI/CD: Add statix linting + deadnix + format checking on push
+- [ ] Binary caching: Set up Cachix to avoid redundant builds across hosts (especially ARM cluster)
+- [ ] Custom CLI wrapper script for common nix operations (rebuild, update, gc, repl)
+- [ ] Evaluate Stylix for unified theming (fonts + colors + wallpaper) vs per-app catppuccin enables
+- [ ] Evaluate Lanzaboote secure boot for ganon (pairs with existing LUKS)
+- [ ] Convention-based host auto-discovery (like khanelinix parseSystemConfigurations)
+- [ ] Grouped flake updates (core/system/app categories instead of all-or-nothing)
+
 ## Future Deployments
 
-- [ ] Configure first nixOS machine
-- [ ] Configure remote deployment and server specific deployments
 - [ ] Update secrets management to do host level decryption (for linux machines)
 
 ## Done
@@ -58,6 +67,8 @@
 - [x] Finish configuring yabai and SKHD
 - [x] How to get custom sha256s and revs <https://www.reddit.com/r/NixOS/comments/10ueaev/how_do_i_get_the_sha256_for_a_package_to_use_in/>
 - [x] Configure Raycast
+- [x] Configure first nixOS machine
+- [x] Configure remote deployment and server specific deployments
 
 ## On Hold
 
