@@ -30,6 +30,21 @@
       download-buffer-size = 524288000;
     };
 
+    # Use sephiroth (RK1 dev server) as a remote builder for aarch64-linux
+    distributedBuilds = true;
+    buildMachines = [
+      {
+        hostName = "sephiroth";
+        sshUser = "michael";
+        system = "aarch64-linux";
+        maxJobs = 4;
+        supportedFeatures = [
+          "nixos-test"
+          "big-parallel"
+        ];
+      }
+    ];
+
     # make `nix run nixpkgs#nixpkgs` use the same nixpkgs as the one used by this flake.
     registry.nixpkgs.flake = nixpkgs;
 
