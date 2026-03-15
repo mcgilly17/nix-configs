@@ -255,6 +255,16 @@
             path = inputs.deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.zenith-3;
           };
         };
+
+        sephiroth = {
+          hostname = "sephiroth";
+          sshUser = "michael";
+          remoteBuild = true;
+          profiles.system = {
+            user = "root";
+            path = inputs.deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.sephiroth;
+          };
+        };
       };
 
       # deploy-rs checks (zenith nodes are aarch64-linux only)
