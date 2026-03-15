@@ -852,11 +852,11 @@
     "homebrew-cask": {
       "flake": false,
       "locked": {
-        "lastModified": 1773520002,
-        "narHash": "sha256-yMP6sABcJaPRMTCsGM3SH5pIwtFa5IDFADcCpl3vUvk=",
+        "lastModified": 1773542434,
+        "narHash": "sha256-sFBdBPVtn1IkLNLvbTU+YZbjmWxdLkjo8RsuC+xuawY=",
         "owner": "homebrew",
         "repo": "homebrew-cask",
-        "rev": "59aa91b1bcd78689a0fc84233cdc7214c927675c",
+        "rev": "2628aab6c7eed632fb8ebe9490eb0dc402d9a7d9",
         "type": "github"
       },
       "original": {
@@ -868,11 +868,11 @@
     "homebrew-core": {
       "flake": false,
       "locked": {
-        "lastModified": 1773520962,
-        "narHash": "sha256-Do3ejAKseM5V/+rcP+0mk68Tm7bAEHLk26L7M2Qb90Y=",
+        "lastModified": 1773540907,
+        "narHash": "sha256-Sq2Mjv2IMB2F8K/Ug7Q1aE+7pWxify0EDWUIUQZcVOY=",
         "owner": "homebrew",
         "repo": "homebrew-core",
-        "rev": "9051468dfd67bafdba0ae4de0cf091ccd50d1884",
+        "rev": "e33aa5a0836cf9fda0d7e9c8933044af0fc68d9e",
         "type": "github"
       },
       "original": {
@@ -943,11 +943,11 @@
     },
     "nix-hardware": {
       "locked": {
-        "lastModified": 1772972630,
-        "narHash": "sha256-mUJxsNOrBMNOUJzN0pfdVJ1r2pxeqm9gI/yIKXzVVbk=",
+        "lastModified": 1773533765,
+        "narHash": "sha256-qonGfS2lzCgCl59Zl63jF6dIRRpvW3AJooBGMaXjHiY=",
         "owner": "nixos",
         "repo": "nixos-hardware",
-        "rev": "3966ce987e1a9a164205ac8259a5fe8a64528f72",
+        "rev": "f8e82243fd601afb9f59ad230958bd073795cbfe",
         "type": "github"
       },
       "original": {
@@ -1147,11 +1147,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1773414018,
-        "narHash": "sha256-6F9jy0UqEx/5IoyJkk3lPInyWTuvCkow/MKluHgP+MA=",
+        "lastModified": 1773538251,
+        "narHash": "sha256-L262R2Qq80WCP5OgKT+zlQRBJaSCv/YPlBk8RU2nLdw=",
         "owner": "nix-community",
         "repo": "NixOS-WSL",
-        "rev": "d2fd7da4565797cf7e18b9b0a8b1044fbada8ff8",
+        "rev": "2a84814f3822078eefac167fb1ed165aecd62fc0",
         "type": "github"
       },
       "original": {
