@@ -94,6 +94,7 @@
       "betterzip" # BetterZip: the most advanced zip and rar archiver for file compression, encryption. BetterZip makes it easy to work with zip, rar, 7-zip, tar, and xz https://macitbetter.com/"
       # "brooklyn" #Lovelyscreensaver"
       "notion" # Organise life"
+      "ticktick" # Task management
       "fantastical" # the worlds best calendar"
       "transmit" # FTP Client transmit"
       "calibre" # unclear"

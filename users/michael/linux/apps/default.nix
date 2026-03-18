@@ -12,6 +12,9 @@
     discord
     slack
 
+    # Productivity
+    ticktick
+
     # Media
     spotify
     vlc
