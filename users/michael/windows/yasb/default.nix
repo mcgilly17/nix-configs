@@ -341,7 +341,7 @@ let
       --surface2: #585b70;
       --surface1: #45475a;
       --surface0: #313244;
-      --base: rgba(30, 30, 46, 0.8);
+      --base: rgba(30, 30, 46, 0.9);
       --mantle: rgba(24, 24, 37, 0.8);
       --crust: rgba(17, 17, 27, 0.8);
     }
