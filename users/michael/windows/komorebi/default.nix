@@ -7,10 +7,8 @@
 # windows.configFiles unconditionally, which is correct: the option is
 # declared unconditionally and sub-modules may reference it freely.
 #
-# Windows-side prerequisite (one-time manual step, outside Nix):
-#   Set KOMOREBI_CONFIG_HOME in PowerShell profile:
-#   $Env:KOMOREBI_CONFIG_HOME = "$Env:USERPROFILE\.config\komorebi"
-#   This tells komorebi to look in .config/komorebi/ where Phase 1 deposits files.
+# KOMOREBI_CONFIG_HOME is set automatically by the PowerShell profile module
+# (windows/powershell) to point at %USERPROFILE%\.config\komorebi.
 {
   pkgs,
   ...
@@ -159,7 +157,7 @@ let
   };
 in
 {
-  windows.configFiles."komorebi/komorebi.json" = pkgs.writeText "komorebi.json" (
+  windows.configFiles.".config/komorebi/komorebi.json" = pkgs.writeText "komorebi.json" (
     builtins.toJSON komorebiConfig
   );
 }

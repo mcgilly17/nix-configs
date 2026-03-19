@@ -82,5 +82,5 @@ let
   '';
 in
 {
-  windows.configFiles."whkdrc" = pkgs.writeText "whkdrc" whkdConfig;
+  windows.configFiles.".config/whkdrc" = pkgs.writeText "whkdrc" whkdConfig;
 }

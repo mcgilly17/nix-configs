@@ -1,12 +1,12 @@
 # Windows Config Sync Module
-# Declares the windows.configFiles option for sub-modules to register files,
-# and installs a home.activation hook to copy them to the Windows filesystem.
+# Declares windows.configFiles and windows.registryFiles options for sub-modules,
+# and installs home.activation hooks to sync them to the Windows filesystem.
 #
 # Guard: all config is wrapped in lib.mkIf isWSL — non-WSL hosts evaluate the
-# option type but no activation hooks or side-effects are applied.
+# option types but no activation hooks or side-effects are applied.
 #
-# Usage: Sub-modules (e.g. komorebi, whkd) set windows.configFiles."rel/path" = /nix/store/...
-# and this hook copies them under /mnt/c/Users/michael/.config/ on activation.
+# Usage: Sub-modules set windows.configFiles."rel/path" = /nix/store/...
+# Keys are relative to the Windows home directory (e.g. ".config/komorebi/komorebi.json").
 {
   lib,
   osConfig ? { },
@@ -19,13 +19,13 @@ let
   windowsHomePath = "/mnt/c/Users/michael";
 
   # Generate one copy command per registered file at Nix eval time.
-  # Each entry: key = relative path under $windowsHomePath/.config/
+  # Each entry: key = relative path under $windowsHomePath/
   #             value = Nix store path (file or directory)
   syncCommands = lib.concatStringsSep "\n" (
     lib.mapAttrsToList (
       relPath: srcPath:
       let
-        destPath = "${windowsHomePath}/.config/${relPath}";
+        destPath = "${windowsHomePath}/${relPath}";
       in
       ''
         _dest="${destPath}"
@@ -47,25 +47,70 @@ let
       ''
     ) cfg.configFiles
   );
+
+  # Generate reg.exe import commands for each registered .reg file.
+  regCommands = lib.concatStringsSep "\n" (
+    lib.mapAttrsToList (
+      name: srcPath:
+      let
+        destPath = "${windowsHomePath}/.config/registry/${name}.reg";
+      in
+      ''
+        _reg_dest="${destPath}"
+        _reg_src="${srcPath}"
+        $DRY_RUN_CMD mkdir -p "$(dirname "$_reg_dest")"
+        $DRY_RUN_CMD cp "$_reg_src" "$_reg_dest"
+        $DRY_RUN_CMD chmod 644 "$_reg_dest"
+        _win_path="$(/mnt/c/Windows/System32/wslpath.exe -w "$_reg_dest" 2>/dev/null || echo "")"
+        if [ -n "$_win_path" ]; then
+          if /mnt/c/Windows/System32/reg.exe import "$_win_path" > /dev/null 2>&1; then
+            echo "[windows-registry] ${name} -> imported"
+          else
+            echo "[windows-registry] WARNING: ${name} -> import failed (may need elevation)"
+          fi
+        else
+          echo "[windows-registry] WARNING: ${name} -> could not convert path"
+        fi
+      ''
+    ) cfg.registryFiles
+  );
 in
 {
   imports = [
     ./komorebi
     ./whkd
     ./yasb
+    ./powershell
+    ./windows-terminal
+    ./wslconfig
+    ./startup
+    ./winget
+    ./registry
   ];
 
-  # Option declared unconditionally so non-WSL hosts can still evaluate the type
-  # (sub-modules may reference it regardless of isWSL).
-  options.windows.configFiles = lib.mkOption {
-    type = lib.types.attrsOf lib.types.path;
-    default = { };
-    description = ''
-      Attribute set of files to sync to the Windows filesystem on activation.
-      Keys are relative paths under $windowsHomePath/.config/ (e.g. "komorebi/komorebi.json").
-      Values are Nix store paths — files or directories.
-      Only applied on WSL hosts (isWSL guard). Leave empty until Phase 2 sub-modules register entries.
-    '';
+  # Options declared unconditionally so non-WSL hosts can still evaluate the types.
+  options.windows = {
+    configFiles = lib.mkOption {
+      type = lib.types.attrsOf lib.types.path;
+      default = { };
+      description = ''
+        Attribute set of files to sync to the Windows filesystem on activation.
+        Keys are paths relative to the Windows home directory (e.g. ".config/komorebi/komorebi.json").
+        Values are Nix store paths — files or directories.
+        Only applied on WSL hosts (isWSL guard).
+      '';
+    };
+
+    registryFiles = lib.mkOption {
+      type = lib.types.attrsOf lib.types.path;
+      default = { };
+      description = ''
+        Attribute set of .reg files to import via reg.exe on activation.
+        Keys are descriptive names (e.g. "dark-mode").
+        Values are Nix store paths to .reg files.
+        HKLM keys require elevation — failures are logged as warnings.
+      '';
+    };
   };
 
   # All config is guarded — non-WSL hosts get no activation hooks.
@@ -84,8 +129,16 @@ in
       if [ "$_failed" -gt 0 ]; then
         echo "[windows-sync] WARNING: $_failed file(s) failed to sync — check sources above"
       else
-        echo "[windows-sync] All configs synced to ${windowsHomePath}/.config/"
+        echo "[windows-sync] All configs synced to ${windowsHomePath}/"
       fi
+    '';
+
+    home.activation.importWindowsRegistry = lib.hm.dag.entryAfter [ "syncWindowsConfigs" ] ''
+      if [ ! -d "${windowsHomePath}" ]; then
+        exit 0
+      fi
+
+      ${regCommands}
     '';
   };
 }

@@ -935,6 +935,6 @@ let
   '';
 in
 {
-  windows.configFiles."yasb/config.yaml" = pkgs.writeText "yasb-config.yaml" configYaml;
-  windows.configFiles."yasb/styles.css" = pkgs.writeText "yasb-styles.css" stylesCss;
+  windows.configFiles.".config/yasb/config.yaml" = pkgs.writeText "yasb-config.yaml" configYaml;
+  windows.configFiles.".config/yasb/styles.css" = pkgs.writeText "yasb-styles.css" stylesCss;
 }
