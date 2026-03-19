@@ -90,6 +90,11 @@
 
       # File system performance
       "fs.file-max" = 65536;
+
+      # Auto-reboot 10 seconds after kernel panic (default 0 = hang forever)
+      "kernel.panic" = 10;
+      # Also reboot on oops (can precede a full panic)
+      "kernel.panic_on_oops" = 1;
     };
   };
 
@@ -107,6 +112,10 @@
     networkmanager.enable = lib.mkForce false;
   };
 
+  # Disable systemd-oomd — too aggressive for K3s nodes, kills container
+  # runtime cgroups before the kernel OOM killer would intervene
+  systemd.oomd.enable = false;
+
   # Services configuration
   services = {
     openssh = {
@@ -116,12 +125,18 @@
 
     # File system trim for eMMC longevity
     fstrim.enable = true;
-  };
 
-  # iSCSI initiator for Longhorn storage support
-  services.openiscsi = {
-    enable = true;
-    name = "iqn.2025-01.com.turingpi:rk1";
+    # Persist journal to disk so logs survive crashes/reboots
+    journald.extraConfig = ''
+      Storage=persistent
+      SystemMaxUse=500M
+    '';
+
+    # iSCSI initiator for Longhorn storage support
+    openiscsi = {
+      enable = true;
+      name = "iqn.2025-01.com.turingpi:rk1";
+    };
   };
 
   # Longhorn uses nsenter to execute host binaries (iscsiadm, mount, etc.)
