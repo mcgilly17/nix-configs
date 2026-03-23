@@ -2,6 +2,7 @@
 {
   config,
   lib,
+  pkgs,
   inputs,
   outputs,
   myLibs,
@@ -75,6 +76,11 @@
 
   # Enable sudo without password for wheel group (for nixos-anywhere)
   security.sudo.wheelNeedsPassword = false;
+
+  # Server utilities
+  environment.systemPackages = lib.mkIf config.hostSpec.isServer [
+    pkgs.wakeonlan
+  ];
 
   # Memory optimization with compressed RAM swap
   zramSwap.enable = true;
