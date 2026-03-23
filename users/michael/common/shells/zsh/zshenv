@@ -1,18 +1,7 @@
 # Fallback TERM if terminal emulator doesn't set it (needed before zellij auto-start)
 export TERM="${TERM:-xterm-256color}"
 
-# https://github.com/jbranchaud/til/blob/master/vim/configure-fzf-to-use-fd-for-file-finding.md
-export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --hidden --follow --exclude .git'
-
-# https://www.joshmedeski.com/posts/popup-history-with-tmux-and-fzf
-export FZF_CTRL_R_OPTS="--reverse"
-export FZF_TMUX_OPTS="-p"
-
+# LESSOPEN is set here because lesspipe.enable doesn't know about our custom .lessfilter
 export LESSOPEN='|~/.config/.lessfilter %s'
 
-
-export BAT_STYLE=numbers,changes
-
-# for some reason this needs to be explicit on mac OS, this will need to be fixed for linux builds
-export SOPS_AGE_KEY_FILE='/Users/michael/.config/sops/age/keys.txt'
-
+export SOPS_AGE_KEY_FILE="$HOME/.config/sops/age/keys.txt"

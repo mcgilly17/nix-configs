@@ -24,7 +24,7 @@ zstyle ':completion:*:descriptions'     format '[%d]'                           
 zstyle ':completion:*'                  group-name ''                           # Organize completion list in groups (Also doesnt work)
 zstyle ':completion:*'                  list-dirs-first true                    # List Directories first. (Doesnt seem to work)
 zstyle ':completion:*'                  menu no                                 # force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
-zstyle ':completion:*'                  matcher-list 'm:{a-z}={A-za-z}'         # make matching case insensitve
+zstyle ':completion:*'                  matcher-list 'm:{a-z}={A-Za-z}'        # make matching case insensitve
 zstyle ':completion:*'                  list-colors "${(s.:.)LS_COLORS}"        # colors when fzf tab completing
 zstyle ':fzf-tab:*'                     prefix ''                               # Disable prefix for completion matches
 zstyle ':fzf-tab:*'                     switch-group '<' '>'                    # Switch group using `<` and `>`
@@ -50,9 +50,11 @@ zstyle ':fzf-tab:complete:*:options' fzf-preview
 zstyle ':fzf-tab:complete:*:argument-1' fzf-preview
 
 # Use popup for preview pane when in Tmux
-zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
-zstyle ':fzf-tab:complete:' popup-min-size 150 12
-zstyle ':fzf-tab:complete:' popup-smart-tab yes
+if [ -n "$TMUX" ]; then
+  zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
+  zstyle ':fzf-tab:complete:' popup-min-size 150 12
+  zstyle ':fzf-tab:complete:' popup-smart-tab yes
+fi
 
 # environment variable preview
 zstyle ':fzf-tab:complete:(-command-|-parameter-|-brace-parameter-|export|unset|expand):*' \
@@ -60,18 +62,22 @@ zstyle ':fzf-tab:complete:(-command-|-parameter-|-brace-parameter-|export|unset|
 
 
 # More fzf-tab completions
-# enable man previews
-zstyle 'fzf-tab:complete:man:*'           fzf-preview 'man $word | bat --color=always -l man'
-zstyle 'fzf-tab:complete:man:(^options)'  fzf-flags '--preview-window=nohidden,right,65%,wrap'
+# enable man previews (fixed: added missing leading colon)
+zstyle ':fzf-tab:complete:man:*'           fzf-preview 'man $word | bat --color=always -l man'
+zstyle ':fzf-tab:complete:man:(^options)'  fzf-flags '--preview-window=nohidden,right,65%,wrap'
 
 # give a preview of commandline arguments when completing `kill`
 zstyle ':completion:*:*:*:*:processes'                     command "ps -u $USER -o pid,user,comm -w -w"
 zstyle ':fzf-tab:complete:(kill|ps):argument-rest'         fzf-flags --preview-window=down:3:wrap
-zstyle ':fzf-tab:complete:(kill|ps):argument-rest'         fzf-preview '[[ $group == "[process ID]" ]] && ps --pid=$word -o cmd --no-headers -w -w'
-
-if [ -n "$TMUX" ]; then
-   enable-fzf-tab
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  zstyle ':fzf-tab:complete:(kill|ps):argument-rest'       fzf-preview \
+      '[[ $group == "[process ID]" ]] && ps -p $word -o command= -w -w'
+else
+  zstyle ':fzf-tab:complete:(kill|ps):argument-rest'       fzf-preview \
+      '[[ $group == "[process ID]" ]] && ps --pid=$word -o cmd --no-headers -w -w'
 fi
+
+enable-fzf-tab
 
 # Fix alt + backspace so it is different from werase
 my-backward-delete-word () {

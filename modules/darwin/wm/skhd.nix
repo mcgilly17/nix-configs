@@ -1,5 +1,6 @@
-{ config, ... }: {
-  services. skhd = {
+{ config, ... }:
+{
+  services.skhd = {
     enable = true;
     skhdConfig = builtins.readFile ./skhdrc;
   };

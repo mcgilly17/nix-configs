@@ -1,9 +1,9 @@
 {
-  power = {
-    sleep = {
-      womp = 1;
-      tcpkeepalive = 1;
-      powernap = 1;
-    };
-  };
+  networking.wakeOnLan.enable = true;
+
+  # tcpkeepalive and powernap have no nix-darwin options yet
+  system.activationScripts.postActivation.text = ''
+    sudo pmset -a tcpkeepalive 1
+    sudo pmset -a powernap 1
+  '';
 }

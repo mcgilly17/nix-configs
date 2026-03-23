@@ -8,22 +8,21 @@
     enable = true;
     autocd = true;
     dotDir = "${config.xdg.configHome}/zsh";
-    syntaxHighlighting.enable = false;
+    syntaxHighlighting.enable = false; # using fast-syntax-highlighting plugin instead
     enableCompletion = true;
     autosuggestion.enable = true;
     defaultKeymap = "emacs";
 
     history = {
-      path = "${config.xdg.dataHome}/zsh/history"; # ~/.local/share/...
+      path = "${config.xdg.dataHome}/zsh/history";
       share = true;
       extended = true;
-      save = 5000;
-      size = 5000;
+      save = 50000;
+      size = 50000;
       ignorePatterns = [ "rm *" ];
-      ignoreDups = true; # makes searching history faster
+      ignoreDups = true;
       ignoreAllDups = true;
       ignoreSpace = true;
-      expireDuplicatesFirst = false;
     };
 
     plugins = [
@@ -37,11 +36,7 @@
         src = pkgs.zsh-completions;
         file = "share/zsh-completions/zsh-completions.plugin.zsh";
       }
-      {
-        name = "zsh-autosuggestions";
-        src = pkgs.zsh-autosuggestions;
-        file = "share/zsh-autosuggestions/zsh-autosuggestions.zsh";
-      }
+      # NOTE: zsh-autosuggestions is loaded by autosuggestion.enable above
       {
         name = "zsh-fast-syntax-highlighting";
         src = pkgs.zsh-fast-syntax-highlighting;
@@ -59,33 +54,30 @@
       }
     ];
 
-    # completiojnInit = ''
-    #   autoload -U compinit; compinit
-    #   # fzf, enables it for ^r, ^s and tab completion
-    #   # source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh
-    # '';
-
-    initContent = pkgs.lib.mkOrder 0 ''
-      # macos upgrades might nix install: https://github.com/NixOS/nix/issues/3616
-      if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
-        . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
-      fi
-      ### our zshrc
-      ${builtins.readFile ./zshrc}
-    '';
+    initContent = pkgs.lib.mkMerge [
+      # nix-daemon must load before everything else
+      (pkgs.lib.mkOrder 0 ''
+        # macos upgrades might nix install: https://github.com/NixOS/nix/issues/3616
+        if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
+          . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+        fi
+      '')
+      # zshrc must load after plugins (default order 1000)
+      (pkgs.lib.mkOrder 1100 ''
+        ${builtins.readFile ./zshrc}
+      '')
+    ];
 
     envExtra = ''
       ${builtins.readFile ./zshenv}
     '';
 
-    #
-
     shellAliases = {
       ll = "eza --group --header --group-directories-first --long --git --all --icons --sort name";
       lt = "eza --tree --level=2 --long --icons --git";
-      cat = "bat"; # better cat - bat
-      cd = "z"; # better cd - zoxide
-      tig = "gitui"; # my fingers just do this too often
+      cat = "bat";
+      cd = "z";
+      tig = "gitui";
       docker-compose = "podman-compose";
     };
 
