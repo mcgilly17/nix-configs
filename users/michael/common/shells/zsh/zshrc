@@ -88,6 +88,9 @@ zle -N my-backward-delete-word
 
 bindkey '\e^?' my-backward-delete-word
 
+# Run just recipes from the dots repo anywhere
+dots() { (cd ~/Projects/dots && just "$@") }
+
 # # my ll is aliased to eza ..., and without this, zsh gives me weird completions
 # setopt complete_aliases
 
