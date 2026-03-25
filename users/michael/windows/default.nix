@@ -80,6 +80,7 @@ in
     ./komorebi
     ./whkd
     ./yasb
+    ./portproxy
     ./powershell
     ./windows-terminal
     ./wslconfig

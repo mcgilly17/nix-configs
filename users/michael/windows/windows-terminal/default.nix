@@ -66,9 +66,11 @@ let
           hidden = false;
         }
         {
-          name = "WSL";
-          guid = "{2c4de342-38b7-51cf-b940-2309a097f518}";
-          source = "Windows.Terminal.Wsl";
+          name = "NixOS (WSL)";
+          guid = "{b3a51a6d-44be-5056-9e51-9e91120aba76}";
+          commandline = "wsl.exe -d NixOS";
+          icon = "ms-appx:///ProfileIcons/{9acb9455-ca41-5af7-950f-6bca1bc9722f}.png";
+          startingDirectory = "~";
         }
       ];
     };

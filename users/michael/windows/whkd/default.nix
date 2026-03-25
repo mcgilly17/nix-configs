@@ -4,8 +4,8 @@
 # Modifier scheme: ctrl+alt as base (avoids zellij alt+hjkl conflict)
 #   ctrl+alt+hjkl        = focus
 #   ctrl+alt+shift+hjkl  = move/swap
-#   ctrl+alt+1-5         = switch workspace
-#   ctrl+shift+1-5       = move window to workspace
+#   ctrl+alt+1-8         = switch workspace
+#   ctrl+shift+1-8       = move window to workspace
 #
 # No isWSL guard needed — parent aggregator handles it.
 { pkgs, ... }:
@@ -62,6 +62,9 @@ let
     ctrl + alt + 3                 : komorebic focus-workspace 2
     ctrl + alt + 4                 : komorebic focus-workspace 3
     ctrl + alt + 5                 : komorebic focus-workspace 4
+    ctrl + alt + 6                 : komorebic focus-workspace 5
+    ctrl + alt + 7                 : komorebic focus-workspace 6
+    ctrl + alt + 8                 : komorebic focus-workspace 7
     ctrl + left                    : komorebic cycle-workspace previous
     ctrl + right                   : komorebic cycle-workspace next
 
@@ -71,6 +74,9 @@ let
     ctrl + shift + 3               : komorebic move-to-workspace 2
     ctrl + shift + 4               : komorebic move-to-workspace 3
     ctrl + shift + 5               : komorebic move-to-workspace 4
+    ctrl + shift + 6               : komorebic move-to-workspace 5
+    ctrl + shift + 7               : komorebic move-to-workspace 6
+    ctrl + shift + 8               : komorebic move-to-workspace 7
 
     # Monitor focus
     ctrl + alt + oem_4             : komorebic cycle-monitor previous

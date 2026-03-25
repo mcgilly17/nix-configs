@@ -157,6 +157,12 @@ let
     # Set KOMOREBI_CONFIG_HOME so komorebi finds its Nix-managed config
     $Env:KOMOREBI_CONFIG_HOME = "$Env:USERPROFILE\.config\komorebi"
 
+    # Ensure oh-my-posh is on PATH (winget installs here)
+    $ompBin = "$Env:LOCALAPPDATA\Programs\oh-my-posh\bin"
+    if ((Test-Path $ompBin) -and ($Env:PATH -notlike "*$ompBin*")) {
+        $Env:PATH = "$ompBin;$Env:PATH"
+    }
+
     # Initialize oh-my-posh with Catppuccin Mocha theme
     $ompTheme = "$Env:USERPROFILE\Documents\PowerShell\catppuccin-mocha.omp.json"
     if (Test-Path $ompTheme) {
