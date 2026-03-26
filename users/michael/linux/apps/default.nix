@@ -1,6 +1,9 @@
 # Base Linux desktop applications
 { pkgs, ... }:
 {
+  # Syncthing file synchronization (runs as systemd user service)
+  services.syncthing.enable = true;
+
   home.packages = with pkgs; [
     # Browsers
     google-chrome
