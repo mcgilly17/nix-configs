@@ -4,6 +4,7 @@
 { ... }:
 {
   imports = [
+    ./gcloud.nix
     ./kubectl.nix
   ];
 }
