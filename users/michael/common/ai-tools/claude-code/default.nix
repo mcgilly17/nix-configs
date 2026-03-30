@@ -45,6 +45,28 @@ in
         command = "npx";
         args = [ "@playwright/mcp@latest" ];
       };
+      # Nova MCP servers (via Tailscale ingress on Zenith K3s)
+      ticktick = {
+        url = "https://nova-mcp-hub.tail575dda.ts.net/ticktick/sse";
+      };
+      google-workspace = {
+        url = "https://nova-mcp-hub.tail575dda.ts.net/google-workspace/sse";
+      };
+      paprika = {
+        url = "https://nova-mcp-hub.tail575dda.ts.net/paprika/sse";
+      };
+      ddg-search = {
+        url = "https://nova-mcp-hub.tail575dda.ts.net/ddg-search/sse";
+      };
+      vault-files = {
+        url = "https://nova-mcp-hub.tail575dda.ts.net/vault/sse";
+      };
+      vault-search = {
+        url = "https://nova-qmd.tail575dda.ts.net/sse";
+      };
+      nova-planner = {
+        url = "https://nova-planner.tail575dda.ts.net/sse";
+      };
     };
     settings = {
       theme = "dark";
