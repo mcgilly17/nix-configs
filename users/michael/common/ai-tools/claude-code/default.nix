@@ -3,7 +3,6 @@
   pkgs,
   ...
 }:
-
 let
   # Auto-discover command files
   commandFiles = builtins.readDir ./commands;
@@ -21,7 +20,6 @@ let
   hooks = lib.foldl' (acc: name: acc // (importHook name)) { } (
     lib.filter (name: lib.hasSuffix ".nix" name) (builtins.attrNames hookFiles)
   );
-
 in
 {
   home.file = lib.mkMerge [
@@ -189,7 +187,6 @@ in
       enabledPlugins = {
         "claude-notifications-go@claude-notifications-go" = true;
         "typescript-lsp@claude-plugins-official" = true;
-        "security-guidance@claude-plugins-official" = true;
         "context7@claude-plugins-official" = true;
 
         "explanatory-output-style@claude-plugins-official" = true;
