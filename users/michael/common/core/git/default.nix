@@ -27,6 +27,7 @@ in
   programs = {
     git = {
       enable = true;
+      signing.format = null; # Adopt new HM 25.05 default (silences deprecation warning)
 
       inherit (ignores) ignores;
 
