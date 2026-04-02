@@ -45,24 +45,31 @@ in
       };
       # Nova MCP servers (via Tailscale ingress on Zenith K3s)
       ticktick = {
+        type = "sse";
         url = "https://nova-mcp-hub.tail575dda.ts.net/ticktick/sse";
       };
       google-workspace = {
+        type = "sse";
         url = "https://nova-mcp-hub.tail575dda.ts.net/google-workspace/sse";
       };
       paprika = {
+        type = "sse";
         url = "https://nova-mcp-hub.tail575dda.ts.net/paprika/sse";
       };
       ddg-search = {
+        type = "sse";
         url = "https://nova-mcp-hub.tail575dda.ts.net/ddg-search/sse";
       };
       vault-files = {
+        type = "sse";
         url = "https://nova-mcp-hub.tail575dda.ts.net/vault/sse";
       };
       vault-search = {
+        type = "sse";
         url = "https://nova-qmd.tail575dda.ts.net/sse";
       };
       nova-planner = {
+        type = "sse";
         url = "https://nova-planner.tail575dda.ts.net/sse";
       };
     };
