@@ -56,9 +56,10 @@
 
     gm = "git merge";
 
-    gP = "git pull";
-    gPn = "git pull --no-rebase";
-    gPno = "git pull --no-rebase origin";
+    gP = "git pull --rebase";
+    gPo = "git pull --rebase origin";
+    gPm = "git pull --no-rebase";
+    gPmo = "git pull --no-rebase origin";
 
     gp = "git push";
 
