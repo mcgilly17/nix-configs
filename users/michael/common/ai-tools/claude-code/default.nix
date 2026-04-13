@@ -194,9 +194,17 @@ in
             repo = "777genius/claude-notifications-go";
           };
         };
+        "minimalist-entrepreneur" = {
+          source = {
+            source = "github";
+            repo = "slavingia/skills";
+            path = ".claude-plugin/marketplace.json";
+          };
+        };
       };
       enabledPlugins = {
         "claude-notifications-go@claude-notifications-go" = true;
+        "minimalist-entrepreneur@minimalist-entrepreneur" = true;
         "typescript-lsp@claude-plugins-official" = true;
         "context7@claude-plugins-official" = true;
 
