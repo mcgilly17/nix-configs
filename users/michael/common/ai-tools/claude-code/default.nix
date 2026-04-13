@@ -68,6 +68,10 @@ in
         type = "http";
         url = "https://nova-qmd.tail575dda.ts.net/mcp";
       };
+      vault-librarian = {
+        type = "http";
+        url = "https://nova-vault-librarian.tail575dda.ts.net/mcp";
+      };
       nova-planner = {
         type = "http";
         url = "https://nova-planner.tail575dda.ts.net/mcp";
