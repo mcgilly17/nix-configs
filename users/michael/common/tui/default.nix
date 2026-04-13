@@ -122,15 +122,14 @@
 
     # Neovim LSP and other pkgs
     prettierd
-    nodePackages.prettier
+    prettier
     google-java-format
     black
     rustfmt
     selene
     eslint_d
     vscode-langservers-extracted # Provides JSON/HTML/CSS/ESLint language servers
-    # nodePackages."@prisma/language-server"
-    nodePackages.graphql-language-service-cli
+    graphql-language-service-cli
     tailwindcss-language-server
     emmet-language-server
     checkstyle
