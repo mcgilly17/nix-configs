@@ -112,9 +112,32 @@
     networkmanager.enable = lib.mkForce false;
   };
 
-  # Disable systemd-oomd — too aggressive for K3s nodes, kills container
-  # runtime cgroups before the kernel OOM killer would intervene
-  systemd.oomd.enable = false;
+  systemd = {
+    # Disable systemd-oomd — too aggressive for K3s nodes, kills container
+    # runtime cgroups before the kernel OOM killer would intervene
+    oomd.enable = false;
+
+    # Longhorn uses nsenter to execute host binaries (iscsiadm, mount, etc.)
+    # but searches standard FHS paths (/usr/local/bin) which don't exist on NixOS
+    tmpfiles.rules = [
+      "L+ /usr/local/bin - - - - /run/current-system/sw/bin/"
+    ];
+
+    # Fan control — switch PWM fan from manual (default) to kernel thermal
+    # governor so it ramps automatically under load. Without this the fan
+    # stays at ~10% PWM and the RK3588 thermally shuts down under sustained
+    # workloads (K3s, Longhorn rebuilds, embedding generation).
+    services.fan-auto = {
+      description = "Set PWM fan to automatic thermal control";
+      after = [ "multi-user.target" ];
+      wantedBy = [ "multi-user.target" ];
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+        ExecStart = "${pkgs.bash}/bin/bash -c 'echo 2 > /sys/class/hwmon/hwmon8/pwm1_enable'";
+      };
+    };
+  };
 
   # Services configuration
   services = {
@@ -138,12 +161,6 @@
       name = "iqn.2025-01.com.turingpi:rk1";
     };
   };
-
-  # Longhorn uses nsenter to execute host binaries (iscsiadm, mount, etc.)
-  # but searches standard FHS paths (/usr/local/bin) which don't exist on NixOS
-  systemd.tmpfiles.rules = [
-    "L+ /usr/local/bin - - - - /run/current-system/sw/bin/"
-  ];
 
   # Temperature monitoring - Industrial I/O sensors
   hardware.sensor.iio.enable = true;
