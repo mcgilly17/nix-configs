@@ -32,7 +32,7 @@ in
       inherit (ignores) ignores;
 
       lfs.enable = true;
-      package = pkgs.gitFull;
+      package = pkgs.git;
 
       # Enable different config for work when
       # includes = [
