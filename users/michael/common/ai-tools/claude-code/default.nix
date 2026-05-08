@@ -183,6 +183,7 @@ in
         ];
         defaultMode = "default";
       };
+      cleanupPeriodDays = 365;
       verbose = true;
       includeCoAuthoredBy = false;
 
