@@ -100,6 +100,10 @@
     mosaic = {
       url = "github:mcgilly17/Mosaic";
     };
+    qmd = {
+      url = "github:tobi/qmd";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
