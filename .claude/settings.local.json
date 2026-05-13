@@ -11,7 +11,12 @@
       "WebFetch(domain:maplibre.org)",
       "Bash(openssl rand:*)",
       "WebFetch(*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(qmd context:*)",
+      "Bash(qmd search:*)",
+      "Bash(qmd update:*)",
+      "Bash(qmd ls:*)",
+      "Bash(qmd query:*)"
     ],
     "deny": [],
     "ask": []

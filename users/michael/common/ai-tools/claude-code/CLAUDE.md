@@ -56,6 +56,37 @@ Context-aware knowledge that loads automatically based on file paths and keyword
 **Process**:
 - git-workflow (Conventional commits, PR practices)
 
+## Vault Search (QMD via vault-search MCP)
+
+Michael's Obsidian vault is indexed by QMD and available via the `vault-search` MCP server. QMD has NO frontmatter filtering — it treats metadata as plain text. To get good results, you must construct smart queries.
+
+**Query strategy by question type:**
+
+| Question type | Approach |
+|---------------|----------|
+| "What am I working on?" / temporal | HYDE + intent (describe the expected answer) |
+| "Find notes about X" / lookup | lex + vec (keywords + semantic) |
+| "How does X work?" / knowledge | vec only (semantic search) |
+| "What did we decide about X?" | lex: "decision X" + vec: question |
+
+**For current/active work queries**, always use HYDE with explicit project names and intent to exclude historical content:
+```json
+{
+  "searches": [
+    { "type": "hyde", "query": "Active projects: Muse, Nova, ULLR, Protobloc, Dots, Golf Simulator, Homelab, Mosaic, Zenith, K8s Operator, Killin GC. Clients: Cogna, Muse, Mendo, Neurovirse. Own companies: Asterisk, Lucent Advisory." },
+    { "type": "vec", "query": "current active projects and work" }
+  ],
+  "intent": "Find only current/active work, not historical projects like Beamery"
+}
+```
+
+**Key rules:**
+- First search entry gets 2x weight in fusion — put your best query first
+- Use `intent` to disambiguate (e.g., "performance" could mean web perf or team health)
+- For entity lookups, use `lex` with the entity name (exact match)
+- After getting results, check frontmatter: `relationship: past-employer` or `status: completed` means historical
+- `get` tool retrieves full doc by path or docid — use after search to read details
+
 ## Environment Configuration
 
 ### GitHub Access
