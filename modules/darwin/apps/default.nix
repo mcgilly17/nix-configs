@@ -101,6 +101,7 @@
 
       ## Messaging and Communication
       "whatsapp" # Desktop Whatsapp client"
+      "microsoft-teams" # Microsoft Teams
       "moonlight" # Game streaming client (for Sunshine)
       "syncthing" # File synchronization
 
