@@ -15,6 +15,7 @@
 
   catppuccin = {
     enable = true;
+    autoEnable = true;
     flavor = "mocha";
     accent = "sapphire";
     k9s = {

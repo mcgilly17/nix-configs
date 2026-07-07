@@ -72,6 +72,11 @@
       ${builtins.readFile ./zshenv}
     '';
 
+    profileExtra = ''
+      # OrbStack CLI integration (moved from ~/.config/zsh/.zprofile)
+      source ~/.orbstack/shell/init.zsh 2>/dev/null || :
+    '';
+
     shellAliases = {
       ll = "eza --group --header --group-directories-first --long --git --all --icons --sort name";
       lt = "eza --tree --level=2 --long --icons --git";

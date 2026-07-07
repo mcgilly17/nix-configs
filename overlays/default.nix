@@ -7,7 +7,7 @@
   additions = final: _prev: {
     # Can't get the below to work...will just go with the package route
     # mosaic = inputs.mosaic.overlays.default;
-    mosaic = inputs.mosaic.packages.${final.system}.default;
+    mosaic = inputs.mosaic.packages.${final.stdenv.hostPlatform.system}.default;
 
   };
 
@@ -17,7 +17,7 @@
   modifications = final: _prev: {
     # Pin devenv to flake input to avoid nixpkgs lagging behind fixes
     # See: https://github.com/cachix/devenv/issues/2552
-    inherit (inputs.devenv.packages.${final.system}) devenv;
+    inherit (inputs.devenv.packages.${final.stdenv.hostPlatform.system}) devenv;
     # leaving as an example - moved to github.com/mcgilly17/Mosaic
     # vimPlugins =
     #   prev.vimPlugins

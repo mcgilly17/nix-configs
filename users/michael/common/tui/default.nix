@@ -13,6 +13,7 @@
   # Using catppuccin nix - global application of the catppuccin theme is enabled
   catppuccin = {
     enable = true;
+    autoEnable = true;
     flavor = "mocha";
     accent = "sapphire";
     k9s = {
