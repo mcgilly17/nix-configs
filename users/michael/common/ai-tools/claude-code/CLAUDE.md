@@ -1,167 +1,61 @@
 # Development Partnership
 
-We build production code together. I handle implementation details while you guide architecture and catch complexity early.
+We build production code together: you guide architecture and catch
+complexity early; Claude handles implementation.
 
-## Core Workflow: Research → Plan → Implement → Validate
+## Core Workflow
 
-**Start every feature with:** "Let me research the codebase and create a plan before implementing."
+Research existing patterns → propose a plan and verify → implement with
+tests → ALWAYS run formatters, linters, and tests before declaring done.
 
-1. **Research** - Understand existing patterns and architecture
-2. **Plan** - Propose approach and verify with you
-3. **Implement** - Build with tests and error handling
-4. **Validate** - ALWAYS run formatters, linters, and tests after implementation
+## Environment
 
-## Available Tools
-
-### Agents
-
-Specialized workers you can explicitly invoke:
-
-- **code-reviewer** - Systematic code review with security analysis
-- **debugger** - Scientific debugging methodology
-- **security-auditor** - OWASP & infrastructure security scanning
-- **refactoring-planner** - Safe, incremental refactoring plans
-- **documentation-writer** - Technical writing for all audiences
-- **software-engineering-expert** - General implementation & architecture
-
-### Commands
-
-Quick workflows via slash commands:
-
-- `/validate [--fix]` - Run quality checks (lint, format, test, type-check)
-- `/commit [--dry-run] [--interactive]` - Create atomic commits following conventions
-- `/review` - Comprehensive code review
-- `/debug [description]` - Systematic debugging
-- `/docs [type] [target]` - Generate documentation
-- `/security-audit [scope]` - Security analysis
-- `/refactor [target]` - Plan refactoring
-- `/install-workflow [framework]` - Install AI workflow framework (BMAD, Spec Kit, OpenSpec, Superpowers, GSD)
-
-### Skills (Auto-Activate)
-
-Context-aware knowledge that loads automatically based on file paths and keywords:
-
-**Web Development**:
-- nextjs-15 (App Router, RSC, Server Actions)
-- react-patterns (Server Components, Suspense, hooks)
-- prisma (Schema design, migrations)
-- typescript (Advanced types, strict mode)
-- storybook (Component dev, visual testing)
-
-**Infrastructure**:
-- docker (Multi-stage builds, security)
-- kubernetes (Modern patterns, resource management)
-- api-design (REST, GraphQL, tRPC)
-
-**Process**:
-- git-workflow (Conventional commits, PR practices)
-
-## Vault Search (QMD via vault-search MCP)
-
-Michael's Obsidian vault is indexed by QMD and available via the `vault-search` MCP server. QMD has NO frontmatter filtering — it treats metadata as plain text. To get good results, you must construct smart queries.
-
-**Query strategy by question type:**
-
-| Question type | Approach |
-|---------------|----------|
-| "What am I working on?" / temporal | HYDE + intent (describe the expected answer) |
-| "Find notes about X" / lookup | lex + vec (keywords + semantic) |
-| "How does X work?" / knowledge | vec only (semantic search) |
-| "What did we decide about X?" | lex: "decision X" + vec: question |
-
-**For current/active work queries**, always use HYDE with explicit project names and intent to exclude historical content:
-```json
-{
-  "searches": [
-    { "type": "hyde", "query": "Active projects: Muse, Nova, ULLR, Protobloc, Dots, Golf Simulator, Homelab, Mosaic, Zenith, K8s Operator, Killin GC. Clients: Cogna, Muse, Mendo, Neurovirse. Own companies: Asterisk, Lucent Advisory." },
-    { "type": "vec", "query": "current active projects and work" }
-  ],
-  "intent": "Find only current/active work, not historical projects like Beamery"
-}
-```
-
-**Key rules:**
-- First search entry gets 2x weight in fusion — put your best query first
-- Use `intent` to disambiguate (e.g., "performance" could mean web perf or team health)
-- For entity lookups, use `lex` with the entity name (exact match)
-- After getting results, check frontmatter: `relationship: past-employer` or `status: completed` means historical
-- `get` tool retrieves full doc by path or docid — use after search to read details
-
-## Environment Configuration
+- `~/.claude/*` is symlinked by home-manager. Never edit it directly —
+  change `users/michael/common/ai-tools/claude-code/` in ~/Projects/dots,
+  then rebuild.
+- Machines are Nix-managed (nix-darwin / NixOS / home-manager). Prefer
+  declarative changes over imperative installs (brew, npm -g, etc.).
 
 ### GitHub Access
 
-**Public repos (reading, browsing, research):** Use `WebFetch` or `WebSearch` tools — no auth needed, no approval prompts.
-
-**Private repos (PRs, issues, auth-required operations):** Use `op plugin run -- gh <command>`
-- Examples: `op plugin run -- gh pr create`, `op plugin run -- gh issue list`
+- Public repos (read/research): WebFetch or WebSearch — no auth needed.
+- Private repos & write ops: `op plugin run -- gh <command>`
+  (e.g. `op plugin run -- gh pr create`).
 
 ## Code Organization
 
-**Keep functions small and focused:**
-- If you need comments to explain sections, split into functions
-- Group related functionality into clear modules
-- Prefer many small files over few large ones
+Small, focused functions — if a comment explains a section, split it into
+a function. Many small files over few large ones.
 
 ## Architecture Principles
 
-**This is always a feature branch:**
-- Delete old code completely - no deprecation needed
-- No versioned names (processV2, handleNew, ClientOld)
-- No migration code unless explicitly requested
-- No "removed code" comments - just delete it
-
-**Prefer explicit over implicit:**
-- Clear function names over clever abstractions
-- Obvious data flow over hidden magic
-- Direct dependencies over service locators
+- Explicit over implicit: clear names over clever abstractions, obvious
+  data flow over hidden magic, direct dependencies over service locators.
+- When replacing code, delete the old version cleanly: no versioned names
+  (processV2, handleNew), no "removed code" comments, no migration or
+  back-compat shims unless explicitly requested.
 
 ## Maximize Efficiency
 
-**Parallel operations:** Run multiple searches, reads, and greps in single messages
-**Multiple agents:** Split complex tasks - one for tests, one for implementation
-**Batch similar work:** Group related file edits together
+Batch independent searches/reads in parallel; split large tasks across
+subagents; group related edits.
 
 ## Problem Solving
 
-**When stuck:** Stop. The simple solution is usually correct.
-
-**When uncertain:** "Let me ultrathink about this architecture."
-
-**When choosing:** "I see approach A (simple) vs B (flexible). Which do you prefer?"
-
-Your redirects prevent over-engineering. When uncertain about implementation, stop and ask for guidance.
+Stuck → stop; the simple solution is usually correct. Uncertain between
+approaches → present the trade-off (simple vs flexible) and ask.
 
 ## Testing Strategy
 
-**Match testing approach to code complexity:**
-- Complex business logic: Write tests first (TDD)
-- Simple CRUD operations: Write code first, then tests
-- Critical paths: Add integration tests
-
-**Always keep security in mind:**
-- Test authentication and authorization
-- Test input validation edge cases
-- Test error handling paths
-
-**Performance rule:** Measure before optimizing. No guessing.
+TDD for complex business logic; code-first for simple CRUD; integration
+tests on critical paths. Always test auth, input validation, and error
+paths. Measure before optimizing.
 
 ## Progress Tracking
 
-- **TodoWrite** for task management
-- **Clear naming** in all code
-- **Conventional commits** for git history
+TodoWrite for multi-step work; conventional commits for git history.
 
-Focus on maintainable solutions over clever abstractions.
+## Workflow Frameworks
 
-## Workflow Framework Choice
-
-This dotfiles setup is **framework-agnostic**. For project-specific workflows:
-
-- **No framework** - Use simple dev-docs pattern
-- **Get Shit Done (GSD)** - Context engineering with subagent execution (solo devs)
-- **spec-workflow-mcp** - Sequential gating with approval gates
-- **BMAD** - Full PM framework with multi-agent workflows
-- **Custom** - Build your own
-
-Choose per-project based on team size and complexity.
+Framework-agnostic setup. Per-project, `/install-workflow` installs GSD,
+BMAD, Spec Kit, OpenSpec, or Superpowers.
