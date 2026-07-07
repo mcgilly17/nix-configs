@@ -6,32 +6,30 @@
 ###############################################################
 {
   inputs,
-  pkgs,
   specialArgs,
   myLibs,
-  config,
   ...
-}: let
+}:
+let
   hostname = "bowser";
-  inherit (specialArgs.myVars.users) michael;
-in {
-  imports =
-    [
-      inputs.home-manager.darwinModules.home-manager
-      inputs.nix-homebrew.darwinModules.nix-homebrew
-    ]
-    ++ (map myLibs.relativeToRoot [
-      #Common Darwin Modules
-      "modules/darwin"
+in
+{
+  imports = [
+    inputs.home-manager.darwinModules.home-manager
+    inputs.nix-homebrew.darwinModules.nix-homebrew
+  ]
+  ++ (map myLibs.relativeToRoot [
+    #Common Darwin Modules
+    "modules/darwin"
 
-      # Deskotop Brew Apps
-      "modules/darwin/apps/desktop.nix"
-      "modules/darwin/apps/creative.nix"
-      "modules/darwin/apps/development.nix"
+    # Deskotop Brew Apps
+    "modules/darwin/apps/desktop.nix"
+    "modules/darwin/apps/creative.nix"
+    "modules/darwin/apps/development.nix"
 
-      #User configs for Michael
-      "users/michael"
-    ]);
+    #User configs for Michael
+    "users/michael"
+  ]);
 
   #################### Host specific Darwin Configs ####################
 
@@ -40,7 +38,21 @@ in {
     computerName = hostname;
   };
 
-  system.defaults.smb.NetBIOSName = hostname;
+  system = {
+    defaults.smb.NetBIOSName = hostname;
+
+    # Workaround for nix-darwin#1817: darwin-manual-html fails because
+    # nix-darwin still passes --toc-depth to nixos-render-docs, which now
+    # requires --sidebar-depth. darwin-uninstaller runs its own eval that
+    # also builds the manual, so it must be disabled too. Re-enable once
+    # #1818 or #1819 lands.
+    tools.darwin-uninstaller.enable = false;
+
+    # as per https://daiderd.com/nix-darwin/manual/index.html#opt-system.stateVersion
+    stateVersion = 5; # Did you read the comment?
+  };
+
+  documentation.doc.enable = false;
 
   #################### Home Manager Configs ####################
 
@@ -76,7 +88,4 @@ in {
 
     mutableTaps = false;
   };
-
-  # as per https://daiderd.com/nix-darwin/manual/index.html#opt-system.stateVersion
-  system.stateVersion = 5; # Did you read the comment?
 }
