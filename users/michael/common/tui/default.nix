@@ -111,7 +111,7 @@
     kubectl
     kubetail
     fluxcd
-    vault
+    vault-bin # official prebuilt binary; `vault` compiles from source (~20GB scratch, no darwin cache)
     devbox
     graphviz
     mutagen
