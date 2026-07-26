@@ -73,10 +73,6 @@
     };
 
     #################### Non Flakes ####################
-    homebrew-bundle = {
-      url = "github:homebrew/homebrew-bundle";
-      flake = false;
-    };
     homebrew-core = {
       url = "github:homebrew/homebrew-core";
       flake = false;
@@ -99,10 +95,6 @@
     };
     mosaic = {
       url = "github:mcgilly17/Mosaic";
-    };
-    qmd = {
-      url = "github:tobi/qmd";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
