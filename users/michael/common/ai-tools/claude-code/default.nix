@@ -91,7 +91,12 @@ in
       ".claude/CLAUDE.md".source = claudeMd;
       ".claude/skill-rules.json".source = ./skill-rules.json;
       ".claude/agents".source = ./agents;
-      ".claude/skills".source = ./skills;
+      # recursive so home-manager links each skill individually, leaving room for
+      # the claude-code module's own generated .claude/skills/claude-code-home-manager
+      ".claude/skills" = {
+        source = ./skills;
+        recursive = true;
+      };
     }
   ];
 
