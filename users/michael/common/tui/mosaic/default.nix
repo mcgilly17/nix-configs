@@ -4,7 +4,9 @@
     (pkgs.mosaic.extend {
       config = {
         # core configs for nixvim that are not set in mosaic
-        enableMan = true;
+        # ponytail: disabled — nixpkgs pandoc is currently built without Lua,
+        # which breaks the nixvim manpage build. Re-enable when upstream fixes it.
+        enableMan = false;
         viAlias = true;
         vimAlias = true;
 
