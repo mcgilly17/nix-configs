@@ -24,16 +24,15 @@
     "brew-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1784558651,
-        "narHash": "sha256-woXJ1ATKpSYRWCy46TQJjmm9XzAeZVEZw9xDfVG9NYI=",
+        "lastModified": 1785515403,
+        "narHash": "sha256-PLtX1Gcn32ZJ0l1T6HOYxIDWBMren/mmArhU3PtyOiI=",
         "owner": "Homebrew",
         "repo": "brew",
-        "rev": "b48c7994b5f0eed7bef532efa63cb4e4f763887a",
+        "rev": "2b7c46891f47e60413f6dcc0aa0a46b982f7c9b3",
         "type": "github"
       },
       "original": {
         "owner": "Homebrew",
-        "ref": "6.0.12",
         "repo": "brew",
         "type": "github"
       }
@@ -525,7 +524,9 @@
     },
     "nix-homebrew": {
       "inputs": {
-        "brew-src": "brew-src"
+        "brew-src": [
+          "brew-src"
+        ]
       },
       "locked": {
         "lastModified": 1784906761,
@@ -875,6 +876,7 @@
     "root": {
       "inputs": {
         "_1password-shell-plugins": "_1password-shell-plugins",
+        "brew-src": "brew-src",
         "catppuccin": "catppuccin",
         "darwin": "darwin",
         "deploy-rs": "deploy-rs",

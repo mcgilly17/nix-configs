@@ -27,6 +27,10 @@
 
     nix-homebrew = {
       url = "github:zhaofengli-wip/nix-homebrew";
+      # Follow a root-level brew-src so the flake-update bot keeps the brew
+      # binary in lockstep with homebrew-core/cask (else brew drifts behind
+      # its taps and formulae use DSL the older brew can't read).
+      inputs.brew-src.follows = "brew-src";
     };
 
     # Secrets management
@@ -73,6 +77,10 @@
     };
 
     #################### Non Flakes ####################
+    brew-src = {
+      url = "github:Homebrew/brew";
+      flake = false;
+    };
     homebrew-core = {
       url = "github:homebrew/homebrew-core";
       flake = false;
