@@ -103,7 +103,7 @@
       "whatsapp" # Desktop Whatsapp client"
       "microsoft-teams" # Microsoft Teams
       "moonlight" # Game streaming client (for Sunshine)
-      "syncthing" # File synchronization
+      "syncthing-app" # File synchronization
 
       "qlcolorcode" # Preview source code files with syntax highlighting https://github.com/anthonygelibert/QLColorCode"
 

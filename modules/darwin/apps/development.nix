@@ -7,7 +7,7 @@ _: {
     casks = [
       "godot"
       ## Development
-      "linear-linear"
+      "linear"
       "granola"
       "nfov"
       "android-studio"

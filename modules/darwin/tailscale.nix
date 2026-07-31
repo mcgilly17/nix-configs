@@ -15,7 +15,7 @@ _: {
   # Install Tailscale via Homebrew (macOS app with menu bar integration)
   homebrew = {
     casks = [
-      "tailscale"
+      "tailscale-app"
     ];
   };
 }
