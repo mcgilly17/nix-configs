@@ -82,6 +82,16 @@ decrypted from it on activation.
    curl -fsSL https://install.determinate.systems/nix | sh -s -- install
    ```
 
+   **Intel Macs**: Determinate no longer ships x86_64-darwin installers.
+   Use the official installer and enable flakes manually (nix-darwin
+   manages this after the first switch):
+
+   ```bash
+   sh <(curl -L https://nixos.org/nix/install)
+   echo "extra-experimental-features = nix-command flakes" | sudo tee -a /etc/nix/nix.conf
+   sudo launchctl kickstart -k system/org.nixos.nix-daemon
+   ```
+
 3. **GitHub auth** — nix-secrets is a private repo fetched over https, so git
    needs credentials before the first build:
 

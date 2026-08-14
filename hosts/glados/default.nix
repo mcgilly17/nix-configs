@@ -39,6 +39,9 @@ in
     computerName = hostname;
   };
 
+  # Desktop workstation used over ssh - never sleep (display may still)
+  power.sleep.computer = "never";
+
   system = {
     defaults.smb.NetBIOSName = hostname;
 
