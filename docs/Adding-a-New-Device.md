@@ -136,6 +136,11 @@ decrypted from it on activation.
    ls -l ~/.ssh/id_ed25519          # SSH key installed by activation script
    ```
 
+   On the *first* switch the SSH key copy usually warns "secret not
+   found": the launchd agent decrypts secrets after activation has
+   already run. Just run the switch a second time — secrets are present
+   by then and the key installs.
+
 ### Intel Macs (x86_64-darwin)
 
 nixpkgs unstable (26.11) **dropped x86_64-darwin**; 26.05 is the last branch

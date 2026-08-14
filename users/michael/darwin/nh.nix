@@ -1,10 +1,12 @@
 # Better Nix tooling with nh (home-manager level for Darwin)
-{ pkgs, ... }:
+{ config, ... }:
 {
   programs.nh = {
     enable = true;
     clean.enable = true;
     clean.extraArgs = "--keep-since 20d --keep 20";
-    flake = "${builtins.getEnv "HOME"}/Projects/dots";
+    # NOTE: builtins.getEnv returns "" in pure flake eval - use the
+    # home-manager home directory instead
+    flake = "${config.home.homeDirectory}/Projects/dots";
   };
 }

@@ -2,9 +2,11 @@
   pkgs,
   myVars,
   ...
-}: let
+}:
+let
   user = myVars.users.michael.username;
-in {
+in
+{
   ###################################################################################
   #
   #  macOS's System configuration
@@ -69,7 +71,7 @@ in {
       finder = {
         FXDefaultSearchScope = "SCcf"; # Only search current folder
         FXEnableExtensionChangeWarning = false; # Don't warn on changing extension
-        QuitMenuItem = true; # Allow quitting of finder
+        QuitMenuItem = true; # Allow quitting of finder
         ShowPathbar = true;
         ShowStatusBar = true;
         _FXShowPosixPathInTitle = true; # show full path in finder title
@@ -145,6 +147,16 @@ in {
 
         # Disable the app quaruntine
         "com.apple.LaunchServices".LSQuarantine = false;
+
+        # Free up Cmd-Space for Raycast (64 = Spotlight search hotkey).
+        # Raycast's own hotkey is set once in-app and syncs via account.
+        "com.apple.symbolichotkeys" = {
+          AppleSymbolicHotKeys = {
+            "64" = {
+              enabled = false;
+            };
+          };
+        };
       };
     };
 
