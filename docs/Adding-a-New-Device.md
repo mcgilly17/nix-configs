@@ -117,6 +117,16 @@ decrypted from it on activation.
    sudo nix run nix-darwin -- switch --flake .#<name>
    ```
 
+   First activation will likely abort with "Unexpected files in /etc" —
+   installer/macOS-created files nix-darwin wants to manage. Rename them
+   as instructed and re-run:
+
+   ```bash
+   sudo mv /etc/nix/nix.conf /etc/nix/nix.conf.before-nix-darwin
+   sudo mv /etc/bashrc /etc/bashrc.before-nix-darwin
+   sudo mv /etc/zshrc /etc/zshrc.before-nix-darwin
+   ```
+
    Subsequent rebuilds: `sudo darwin-rebuild switch --flake .#<name>` (or `nh`).
 
 6. **Verify secrets**:
@@ -159,6 +169,17 @@ Knock-on effects to be aware of (all hit while onboarding glados):
 Expect an occasional new shim when unstable renames options faster than
 26.05. If the shims pile up, revisit whether the machine should run NixOS
 instead.
+
+First-switch quirks specific to Intel:
+
+- Homebrew's prefix is `/usr/local` (not `/opt/homebrew`), which ships
+  root-owned dirs. If casks fail with "directories are not writable":
+  `sudo chown -R <user> /usr/local/share/man` (or whichever dir brew
+  names), then re-run the switch.
+- Ad-hoc `nix shell`/`nix run` need an explicit branch ref
+  (`github:nixos/nixpkgs/nixpkgs-26.05-darwin#git`) until the first
+  switch pins the registry — bare `nixpkgs#` resolves to unstable and
+  throws.
 
 ---
 

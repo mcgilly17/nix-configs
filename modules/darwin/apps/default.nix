@@ -60,7 +60,12 @@
       Things3 = 904280696;
     };
 
+    # Must match the taps nix-homebrew provides declaratively, otherwise
+    # cleanup = "uninstall" tries to untap them (uninstalling every cask
+    # in the process).
     taps = [
+      "homebrew/core"
+      "homebrew/cask"
     ];
 
     # `brew install`
