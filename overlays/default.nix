@@ -17,7 +17,9 @@
   modifications = final: _prev: {
     # Pin devenv to flake input to avoid nixpkgs lagging behind fixes
     # See: https://github.com/cachix/devenv/issues/2552
-    inherit (inputs.devenv.packages.${final.stdenv.hostPlatform.system}) devenv;
+    # The devenv flake doesn't build for x86_64-darwin, so Intel Macs
+    # (glados) fall back to nixpkgs' devenv.
+    inherit (inputs.devenv.packages.${final.stdenv.hostPlatform.system} or _prev) devenv;
     # leaving as an example - moved to github.com/mcgilly17/Mosaic
     # vimPlugins =
     #   prev.vimPlugins

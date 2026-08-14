@@ -23,6 +23,20 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Intel Mac stack: nixpkgs unstable (26.11) dropped x86_64-darwin, so
+    # Intel machines (glados) pin the 26.05 stable branch, which receives
+    # security fixes until the end of 2026. After EOL this stack freezes
+    # but keeps building.
+    nixpkgs-x86-darwin.url = "github:nixos/nixpkgs/nixpkgs-26.05-darwin";
+    darwin-x86 = {
+      url = "github:nix-darwin/nix-darwin/nix-darwin-26.05";
+      inputs.nixpkgs.follows = "nixpkgs-x86-darwin";
+    };
+    home-manager-x86 = {
+      url = "github:nix-community/home-manager/release-26.05";
+      inputs.nixpkgs.follows = "nixpkgs-x86-darwin";
+    };
+
     #################### Utilities / Extras ####################
 
     nix-homebrew = {
@@ -41,7 +55,12 @@
 
     catppuccin = {
       url = "github:catppuccin/nix";
-      inputs.nixpkgs.follows = "nixpkgs";
+      # Follows the 26.05 branch (not unstable): unstable's
+      # lib.systems.flakeExposed dropped x86_64-darwin, which breaks
+      # catppuccin's packages eval for glados. 26.05 exposes all systems,
+      # and this input only affects how catppuccin's own theme packages
+      # are built - host packages are untouched.
+      inputs.nixpkgs.follows = "nixpkgs-x86-darwin";
     };
 
     # Walker v2 launcher
@@ -103,6 +122,12 @@
     };
     mosaic = {
       url = "github:mcgilly17/Mosaic";
+      # Same x86_64-darwin reasoning as catppuccin: Mosaic and nixvim
+      # build from nixpkgs unstable, which dropped Intel Macs. 26.05 is
+      # the current stable, so the editor stack builds from stable on
+      # all hosts.
+      inputs.nixpkgs.follows = "nixpkgs-x86-darwin";
+      inputs.nixvim.inputs.nixpkgs.follows = "nixpkgs-x86-darwin";
     };
   };
 
@@ -145,11 +170,33 @@
       formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
 
       darwinConfigurations = {
+        # MacBook Pro 16" M1 Max
         bowser = darwin.lib.darwinSystem {
           system = "aarch64-darwin";
           inherit specialArgs;
           modules = [
             ./hosts/bowser
+          ];
+        };
+
+        # Mac Pro 2019 (Intel) - built from the pinned x86_64-darwin stable
+        # stack (see the nixpkgs-x86-darwin input comment)
+        glados = inputs.darwin-x86.lib.darwinSystem {
+          system = "x86_64-darwin";
+          specialArgs = specialArgs // {
+            nixpkgs = inputs.nixpkgs-x86-darwin;
+          };
+          modules = [
+            ./hosts/glados
+          ];
+        };
+
+        # MacBook Air (Apple Silicon)
+        shodan = darwin.lib.darwinSystem {
+          system = "aarch64-darwin";
+          inherit specialArgs;
+          modules = [
+            ./hosts/shodan
           ];
         };
       };
@@ -197,14 +244,6 @@
           inherit specialArgs;
           modules = [
             ./hosts/nixos/rk1/zenith-3
-          ];
-        };
-
-        glados = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          inherit specialArgs;
-          modules = [
-            ./hosts/nixos/glados
           ];
         };
 
