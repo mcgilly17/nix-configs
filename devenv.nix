@@ -12,9 +12,10 @@
     statix # Nix linter
     deadnix # Find dead Nix code
 
-    # For Spec Kit
+    # For Spec Kit. uv is NOT here on purpose: it comes from homebrew
+    # (modules/darwin/apps/development.nix) so `uv`/`uvx` resolve globally for
+    # Claude's MCP servers. A devenv copy would shadow it with an older pin.
     python3
-    uv
 
     # For GSD (Get Shit Done)
     nodejs

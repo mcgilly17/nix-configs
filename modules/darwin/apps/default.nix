@@ -76,6 +76,7 @@
     # `brew install --cask`
     casks = [
       # Utilities
+      "claude" # Claude desktop app
       "raycast" # Better Spotlight
       "karabiner-elements" # keyboard management
       "superhuman" # email client
