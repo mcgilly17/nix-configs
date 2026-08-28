@@ -148,12 +148,64 @@ in
         # Disable the app quaruntine
         "com.apple.LaunchServices".LSQuarantine = false;
 
-        # Free up Cmd-Space for Raycast (64 = Spotlight search hotkey).
-        # Raycast's own hotkey is set once in-app and syncs via account.
+        # nix-darwin emits ONE `defaults write com.apple.symbolichotkeys
+        # AppleSymbolicHotKeys <plist>`, which replaces the whole dictionary.
+        # Every hotkey we care about must be listed here or it is wiped on the
+        # next rebuild. parameters = [ ascii keycode modifiermask ].
+        # 8650752 = ctrl+fn, 8781824 = ctrl+shift+fn, 123/124 = left/right arrow.
         "com.apple.symbolichotkeys" = {
           AppleSymbolicHotKeys = {
+            # Free up Cmd-Space for Raycast (64 = Spotlight search hotkey).
+            # Raycast's own hotkey is set once in-app and syncs via account.
             "64" = {
               enabled = false;
+            };
+
+            # Mission Control: ctrl+left / ctrl+right to move a space over,
+            # plus the shift variants macOS registers alongside them.
+            "79" = {
+              enabled = true;
+              value = {
+                type = "standard";
+                parameters = [
+                  65535
+                  123
+                  8650752
+                ];
+              };
+            };
+            "80" = {
+              enabled = true;
+              value = {
+                type = "standard";
+                parameters = [
+                  65535
+                  123
+                  8781824
+                ];
+              };
+            };
+            "81" = {
+              enabled = true;
+              value = {
+                type = "standard";
+                parameters = [
+                  65535
+                  124
+                  8650752
+                ];
+              };
+            };
+            "82" = {
+              enabled = true;
+              value = {
+                type = "standard";
+                parameters = [
+                  65535
+                  124
+                  8781824
+                ];
+              };
             };
           };
         };
