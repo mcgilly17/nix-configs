@@ -241,7 +241,15 @@ in
       };
       cleanupPeriodDays = 365;
       verbose = true;
-      includeCoAuthoredBy = false;
+      # No AI attribution in commits or PRs. `commit`/`pr` = "" drop the
+      # Co-Authored-By trailer; `sessionUrl = false` drops the Claude-Session
+      # trailer and the PR-body session link. Replaces the deprecated
+      # `includeCoAuthoredBy`, which never covered the session URL.
+      attribution = {
+        commit = "";
+        pr = "";
+        sessionUrl = false;
+      };
 
       # Plugins
       extraKnownMarketplaces = {
