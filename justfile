@@ -1,6 +1,10 @@
 # Wake-on-LAN configuration
 wol_relay := "michael@sephiroth"
 
+# Current host — flake attr names match the machine's short hostname
+host := `hostname -s`
+rebuild_cmd := if os() == "macos" { "darwin-rebuild" } else { "nixos-rebuild" }
+
 # default recipe to display help information
 default:
   @just --list
@@ -10,32 +14,17 @@ default:
 # Rebuild the current host (auto-detects darwin vs nixos)
 [group("build")]
 rebuild:
-  #!/usr/bin/env bash
-  if [[ "$(uname)" == "Darwin" ]]; then
-    sudo darwin-rebuild switch --flake .#bowser
-  else
-    sudo nixos-rebuild switch --flake .#"$(hostname)"
-  fi
+  sudo {{ rebuild_cmd }} switch --flake .#{{ host }}
 
 # Rebuild with full trace output for debugging
 [group("build")]
 rebuild-trace:
-  #!/usr/bin/env bash
-  if [[ "$(uname)" == "Darwin" ]]; then
-    sudo darwin-rebuild switch --flake .#bowser --show-trace
-  else
-    sudo nixos-rebuild switch --flake .#"$(hostname)" --show-trace
-  fi
+  sudo {{ rebuild_cmd }} switch --flake .#{{ host }} --show-trace
 
 # Build without switching (dry run)
 [group("build")]
 build:
-  #!/usr/bin/env bash
-  if [[ "$(uname)" == "Darwin" ]]; then
-    darwin-rebuild build --flake .#bowser
-  else
-    nixos-rebuild build --flake .#"$(hostname)"
-  fi
+  {{ rebuild_cmd }} build --flake .#{{ host }}
 
 # Deploy to a remote NixOS host via deploy-rs
 [group("build")]
