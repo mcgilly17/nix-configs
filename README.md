@@ -43,8 +43,13 @@ These configs use home-manager to manage user level configurations. Users to be 
 The strucutre allows for many hosts (nixos, darwin and probably WS2?) and many users. There are, however, some user limitations in darwin given that a user has to be set on setup. I have never tried to workaround it, instead i just always assume there will be at least my main users `michael` in any darwin computer. At somepoint if I actually need to, ill add a second uer to a mac but that need hasnt arised yet.
 
 - `flake.nix` - Entrypoint for hosts and user home configurations. Also exposes a devshell for manual bootstrapping tasks (`nix develop` or `nix-shell`).
-- `hosts` - NixOS configurations accessible via `sudo nixos-rebuild switch --flake .#<host>`.
-  - `sephiroth` - M1 Macbook Air 2021
+- `hosts` - Host configurations, rebuilt via `sudo darwin-rebuild switch --flake .#<host>`
+  (Darwin) or `sudo nixos-rebuild switch --flake .#<host>` (NixOS). See
+  [Adding a New Device](docs/Adding-a-New-Device.md).
+  - `bowser` - MacBook Pro 16" M1 Max
+  - `glados` - Mac Pro 2019 (Intel)
+  - `shodan` - MacBook Air (Apple Silicon)
+  - `ganon`, `sephiroth`, `zenith-1/2/3`, `ocelot`, `mantis` - NixOS hosts
 - `users/<user>` - Home-manager configurations, built automatically during host rebuilds.
   - `common` - shared home-manager configurations consumed the user's machine specific ones present for user across all machines. This is a hard rule!
     - `core` - Core tools and configs for terminal

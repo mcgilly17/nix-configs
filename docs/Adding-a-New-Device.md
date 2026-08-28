@@ -112,7 +112,10 @@ decrypted from it on activation.
 5. **Clone and build**:
 
    ```bash
-   git clone https://github.com/mcgilly17/dots.git ~/Projects/dots
+   # Clone over https: the SSH key only arrives *via* the first switch, so
+   # the origin SSH remote can't be used yet. Re-point it after activation:
+   #   git remote set-url origin ssh://git@github.com/mcgilly17/nix-configs.git
+   git clone https://github.com/mcgilly17/nix-configs.git ~/Projects/dots
    cd ~/Projects/dots
    sudo nix run nix-darwin -- switch --flake .#<name>
    ```
