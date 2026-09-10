@@ -30,20 +30,10 @@
       download-buffer-size = 524288000;
     };
 
-    # Use sephiroth (RK1 dev server) as a remote builder for aarch64-linux
-    distributedBuilds = true;
-    buildMachines = [
-      {
-        hostName = "sephiroth";
-        sshUser = "michael";
-        system = "aarch64-linux";
-        maxJobs = 4;
-        supportedFeatures = [
-          "nixos-test"
-          "big-parallel"
-        ];
-      }
-    ];
+    # No aarch64-linux remote builder currently. The RK1 dev server that filled
+    # this role is now zenith-0, a cluster node, and building on the control
+    # plane is a bad trade. deploy-rs sets remoteBuild = true for every zenith
+    # node, so they build their own closures and don't need one.
 
     # make `nix run nixpkgs#nixpkgs` use the same nixpkgs as the one used by this flake.
     registry.nixpkgs.flake = nixpkgs;

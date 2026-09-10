@@ -4,11 +4,11 @@
 # Root: Pre-flashed SD image on eMMC (not managed by disko)
 # NVMe: btrfs local storage + reserved Longhorn partition (cluster nodes only)
 #
-# Cluster nodes (zenith-1, zenith-2, zenith-3):
+# Cluster nodes (zenith-0, zenith-1, zenith-2, zenith-3):
 #   /dev/nvme0n1p1 - 200G  ext4  → /var/lib/longhorn (reserved for future use)
 #   /dev/nvme0n1p2 - rest  btrfs → /data (zstd compressed)
 #
-# Dev server (sephiroth):
+# Dev server (none at present — layout retained for a future dev host):
 #   /dev/nvme0n1p1 - 100%  btrfs → /nix (zstd compressed, offload from eMMC)
 #                                   /data (zstd compressed)
 { config, lib, ... }:

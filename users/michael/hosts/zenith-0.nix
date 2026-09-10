@@ -1,13 +1,10 @@
-# Sephiroth - RK1 Development Server
-# Full development environment with TUI tools, shells, and AI tools
+# Zenith-0 - K3s Control Plane
+# Includes TUI tools for cluster debugging
 _: {
   imports = [
-    # Common home manager configs
     ../common/home.nix
     ../common/core
-    ../common/tui
+    ../common/tui-server
     ../common/shells
-    ../common/ai-tools
-    ../common/dev # Dev machine specific (kubeconfig, etc.)
   ];
 }

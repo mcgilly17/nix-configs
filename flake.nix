@@ -211,12 +211,12 @@
           ];
         };
 
-        # RK1 Dev Node - Full development environment with Tailscale
-        sephiroth = nixpkgs.lib.nixosSystem {
+        # Zenith K3s Cluster - Control plane
+        zenith-0 = nixpkgs.lib.nixosSystem {
           system = "aarch64-linux";
           inherit specialArgs;
           modules = [
-            ./hosts/nixos/rk1/sephiroth
+            ./hosts/nixos/rk1/zenith-0
           ];
         };
 
@@ -299,13 +299,13 @@
           };
         };
 
-        sephiroth = {
-          hostname = "sephiroth";
+        zenith-0 = {
+          hostname = "zenith-0";
           sshUser = "michael";
           remoteBuild = true;
           profiles.system = {
             user = "root";
-            path = inputs.deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.sephiroth;
+            path = inputs.deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.zenith-0;
           };
         };
       };

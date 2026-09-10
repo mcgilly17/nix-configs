@@ -42,7 +42,7 @@
 
     # Build a darwin configuration
     build-darwin.exec = ''
-      HOST="''${1:-sephiroth}"
+      HOST="''${1:-bowser}"
       echo "Building darwin configuration for $HOST..."
       nix build ".#darwinConfigurations.$HOST.system" --show-trace
     '';
@@ -71,13 +71,13 @@
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     echo ""
     echo "Hosts:"
-    echo "  Darwin: sephiroth, bowser"
-    echo "  NixOS:  ganon, rk1-node{1,2,3,4}"
+    echo "  Darwin: bowser, glados, shodan"
+    echo "  NixOS:  ganon, zenith-{0,1,2,3}, ocelot, mantis"
     echo ""
     echo "Commands:"
     echo "  fmt              Format Nix files"
     echo "  lint             Run statix + deadnix"
-    echo "  build-darwin     Build darwin config (default: sephiroth)"
+    echo "  build-darwin     Build darwin config (default: bowser)"
     echo "  build-nixos      Build NixOS config (default: ganon)"
     echo "  speckit-setup    Initialize Spec Kit"
     echo "  gsd-setup        Install Get Shit Done workflow"
