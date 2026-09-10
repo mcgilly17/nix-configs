@@ -30,6 +30,13 @@
   # is unaffected. Revisit only if zenith-0 should carry Longhorn storage.
   hostSpec.isClusterNode = lib.mkForce false;
 
+  # /nix lives on a btrfs subvolume on the NVMe, so the initrd must be able to
+  # mount btrfs before it can find the system closure. boot.supportedFilesystems
+  # only covers the running system — the initrd keeps its own list, and btrfs was
+  # absent from it, so the boot dropped to an emergency shell with "Failed to
+  # start Find NixOS closure". nvme was already present; btrfs was the gap.
+  boot.initrd.supportedFilesystems = [ "btrfs" ];
+
   # K3s token from SOPS
   sops.secrets."zenith/k3s_token" = { };
 
