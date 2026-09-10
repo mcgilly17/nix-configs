@@ -75,6 +75,7 @@
       "ext4"
       "btrfs"
       "vfat"
+      "nfs" # Longhorn backup target on the UNAS is an NFS export
     ];
 
     # Performance optimizations for ARM64 cluster nodes
