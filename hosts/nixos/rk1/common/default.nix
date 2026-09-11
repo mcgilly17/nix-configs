@@ -150,11 +150,13 @@
     # File system trim for eMMC longevity
     fstrim.enable = true;
 
-    # Persist journal to disk so logs survive crashes/reboots
-    journald.extraConfig = ''
-      Storage=persistent
-      SystemMaxUse=500M
-    '';
+    # Persist journal to disk so logs survive crashes/reboots.
+    # services.journald.extraConfig was removed upstream; settings.Journal is
+    # the replacement and maps to the [Journal] section of journald.conf.
+    journald.settings.Journal = {
+      Storage = "persistent";
+      SystemMaxUse = "500M";
+    };
 
     # iSCSI initiator for Longhorn storage support
     openiscsi = {
