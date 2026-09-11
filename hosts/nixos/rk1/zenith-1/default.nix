@@ -1,6 +1,9 @@
-# Zenith-1 - K3s Control Plane (Server)
+# Zenith-1 - K3s Agent
 # ARM64 compute module in Turing Pi 2 cluster
 # Part of the Zenith k3s cluster
+#
+# Was the control plane until zenith-0 took over. Demoted to agent so the
+# control plane is not also carrying workloads.
 { config, ... }:
 {
   imports = [
@@ -19,23 +22,17 @@
   # K3s token from SOPS
   sops.secrets."zenith/k3s_token" = { };
 
-  # K3s server (control plane)
+  # K3s agent
   services.k3s = {
     enable = true;
-    role = "server";
+    role = "agent";
+    serverAddr = "https://zenith-0:6443";
     tokenFile = config.sops.secrets."zenith/k3s_token".path;
-    extraFlags = toString [
-      "--disable=traefik" # We'll deploy our own Traefik
-      "--disable=servicelb" # Use MetalLB or similar instead
-      "--flannel-backend=host-gw" # Better performance on local network
-      "--tls-san=zenith-1" # Add hostname to TLS cert
-    ];
   };
 
-  # Open firewall for K3s
+  # Open firewall for K3s agent
   networking.firewall = {
     allowedTCPPorts = [
-      6443 # Kubernetes API
       9100 # Prometheus node exporter
       10250 # Kubelet metrics
     ];

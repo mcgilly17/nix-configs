@@ -23,7 +23,7 @@
   services.k3s = {
     enable = true;
     role = "agent";
-    serverAddr = "https://zenith-1:6443";
+    serverAddr = "https://zenith-0:6443";
     tokenFile = config.sops.secrets."zenith/k3s_token".path;
   };
 
