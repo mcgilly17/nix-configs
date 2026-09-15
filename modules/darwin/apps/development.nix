@@ -5,11 +5,11 @@ _: {
       "python@3.10"
       "uv"
       "hermes-agent" # Nous Research self-improving AI agent CLI
-      "codex" # OpenAI Codex coding agent CLI
     ];
     casks = [
       "godot"
       ## Development
+      "codex" # OpenAI Codex coding agent CLI (cask, not formula)
       "linear"
       "granola"
       "nfov"
