@@ -77,6 +77,7 @@
     casks = [
       # Utilities
       "claude" # Claude desktop app
+      "chatgpt" # ChatGPT desktop app - hosts voice mode for codex
       "raycast" # Better Spotlight
       "karabiner-elements" # keyboard management
       "superhuman" # email client
