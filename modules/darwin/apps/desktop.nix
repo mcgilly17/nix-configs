@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+_: {
   ### Desktop only Apps
   homebrew = {
     casks = [
@@ -7,7 +7,6 @@
       "steam"
       "focusrite-control-2" # controller for scarlett 18i8
       "logitech-options"
-      "garmin-express"
     ];
   };
 }
