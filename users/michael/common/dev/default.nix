@@ -6,5 +6,6 @@
   imports = [
     ./gcloud.nix
     ./kubectl.nix
+    ./uv.nix
   ];
 }

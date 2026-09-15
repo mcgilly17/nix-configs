@@ -3,7 +3,6 @@ _: {
   homebrew = {
     brews = [
       "python@3.10"
-      "uv"
       "hermes-agent" # Nous Research self-improving AI agent CLI
     ];
     casks = [
