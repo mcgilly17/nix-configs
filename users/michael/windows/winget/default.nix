@@ -27,6 +27,9 @@ let
     # Browser
     "Mozilla.Firefox"
 
+    # Productivity
+    "Doist.Todoist"
+
     # Media
     "Spotify.Spotify"
 

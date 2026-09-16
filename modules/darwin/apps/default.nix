@@ -102,6 +102,7 @@
       # "brooklyn" #Lovelyscreensaver"
       "notion" # Organise life"
       "ticktick" # Task management
+      "todoist-app" # Task management
       "fantastical" # the worlds best calendar"
       "transmit" # FTP Client transmit"
       "calibre" # unclear"

@@ -17,6 +17,7 @@
 
     # Productivity
     ticktick
+    todoist-electron
 
     # Media
     spotify
