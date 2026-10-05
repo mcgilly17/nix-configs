@@ -62,7 +62,6 @@
     grc # Colorize logfiles and command output https://github.com/garabik/grc
     pay-respects # replacement for the fuck
     # thefuck # Magnificent app which corrects your previous console command https://github.com/nvbn/thefuck
-    tmate # Instant terminal sharing https://tmate.io/
     tree # Display directories as trees with optional color/HTML output http://mama.indstate.edu/users/ice/tree/
     tmux-xpanes # Awesome tmux-based terminal divider https://github.com/greymd/tmux-xpanes
     calc # Launch calc and you can start typing equations https://github.com/lcn2/calc
