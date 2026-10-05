@@ -98,6 +98,21 @@ wake HOST:
 ssh HOST:
   ssh michael@{{ HOST }}
 
+# Attach to a host's persistent zellij session, reconnecting until you detach
+[group("remote")]
+zj HOST SESSION=("default_" + HOST):
+  #!/usr/bin/env bash
+  # Survives this machine sleeping: the remote zellij detaches and keeps the
+  # session (hostSpec.isServer sets on_force_close "detach"), so reconnecting
+  # lands back where you left off. Plain ssh on purpose - mosh emulates the
+  # terminal and swallows zellij's nested-session handshake.
+  set -uo pipefail
+  until ssh -t -o ServerAliveInterval=20 -o ServerAliveCountMax=3 \
+    michael@{{ HOST }} "zellij attach -c {{ SESSION }}"; do
+    echo "lost {{ HOST }}; reattaching to {{ SESSION }}..." >&2
+    sleep 2
+  done
+
 # ========== Secrets ==========
 
 # Generate a new age key
