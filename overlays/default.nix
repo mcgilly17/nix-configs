@@ -20,6 +20,15 @@
     # The devenv flake doesn't build for x86_64-darwin, so Intel Macs
     # (glados) fall back to nixpkgs' devenv.
     inherit (inputs.devenv.packages.${final.stdenv.hostPlatform.system} or _prev) devenv;
+
+    # Eternal Terminal from the 26.05 input on every host. ET carries a
+    # wire-protocol version in its ConnectRequest, so the client and etserver
+    # must match: unstable ships 7.0.0 but dropped x86_64-darwin, and glados
+    # can only reach 6.2.11 - so every host uses 6.2.11. No-op on glados,
+    # which already builds from this input.
+    inherit (inputs.nixpkgs-x86-darwin.legacyPackages.${final.stdenv.hostPlatform.system})
+      eternal-terminal
+      ;
     # leaving as an example - moved to github.com/mcgilly17/Mosaic
     # vimPlugins =
     #   prev.vimPlugins
