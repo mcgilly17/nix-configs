@@ -113,6 +113,19 @@ zj HOST SESSION=("default_" + HOST):
     sleep 2
   done
 
+# Attach to a host's persistent zellij session over Eternal Terminal (roams)
+[group("remote")]
+et HOST SESSION=("default_" + HOST):
+  #!/usr/bin/env bash
+  # ET reconnects by itself across sleep and IP changes, and relays bytes
+  # untouched, so zellij's nested-session handshake works (unlike mosh).
+  # --terminal-path because etterminal comes from nix, not homebrew - the
+  # --macserver flag would point at /usr/local/bin/etterminal.
+  set -uo pipefail
+  et michael@{{ HOST }} \
+    --terminal-path=/etc/profiles/per-user/michael/bin/etterminal \
+    -c "zellij attach -c {{ SESSION }}"
+
 # ========== Secrets ==========
 
 # Generate a new age key
