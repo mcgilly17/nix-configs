@@ -39,6 +39,11 @@ in
     computerName = hostname;
   };
 
+  # Reached over ssh and mosh, so zellij must survive a dropped connection:
+  # this flips on_force_close to "detach" instead of "quit" and makes logins
+  # reattach to a named session (users/michael/common/tui/zellij/default.nix).
+  hostSpec.isServer = true;
+
   # Desktop workstation used over ssh - never sleep (display may still)
   power.sleep.computer = "never";
 
