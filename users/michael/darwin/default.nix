@@ -2,7 +2,8 @@
   pkgs,
   specialArgs,
   ...
-}: {
+}:
+{
   imports = specialArgs.myLibs.scanPaths ./.;
 
   # Home manager configs
@@ -12,5 +13,5 @@
     m-cli # useful macOS CLI commands
   ];
 
-  programs = {};
+  programs = { };
 }

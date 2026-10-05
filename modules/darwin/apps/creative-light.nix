@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+_: {
   ### Creative applications
   homebrew = {
     casks = [

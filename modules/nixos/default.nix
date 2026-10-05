@@ -1,7 +1,6 @@
-{ specialArgs, ... }: {
-  imports =
-    specialArgs.myLibs.scanPaths ./.
-    ++ [
-      ../common/core.nix
-    ];
+{ specialArgs, ... }:
+{
+  imports = specialArgs.myLibs.scanPaths ./. ++ [
+    ../common/core.nix
+  ];
 }

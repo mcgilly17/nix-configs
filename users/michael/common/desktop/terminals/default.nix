@@ -1,3 +1,4 @@
-{ pkgs, specialArgs, ... }: {
+{ specialArgs, ... }:
+{
   imports = specialArgs.myLibs.scanPaths ./.;
 }
