@@ -108,6 +108,12 @@
       url = "github:homebrew/homebrew-cask";
       flake = false;
     };
+    # Upstream worktrunk tap - ships prebuilt binaries, unlike the
+    # homebrew-core formula which has no x86_64-darwin bottle.
+    homebrew-worktrunk = {
+      url = "github:max-sixty/homebrew-worktrunk";
+      flake = false;
+    };
 
     # Devenv - pinned to fix "Exclusion ranges overlap" bug in 2.0.1
     devenv.url = "github:cachix/devenv/latest";

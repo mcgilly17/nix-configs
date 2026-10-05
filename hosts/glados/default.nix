@@ -83,6 +83,7 @@ in
     taps = {
       "homebrew/homebrew-core" = inputs.homebrew-core;
       "homebrew/homebrew-cask" = inputs.homebrew-cask;
+      "max-sixty/homebrew-worktrunk" = inputs.homebrew-worktrunk;
     };
 
     # Optional: Enable fully-declarative tap management

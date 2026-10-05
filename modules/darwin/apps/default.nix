@@ -66,6 +66,10 @@
     taps = [
       "homebrew/core"
       "homebrew/cask"
+      {
+        name = "max-sixty/worktrunk";
+        trusted = true; # Homebrew 6+ refuses non-official taps otherwise
+      }
     ];
 
     # `brew install`
