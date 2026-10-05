@@ -11,6 +11,9 @@
         };
         decorations = "None";
         opacity = 0.95;
+        # macOS sends Option as its own keysym by default, so none of
+        # zellij's Alt-bindings arrive. Harmless on other platforms.
+        option_as_alt = "Both";
       };
 
       font = {
