@@ -6,6 +6,7 @@
 ###############################################################
 {
   inputs,
+  pkgs,
   specialArgs,
   myLibs,
   ...
@@ -43,6 +44,25 @@ in
   # this flips on_force_close to "detach" instead of "quit" and makes logins
   # reattach to a named session (users/michael/common/tui/zellij/default.nix).
   hostSpec.isServer = true;
+
+  # Eternal Terminal server, reachable over tailscale only: --bindip pins the
+  # listener to glados's tailnet address, so it never accepts connections on
+  # the LAN or any other interface. KeepAlive retries the bind until tailscale
+  # has brought that address up after boot.
+  launchd.daemons.etserver.serviceConfig = {
+    ProgramArguments = [
+      "${pkgs.eternal-terminal}/bin/etserver"
+      "--port"
+      "2022"
+      "--bindip"
+      "100.108.239.86"
+      "--logtostdout"
+    ];
+    RunAtLoad = true;
+    KeepAlive = true;
+    StandardOutPath = "/var/log/etserver.log";
+    StandardErrorPath = "/var/log/etserver.err.log";
+  };
 
   # Desktop workstation used over ssh - never sleep (display may still)
   power.sleep.computer = "never";
