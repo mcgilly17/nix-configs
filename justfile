@@ -38,10 +38,11 @@ deploy-all:
 
 # ========== Update ==========
 
-# Update all flake inputs
+# Update all flake inputs, and devenv.lock (its CLI is pinned to the flake)
 [group("update")]
 update:
   nix flake update
+  devenv update
 
 # Update a specific flake input
 [group("update")]
