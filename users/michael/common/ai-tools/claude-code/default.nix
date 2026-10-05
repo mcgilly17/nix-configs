@@ -301,4 +301,24 @@ in
       };
     };
   };
+
+  # Second Claude subscription. `claudia` is `claude` with its own login,
+  # sharing this module's config plus skills, plugins and session history — so
+  # --resume and memories cross between the two accounts. The mcpServers above
+  # ride on the wrapper's --plugin-dir, so both accounts get them; anything in
+  # ~/.claude.json (claude mcp add -s user) is per-account and needs re-adding.
+  programs.zsh.initContent = lib.mkOrder 1200 ''
+    claudia() {
+      local main="$HOME/.claude" alt="$HOME/.claudia" f
+      mkdir -p "$alt"
+      for f in CLAUDE.md settings.json skill-rules.json agents commands skills plugins projects; do
+        if [[ -e "$alt/$f" && ! -L "$alt/$f" ]]; then
+          print -u2 "claudia: $alt/$f is a real file, not a link - shared config detached."
+        else
+          ln -sfn "$main/$f" "$alt/$f"
+        fi
+      done
+      CLAUDE_CONFIG_DIR="$alt" command claude "$@"
+    }
+  '';
 }
