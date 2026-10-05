@@ -240,8 +240,6 @@ in
         ];
         deny = [
           # Sensitive files - secrets, credentials, keys
-          "Read(.env)"
-          "Read(.env.*)"
           "Read(**/secrets/*)"
           "Read(**/*credential*)"
           "Read(**/*.pem)"
