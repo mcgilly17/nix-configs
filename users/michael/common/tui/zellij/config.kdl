@@ -126,6 +126,13 @@ keybinds clear-defaults=true {
         bind "c" { Clear; }
         bind "d" { Detach; }
         bind "q" { Quit; }
+
+        // Nested sessions (zellij 0.45+): a guest session announces itself to
+        // its host, so these drive a remote zellij reached over ssh instead of
+        // the old lock-mode dance. Keys match upstream's defaults.
+        bind "[" { FocusGuestSession; SwitchToMode "Normal"; }
+        bind "]" { FocusHostSession; SwitchToMode "Normal"; }
+        bind "f" { ToggleHostFullscreen; SwitchToMode "Normal"; }
     }
     shared_except "locked" {
         bind "Alt z" { SwitchToMode "Locked"; }
