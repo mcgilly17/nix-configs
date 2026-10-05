@@ -132,6 +132,16 @@ in
         type = "http";
         url = "https://nova-planner.tail575dda.ts.net/mcp";
       };
+      # Same endpoint twice: the workspace comes from which account the OAuth
+      # token belongs to, so each profile authenticates both with /mcp.
+      linear-muse = {
+        type = "http";
+        url = "https://mcp.linear.app/mcp";
+      };
+      linear-protobloc = {
+        type = "http";
+        url = "https://mcp.linear.app/mcp";
+      };
     };
     settings = {
       theme = "dark";
