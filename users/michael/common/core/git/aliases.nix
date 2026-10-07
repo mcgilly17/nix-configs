@@ -64,8 +64,8 @@
     gp = "git push";
 
     grb = "git rebase";
-    grba = "git rebase - -abort";
-    grbc = "git rebase - -continue";
+    grba = "git rebase --abort";
+    grbc = "git rebase --continue";
 
     gr = "git remote -v";
     gra = "git remote add";
