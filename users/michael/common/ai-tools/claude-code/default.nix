@@ -114,6 +114,10 @@ in
     #   curl -s "https://downloads.claude.ai/claude-code-releases/$V/manifest.json" \
     #     -o users/michael/common/ai-tools/claude-code/manifest.json
     package = pkgs.claude-code.override { manifest = lib.importJSON ./manifest.json; };
+    # Anthropic deprecated the built-in output styles and re-shipped them as
+    # hook plugins (see explanatory-output-style). Custom styles are still the
+    # supported mechanism, and compose with those plugins.
+    outputStyles.ste = ./output-styles/ste.md;
     mcpServers = {
       figma-desktop = {
         type = "http";
@@ -157,6 +161,9 @@ in
     };
     settings = {
       theme = "dark";
+      # settings.json is a read-only store symlink, so `/output-style` cannot
+      # persist a switch. Change this line and rebuild instead.
+      outputStyle = "ste";
       inherit hooks;
       permissions = {
         allow = [
