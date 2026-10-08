@@ -30,10 +30,11 @@ in that message.
 
 ## Then, per segment, in its own message
 
-1. **Context, plain English.** What the thing is, what is wrong or undecided,
-   and what it costs either way. No jargon, no type names, no file paths, no
-   code. Write it for someone who has never opened the repo. A few sentences,
-   not paragraphs.
+1. **Context, in 80% ASD-STE100.** What the thing is, what is wrong or
+   undecided, and what it costs either way. One idea per sentence, about 20
+   words each. Active voice. One term per thing, repeated verbatim. No jargon,
+   no type names, no file paths, no code. Write it for someone who has never
+   opened the repo. A few sentences, not paragraphs.
 2. **A diagram.** ASCII box-and-arrow, rendered in a fenced block. It shows the
    mechanism: what flows where, where the thing being decided sits, what
    changes between the options. Mermaid does not render in a terminal, so do not
