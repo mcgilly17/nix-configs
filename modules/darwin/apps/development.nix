@@ -3,7 +3,6 @@ _: {
   homebrew = {
     brews = [
       "python@3.10"
-      "hermes-agent" # Nous Research self-improving AI agent CLI
       "wt" # worktrunk, from the upstream tap (prebuilt intel binary)
     ];
     casks = [
