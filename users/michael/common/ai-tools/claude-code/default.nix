@@ -102,6 +102,18 @@ in
 
   programs.claude-code = {
     enable = true;
+    # nixpkgs claude-code is pinned to the 26.05-darwin branch, the last
+    # nixpkgs release carrying x86_64-darwin, so it sits on 2.1.223. The
+    # derivation just fetches a prebuilt binary from downloads.claude.ai and
+    # reads only version + per-platform checksum from this manifest, so
+    # vendoring a newer one tracks upstream on every host. Pinned to the
+    # `latest` channel, which runs ahead of `stable`.
+    #
+    # To bump:
+    #   V=$(curl -s https://downloads.claude.ai/claude-code-releases/latest)
+    #   curl -s "https://downloads.claude.ai/claude-code-releases/$V/manifest.json" \
+    #     -o users/michael/common/ai-tools/claude-code/manifest.json
+    package = pkgs.claude-code.override { manifest = lib.importJSON ./manifest.json; };
     mcpServers = {
       figma-desktop = {
         type = "http";
