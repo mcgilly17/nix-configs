@@ -60,6 +60,9 @@ in
     ];
     RunAtLoad = true;
     KeepAlive = true;
+    # launchd gives a daemon no shell environment, so the opt-out set in
+    # users/michael/common/core/eternal-terminal.nix never reaches it.
+    EnvironmentVariables.ET_NO_TELEMETRY = "1";
     StandardOutPath = "/var/log/etserver.log";
     StandardErrorPath = "/var/log/etserver.err.log";
   };

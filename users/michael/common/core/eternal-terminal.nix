@@ -15,4 +15,10 @@
   home.packages = with pkgs; [
     eternal-terminal
   ];
+
+  # nixpkgs builds et with telemetry compiled in (homebrew's formula passes
+  # -DDISABLE_TELEMETRY=ON; this derivation does not), so it reports crashes
+  # and errors upstream unless this is set. The etserver daemon needs it too -
+  # launchd inherits no shell environment - see hosts/glados/default.nix.
+  home.sessionVariables.ET_NO_TELEMETRY = "1";
 }
