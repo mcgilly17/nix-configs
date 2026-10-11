@@ -4,6 +4,7 @@
 { ... }:
 {
   imports = [
+    ./aws.nix
     ./gcloud.nix
     ./kubectl.nix
     ./uv.nix
