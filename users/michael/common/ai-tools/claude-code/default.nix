@@ -1,9 +1,33 @@
 {
+  config,
   lib,
   pkgs,
   ...
 }:
 let
+  # One Linear MCP server per workspace - add a name here to add an account.
+  # Claude Code silently drops plugin MCP servers that share a URL, so plain
+  # http entries for mcp.linear.app collapse into one. mcp-remote proxies over
+  # stdio instead, and its config dir keeps each workspace's OAuth token apart.
+  linearWorkspaces = [
+    "muse"
+    "protobloc"
+  ];
+  linearServers = lib.listToAttrs (
+    map (workspace: {
+      name = "linear-${workspace}";
+      value = {
+        command = "npx";
+        args = [
+          "-y"
+          "mcp-remote"
+          "https://mcp.linear.app/mcp"
+        ];
+        env.MCP_REMOTE_CONFIG_DIR = "${config.home.homeDirectory}/.mcp-auth/linear-${workspace}";
+      };
+    }) linearWorkspaces
+  );
+
   # Auto-discover command files
   commandFiles = builtins.readDir ./commands;
   commandEntries = lib.filterAttrs (
@@ -128,7 +152,7 @@ in
     # hook plugins (see explanatory-output-style). Custom styles are still the
     # supported mechanism, and compose with those plugins.
     outputStyles.ste = ./output-styles/ste.md;
-    mcpServers = {
+    mcpServers = linearServers // {
       figma-desktop = {
         type = "http";
         url = "http://127.0.0.1:3845/mcp";
@@ -157,16 +181,6 @@ in
       nova-planner = {
         type = "http";
         url = "https://nova-planner.tail575dda.ts.net/mcp";
-      };
-      # Same endpoint twice: the workspace comes from which account the OAuth
-      # token belongs to, so each profile authenticates both with /mcp.
-      linear-muse = {
-        type = "http";
-        url = "https://mcp.linear.app/mcp";
-      };
-      linear-protobloc = {
-        type = "http";
-        url = "https://mcp.linear.app/mcp";
       };
     };
     settings = {
@@ -334,18 +348,20 @@ in
   # --resume and memories cross between the two accounts. The mcpServers above
   # ride on the wrapper's --plugin-dir, so both accounts get them; anything in
   # ~/.claude.json (claude mcp add -s user) is per-account and needs re-adding.
-  programs.zsh.initContent = lib.mkOrder 1200 ''
-    claudia() {
-      local main="$HOME/.claude" alt="$HOME/.claudia" f
+  # A real binary (not a shell function) so GUI hosts like T3 Code can exec it.
+  home.packages = [
+    (pkgs.writeShellScriptBin "claudia" ''
+      main="$HOME/.claude" alt="$HOME/.claudia"
       mkdir -p "$alt"
-      for f in CLAUDE.md settings.json skill-rules.json agents commands skills plugins projects; do
+      for f in CLAUDE.md settings.json skill-rules.json agents commands skills plugins projects output-styles claude-notifications-go; do
         if [[ -e "$alt/$f" && ! -L "$alt/$f" ]]; then
-          print -u2 "claudia: $alt/$f is a real file, not a link - shared config detached."
+          echo "claudia: $alt/$f is a real file, not a link - shared config detached." >&2
         else
           ln -sfn "$main/$f" "$alt/$f"
         fi
       done
-      CLAUDE_CONFIG_DIR="$alt" command claude "$@"
-    }
-  '';
+      # GUI apps launch with a minimal PATH that lacks the home-manager profile.
+      PATH="/etc/profiles/per-user/$USER/bin:$PATH" CLAUDE_CONFIG_DIR="$alt" exec claude "$@"
+    '')
+  ];
 }
