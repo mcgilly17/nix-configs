@@ -143,11 +143,25 @@ in
     #     curl -s "https://downloads.claude.ai/claude-code-releases/$V/$m" \
     #       -o users/michael/common/ai-tools/claude-code/$m
     #   done
-    package = pkgs.claude-code.override {
-      manifest = lib.importJSON (
-        if lib.hasSuffix ".zst" pkgs.claude-code.src.url then ./manifest.zst.json else ./manifest.json
-      );
-    };
+    package =
+      (pkgs.claude-code.override {
+        manifest = lib.importJSON (
+          if lib.hasSuffix ".zst" pkgs.claude-code.src.url then ./manifest.zst.json else ./manifest.json
+        );
+      }).overrideAttrs
+        (old: {
+          # nixpkgs forces CLAUDE_CODE_CERT_STORE=system, but on Darwin Claude
+          # misses Apple's built-in roots. The pinned Intel package also lacks
+          # unstable's NIX_SSL_CERT_FILE fallback. Supply nix-darwin's CA bundle
+          # at process startup, including GUI/SSH launches without shell env.
+          # Keep an explicitly supplied NODE_EXTRA_CA_CERTS (e.g. a private CA).
+          postInstall =
+            (old.postInstall or "")
+            + lib.optionalString pkgs.stdenv.hostPlatform.isDarwin ''
+              wrapProgram $out/bin/claude \
+                --set-default NODE_EXTRA_CA_CERTS /etc/ssl/certs/ca-certificates.crt
+            '';
+        });
     # Anthropic deprecated the built-in output styles and re-shipped them as
     # hook plugins (see explanatory-output-style). Custom styles are still the
     # supported mechanism, and compose with those plugins.
