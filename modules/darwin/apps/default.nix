@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 {
   # Install packages from nix's official package repository.
   #
@@ -58,6 +58,11 @@
     # For details, see https://github.com/mas-cli/mas
     masApps = {
       Things3 = 904280696;
+    }
+    # Undeclared mas apps get trashed by cleanup = "uninstall". Skipped on
+    # Intel (glados): future Xcode releases won't support x86_64 macOS.
+    // lib.optionalAttrs pkgs.stdenv.hostPlatform.isAarch64 {
+      Xcode = 497799835;
     };
 
     # Must match the taps nix-homebrew provides declaratively, otherwise
