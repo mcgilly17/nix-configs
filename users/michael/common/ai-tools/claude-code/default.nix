@@ -253,14 +253,8 @@ in
         ];
         ask = [
           # Potentially destructive git commands
-          "Bash(git reset:*)"
-          "Bash(git commit:*)"
           "Bash(git push:*)"
           "Bash(git pull:*)"
-          "Bash(git merge:*)"
-          "Bash(git rebase:*)"
-          "Bash(git checkout:*)"
-          "Bash(git switch:*)"
           "Bash(git stash:*)"
 
           # File deletion and modification
