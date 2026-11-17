@@ -7,6 +7,7 @@
     ./aws.nix
     ./gcloud.nix
     ./kubectl.nix
+    ./plannotator-inbox.nix
     ./uv.nix
   ];
 }

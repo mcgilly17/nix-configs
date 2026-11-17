@@ -1,7 +1,8 @@
 # Plannotator Inbox kept running as a launchd user agent and published on the
 # tailnet, so phones and other machines can reach it before any agent has
-# started it. Opt-in per host, so not in ./default.nix; import it from the host
-# file. The binary and Claude plugin come from ../tui/plannotator.nix.
+# started it. On every dev box via ./default.nix; launchd only, so it does
+# nothing on the Linux ones. The binary and Claude plugin come from
+# ../tui/plannotator.nix.
 #
 # Tailscale: `tailscale serve` over HTTPS on a free port from Plannotator's own
 # range (it never replaces another mapping), open only to the Tailscale account
