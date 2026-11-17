@@ -54,26 +54,37 @@ let
   # agent skill shells out to for `plannotator guide export`.
   plannotator = fromRelease {
     pname = "plannotator";
-    version = "0.27.18";
+    version = "0.28.66";
     repo = "backnotprop/plannotator";
     assets = {
       aarch64-darwin = {
         name = "plannotator-darwin-arm64";
-        sha256 = "5313b0432243983b83a4136d20c6da6da6dd5c6ca8b1ffaf5fbef041e78760c2";
+        sha256 = "44a86b2f7cd762c258e50555c665cf93388fca8a8058569b99111c3f3f2cc907";
       };
       x86_64-darwin = {
         name = "plannotator-darwin-x64";
-        sha256 = "1b8fcf9f737b92f961ba7ac97a606cbd71bc18b7f05c16d8603937a2d9fc8b20";
+        sha256 = "0b0555043b7f8eba76310591aee11edbc4ef0d30709d9919fe3c0a64d3fc813e";
       };
       aarch64-linux = {
         name = "plannotator-linux-arm64";
-        sha256 = "122e59339bba1531a237d29c287bcc587b1f2bd73a4e8c19327369671b5b5c26";
+        sha256 = "fda6b7ed4844504fdecd2b370991f2641801dd974b35155bf4a5fce328fcd5c7";
       };
       x86_64-linux = {
         name = "plannotator-linux-x64";
-        sha256 = "d3908e01b4689886e73ba7c6d3784d98518edfc998ed7ab37f2b956d7fdd0870";
+        sha256 = "4fdf6271f4da85ab9d0fafa5fc16057785d9f40490231926149adfb5b5c510c2";
       };
     };
+  };
+
+  # The Claude Code plugin from the same tag as the binary, so its hooks and the
+  # CLI never drift apart. It adds plan review, the plannotator_inbox tool and
+  # the reply wake, including in T3 Code's Claude threads. Loaded from the store
+  # because `claude plugin install` writes settings.json, which home-manager owns.
+  plannotatorSrc = pkgs.fetchFromGitHub {
+    owner = "backnotprop";
+    repo = "plannotator";
+    rev = "v${pkgs.lib.getVersion plannotator}";
+    hash = "sha256-dcL+4aAC0eaH7wruRzpWHA80+CnHSyU1T8ITIdK4Dy0=";
   };
 in
 {
@@ -83,4 +94,6 @@ in
     plannotator-tui
     plannotator
   ];
+
+  programs.claude-code.plugins = [ "${plannotatorSrc}/apps/hook" ];
 }

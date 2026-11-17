@@ -16,5 +16,6 @@
     ../common/desktop/development
     ../common/dev # Dev machine specific (kubeconfig, etc.)
     ../common/dev/muse-tools.nix # Muse internal tools on the tailnet
+    ../common/dev/plannotator-inbox.nix # Plannotator Inbox on the tailnet
   ];
 }
