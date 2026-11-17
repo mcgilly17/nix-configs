@@ -15,5 +15,6 @@
     # ../common/desktop/creative
     ../common/desktop/development
     ../common/dev # Dev machine specific (kubeconfig, etc.)
+    ../common/dev/plannotator-inbox.nix # Plannotator Inbox on the tailnet
   ];
 }

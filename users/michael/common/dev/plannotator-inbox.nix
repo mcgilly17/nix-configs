@@ -30,12 +30,13 @@ in
       ThrottleInterval = 60;
       EnvironmentVariables = {
         PLANNOTATOR_INBOX_TAILSCALE = "1";
-        # Its first start adds itself to Codex and the Claude app with a
-        # /nix/store path that breaks on the next bump; those entries point at
-        # the profile's plannotator instead, so don't let it rewrite them.
+        # Otherwise its first start adds itself to Codex and the Claude app with
+        # a /nix/store path that breaks on the next bump. Add those by hand,
+        # pointing at the profile's plannotator.
         PLANNOTATOR_INBOX_CONNECT = "0";
-        # /usr/local/bin holds the Tailscale CLI.
-        PATH = "${config.home.profileDirectory}/bin:/run/current-system/sw/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin";
+        # The Tailscale CLI: /usr/local/bin from the app, /opt/homebrew/bin from
+        # Homebrew on Apple Silicon.
+        PATH = "${config.home.profileDirectory}/bin:/run/current-system/sw/bin:/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin";
       };
       StandardOutPath = log;
       StandardErrorPath = log;
