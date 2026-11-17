@@ -12,7 +12,6 @@ yabai -m rule --add app="^Fusion$" space=2 sub-layer=above manage=off
 yabai -m rule --add app="^Autodesk Fusion 360$" space=2 manage=off
 yabai -m rule --add app="^Godot" space=2 manage=off
 yabai -m rule --add app="^Slack$" space=4
-yabai -m rule --add app="^Things$" title!="Quick Entry| " space=3
 yabai -m rule --add app="^Fantastical$" space=3
 yabai -m rule --add app="^Spotify$" space=6
 yabai -m rule --add app="WhatsApp" space=8 manage=on

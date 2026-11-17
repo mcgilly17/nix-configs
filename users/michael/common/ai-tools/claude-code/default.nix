@@ -176,10 +176,6 @@ in
         args = [ "@playwright/mcp@latest" ];
       };
       # Nova MCP servers (via Tailscale ingress on Zenith K3s)
-      ticktick = {
-        type = "http";
-        url = "https://nova-mcp-hub.tail575dda.ts.net/ticktick/mcp";
-      };
       google-workspace = {
         type = "http";
         url = "https://nova-mcp-hub.tail575dda.ts.net/google-workspace/mcp";

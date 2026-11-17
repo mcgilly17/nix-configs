@@ -56,12 +56,9 @@
     # You need to install all these Apps manually first so that your apple account have records for them.
     # otherwise Apple Store will refuse to install them.
     # For details, see https://github.com/mas-cli/mas
-    masApps = {
-      Things3 = 904280696;
-    }
     # Undeclared mas apps get trashed by cleanup = "uninstall". Skipped on
     # Intel (glados): future Xcode releases won't support x86_64 macOS.
-    // lib.optionalAttrs pkgs.stdenv.hostPlatform.isAarch64 {
+    masApps = lib.optionalAttrs pkgs.stdenv.hostPlatform.isAarch64 {
       Xcode = 497799835;
     };
 
@@ -110,7 +107,6 @@
       "betterzip" # BetterZip: the most advanced zip and rar archiver for file compression, encryption. BetterZip makes it easy to work with zip, rar, 7-zip, tar, and xz https://macitbetter.com/"
       # "brooklyn" #Lovelyscreensaver"
       "notion" # Organise life"
-      "ticktick" # Task management
       "todoist-app" # Task management
       "fantastical" # the worlds best calendar"
       "transmit" # FTP Client transmit"

@@ -16,7 +16,6 @@
     slack
 
     # Productivity
-    ticktick
     todoist-electron
 
     # Media
