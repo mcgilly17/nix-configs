@@ -19,6 +19,10 @@ in
     # Stable-branch home-manager to match the pinned x86_64-darwin nixpkgs
     inputs.home-manager-x86.darwinModules.home-manager
     inputs.nix-homebrew.darwinModules.nix-homebrew
+
+    # Postgres + nightly backup for the CC+VH workbook app
+    # (the app itself: users/michael/common/dev/ccvh.nix)
+    ./ccvh.nix
   ]
   ++ (map myLibs.relativeToRoot [
     #Common Darwin Modules
