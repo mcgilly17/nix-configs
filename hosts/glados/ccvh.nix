@@ -6,7 +6,12 @@
 #
 # Logs: ~/Library/Logs/{postgresql,ccvh-backup}.log.
 # Backups: nightly `pg_dump -Fc` to ~/Backups/ccvh, newest 14 kept.
-{ config, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   inherit (config.users.users.michael) home;
   postgresql = config.services.postgresql.package;
@@ -15,14 +20,15 @@ let
   backupsKept = 14;
 in
 {
-  # Listens on localhost and the /tmp socket only (enableTCPIP stays false);
-  # peer auth on the socket, md5 on loopback TCP.
+  # Socket only, no TCP: devenv Postgres instances claim TCP ports (muse-platform
+  # 5432, ullr 5433, protobloc 5450) but keep their sockets in their own .devenv
+  # dirs, so this one can't collide with them. Peer auth on the socket.
   services.postgresql = {
     enable = true;
     package = pkgs.postgresql_18;
-    # Off 5432 and the ports just above it, which devenv Postgres instances
-    # take (muse-platform 5432, ullr 5433, then upward as each one is taken).
-    port = 5450;
+    # Only names the socket, /tmp/.s.PGSQL.5480.
+    port = 5480;
+    settings.listen_addresses = lib.mkForce "";
     # Under michael's home: the module's /var/lib default is root-owned, and
     # this agent runs as michael. Suffixed with the major version so an
     # upgrade gets a fresh dir to pg_upgrade into.
