@@ -37,7 +37,11 @@ in
       KeepAlive = true;
       # Throttle a crash loop (say, the port already taken) to one try a minute.
       ThrottleInterval = 60;
-      EnvironmentVariables.PATH = "${postgresql}/bin:${config.home.profileDirectory}/bin:/run/current-system/sw/bin:/usr/bin:/bin:/usr/sbin:/sbin";
+      EnvironmentVariables = {
+        PATH = "${postgresql}/bin:${config.home.profileDirectory}/bin:/run/current-system/sw/bin:/usr/bin:/bin:/usr/sbin:/sbin";
+        # For pg_isready and createdb; the app's own DATABASE_URL names the port too.
+        PGPORT = toString osConfig.services.postgresql.port;
+      };
       StandardOutPath = log;
       StandardErrorPath = log;
     };

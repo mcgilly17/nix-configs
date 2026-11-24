@@ -20,6 +20,9 @@ in
   services.postgresql = {
     enable = true;
     package = pkgs.postgresql_18;
+    # Off 5432 and the ports just above it, which devenv Postgres instances
+    # take (muse-platform 5432, ullr 5433, then upward as each one is taken).
+    port = 5450;
     # Under michael's home: the module's /var/lib default is root-owned, and
     # this agent runs as michael. Suffixed with the major version so an
     # upgrade gets a fresh dir to pg_upgrade into.
@@ -65,6 +68,7 @@ in
           Minute = 30;
         }
       ];
+      EnvironmentVariables.PGPORT = toString config.services.postgresql.port;
       StandardOutPath = "${home}/Library/Logs/ccvh-backup.log";
       StandardErrorPath = "${home}/Library/Logs/ccvh-backup.log";
     };
