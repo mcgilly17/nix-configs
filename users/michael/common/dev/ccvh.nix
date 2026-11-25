@@ -5,7 +5,7 @@
 #
 # Its port and database live in the checkout's gitignored .env (see its
 # .env.example), not here. It listens on 127.0.0.1 only; the tailnet reaches it
-# at https://<glados>:8443 through `tailscale serve`, set on every start.
+# at https://<glados>:10000 through `tailscale serve`, set on every start.
 # Never Funnel.
 #
 # Upgrade: pull the checkout, then
@@ -39,8 +39,12 @@ in
           npm ci --no-audit --no-fund && npm run build
           # A failed seed drops the new, empty database so the next start retries it.
           [ -z "$fresh" ] || node --env-file=.env dist/server/seed.js || { dropdb ccvh; exit 1; }
-          # 443 on glados is T3 Code's: never take or share it.
-          ${tailscale} serve --bg --https=8443 http://127.0.0.1:4317 || echo "tailscale serve failed; app still starts"
+          # 443 and 8443 on glados are T3 Code's. Never replace another mapping.
+          if ${tailscale} serve status --json | grep -q '"10000"'; then
+            echo "tailnet https 10000 already mapped; left as is"
+          else
+            ${tailscale} serve --bg --https=10000 http://127.0.0.1:4317 || echo "tailscale serve failed; app still starts"
+          fi
           exec npm start
         ''
       ];
