@@ -5,7 +5,7 @@
 #
 # Its port and database live in the checkout's gitignored .env (see its
 # .env.example), not here. It listens on 127.0.0.1 only; the tailnet reaches it
-# through a one-time `tailscale serve` (see the checkout's deploy/README.md).
+# at https://<glados>:8443 through `tailscale serve`, set on every start.
 # Never Funnel.
 #
 # Upgrade: pull the checkout, then
@@ -16,23 +16,34 @@ let
   home = config.home.homeDirectory;
   log = "${home}/Library/Logs/ccvh.log";
   postgresql = osConfig.services.postgresql.package;
+  checkout = "${home}/Projects/ccvh";
+  # The Homebrew Tailscale app's CLI (modules/darwin/tailscale.nix).
+  tailscale = "/Applications/Tailscale.app/Contents/MacOS/Tailscale";
 in
 {
   launchd.agents.ccvh = {
     enable = true;
     config = {
-      # Waits for Postgres and creates the database on first run (nix-darwin
-      # has no ensureDatabases); the server applies its own migrations.
+      # Everything after the checkout, so a rebuild is the whole setup: the
+      # database (nix-darwin has no ensureDatabases) and the starter data only
+      # when that database is new, and the tailnet address. The server applies
+      # its own migrations.
       ProgramArguments = [
         "/bin/sh"
         "-c"
         ''
+          set -e
+          cd ${checkout} || { echo "clone the app to ${checkout} (see its deploy/README.md)"; exit 1; }
           until pg_isready -q; do sleep 2; done
-          createdb ccvh 2>/dev/null || true
-          npm ci --no-audit --no-fund && npm run build && exec npm start
+          fresh=; createdb ccvh 2>/dev/null && fresh=1
+          npm ci --no-audit --no-fund && npm run build
+          # A failed seed drops the new, empty database so the next start retries it.
+          [ -z "$fresh" ] || node --env-file=.env dist/server/seed.js || { dropdb ccvh; exit 1; }
+          # 443 on glados is T3 Code's: never take or share it.
+          ${tailscale} serve --bg --https=8443 http://127.0.0.1:4317 || echo "tailscale serve failed; app still starts"
+          exec npm start
         ''
       ];
-      WorkingDirectory = "${home}/Projects/ccvh";
       RunAtLoad = true;
       KeepAlive = true;
       # Throttle a crash loop (say, the port already taken) to one try a minute.
